@@ -1,0 +1,134 @@
+# Knowledge Portal
+
+A comprehensive engineering knowledge base covering system design, distributed systems, DevOps, DevSecOps, security, and cloud-native patterns on AWS and Azure. Every entry shares a consistent structure — making it fast to compare, evaluate, and apply patterns in real projects.
+
+---
+
+## Document Format
+
+Every pattern file follows the same structure:
+
+| Section            | Contents                                          |
+| ------------------ | ------------------------------------------------- |
+| **Category**       | Domain tags (e.g., DevOps, Security, Cloud)       |
+| **Context**        | Problem statement, comparison tables, when to use |
+| **Pros**           | Advantages and benefits                           |
+| **Cons**           | Trade-offs and failure modes                      |
+| **Design Diagram** | Mermaid architecture or sequence diagram          |
+| **Code Sample**    | Working TypeScript, YAML, HCL, Bash, or SQL       |
+
+---
+
+## Sections
+
+### [System Design](system-design/README.md)
+
+> 34 patterns · Architecture fundamentals through advanced distributed system design
+
+Core architectural patterns for building scalable, resilient systems. Covers service decomposition, data management strategies, communication patterns, and cross-cutting concerns.
+
+**Key topics:** Microservices, Monolith, Event-Driven Architecture, CQRS, Event Sourcing, Saga, API Gateway, Strangler Fig, BFF, Load Balancing, Circuit Breaker, Rate Limiting, Caching, Sharding, Replication, CAP Theorem, Service Mesh, Observability, Multi-tenancy, GraphQL, gRPC, Webhooks, Idempotency, Bulkhead, Retry & Backoff, and more.
+
+---
+
+### [Distributed Design Patterns](distributed-design-pattern/README.md)
+
+> 19 patterns · Low-level distributed systems primitives
+
+Deep-dive patterns for building correct distributed systems under partial failure, network partitions, and concurrent access.
+
+**Key topics:** Consistent Hashing, Leader Election, Gossip Protocol, Quorum, Distributed Locking, Service Discovery, Write-Ahead Log, Raft Consensus, Vector Clocks, CAP/BASE, Two-Phase Commit, CRDT, Bloom Filter, Time-Series Storage, Log Compaction, Merkle Trees, Backpressure, Distributed Tracing, Conflict-Free Data Types.
+
+---
+
+### [DevOps](devops/README.md)
+
+> 15 patterns · Full software delivery lifecycle and operational excellence
+
+Operational patterns for building high-performing engineering teams — from CI/CD mechanics through to DORA metric measurement.
+
+**Key topics:** CI/CD Pipeline Design, GitOps (ArgoCD/Flux), Infrastructure as Code (Terraform), Deployment Strategies (Blue-Green/Canary/Rolling), Feature Flags (OpenFeature), Observability & OpenTelemetry, SRE & SLOs, Chaos Engineering (LitmusChaos), Database DevOps (Flyway/Atlas), Alerting & On-Call (Alertmanager/PagerDuty), Platform Engineering (Backstage/Crossplane), Artifact Management (Cosign/SBOM), Configuration Management (Helm/Ansible/ESO), Disaster Recovery (Velero/cross-region), DORA Metrics.
+
+---
+
+### [DevSecOps](devsecops/README.md)
+
+> 15 patterns · Security controls embedded in the delivery pipeline
+
+Security practices integrated into CI/CD pipelines from the first commit through to production runtime — "shift left" security culture.
+
+**Key topics:** Shift-Left Security, SAST, SCA & Dependency Scanning, DAST, Secret Management, IaC Security, Container Security, Supply Chain & SBOM, Zero Trust, Policy-as-Code, Runtime Security, Threat Modelling, Compliance-as-Code, Security in CI/CD Pipelines, Vulnerability Management.
+
+---
+
+### [Security](security/README.md)
+
+> 15 patterns · Application and infrastructure security patterns
+
+Application-level security patterns for building systems that are secure by design, covering identity, data protection, network security, and compliance.
+
+**Key topics:** OAuth 2.0 / OIDC / JWT, API Security, Encryption Patterns, Network Security, Identity Federation & SSO, Data Privacy & PII, Security Logging & SIEM, DDoS & Rate Limiting, Web App Security (OWASP Top 10), Secrets Management, mTLS, Zero Trust Architecture, Secure SDLC, Audit Trails, Incident Response.
+
+---
+
+### [Cloud Native — AWS](cloud-native/aws/README.md)
+
+> 15 patterns · AWS-specific cloud-native architecture
+
+Patterns for building production-grade workloads on AWS using managed services, with Infrastructure-as-Code examples (Terraform/CDK) throughout.
+
+**Key topics:** Serverless (Lambda), ECS Fargate, EKS Kubernetes, VPC Networking, IAM Least Privilege, API Gateway, RDS/Aurora, DynamoDB, SQS/SNS/EventBridge, S3 Storage, CloudFront CDN, ElastiCache, Step Functions, AWS WAF, Cost Optimisation.
+
+---
+
+### [Cloud Native — Azure](cloud-native/azure/README.md)
+
+> 15 patterns · Azure-specific cloud-native architecture
+
+Patterns for building production-grade workloads on Azure using managed services, with Bicep and Terraform examples.
+
+**Key topics:** Azure Functions, Container Apps, AKS Kubernetes, VNet Networking, Microsoft Entra ID & RBAC, API Management (APIM), Azure SQL & Cosmos DB, Service Bus & Event Grid, Blob Storage, Azure Monitor, Azure Front Door, Redis Cache, Logic Apps, Azure Firewall, FinOps & Cost Management.
+
+---
+
+## At a Glance
+
+| Section                                                             | Patterns | Primary Languages           |
+| ------------------------------------------------------------------- | -------- | --------------------------- |
+| [System Design](system-design/README.md)                            | 34       | TypeScript, YAML            |
+| [Distributed Design Patterns](distributed-design-pattern/README.md) | 19       | TypeScript, Go, YAML        |
+| [DevOps](devops/README.md)                                          | 15       | TypeScript, YAML, HCL, Bash |
+| [DevSecOps](devsecops/README.md)                                    | 15       | TypeScript, YAML, Bash      |
+| [Security](security/README.md)                                      | 15       | TypeScript, YAML            |
+| [Cloud Native — AWS](cloud-native/aws/README.md)                    | 15       | TypeScript, HCL, Bash       |
+| [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL      |
+| **Total**                                                           | **128**  |                             |
+
+---
+
+## How to Use This Portal
+
+**Exploring a domain** — Browse the section README for a categorised index and tool ecosystem overview.
+
+**Finding a specific pattern** — Each pattern file is numbered and named descriptively (e.g., `04-deployment-strategies.md`). Use your editor's file search or the section README tables.
+
+**Evaluating trade-offs** — Every entry includes explicit Pros and Cons sections for quick decision support.
+
+**Applying to a project** — Code samples are production-oriented — they use real libraries, real YAML structure, and avoid placeholder anti-patterns (no hardcoded credentials, no `any` types where avoidable, OIDC over API keys).
+
+---
+
+## Related Sections Cross-Reference
+
+| If you need…                   | See…                                                                                         |
+| ------------------------------ | -------------------------------------------------------------------------------------------- |
+| Build and deploy automation    | [DevOps — CI/CD & GitOps](devops/README.md)                                                  |
+| Security controls in pipelines | [DevSecOps](devsecops/README.md)                                                             |
+| Application-level security     | [Security](security/README.md)                                                               |
+| Splitting a monolith           | [System Design — Strangler Fig](system-design/README.md)                                     |
+| Handling distributed failures  | [Distributed Patterns — Circuit Breaker, Raft, Quorum](distributed-design-pattern/README.md) |
+| AWS infrastructure             | [Cloud Native — AWS](cloud-native/aws/README.md)                                             |
+| Azure infrastructure           | [Cloud Native — Azure](cloud-native/azure/README.md)                                         |
+| Measuring team performance     | [DevOps — DORA Metrics](devops/15-devops-metrics.md)                                         |
+| Zero-downtime schema changes   | [DevOps — Database DevOps](devops/09-database-devops.md)                                     |
+| Incident response              | [DevOps — Alerting & On-Call](devops/10-alerting-oncall.md)                                  |

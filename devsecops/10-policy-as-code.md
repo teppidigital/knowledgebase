@@ -1,6 +1,7 @@
 # Policy as Code
 
 ## Category
+
 DevSecOps, Governance, Compliance, Automation
 
 ## Context
@@ -10,6 +11,7 @@ DevSecOps, Governance, Compliance, Automation
 **Why it matters**: Traditional policy management relies on human checklists and periodic audits. By the time a violation is caught (quarterly audit), dozens of misconfigured resources may already be in production. PaC moves enforcement to the point of change.
 
 **What policies control**:
+
 - **Cloud resources**: Required tags, approved regions, encryption enforcement
 - **Kubernetes**: Pod security, network policies, resource limits, approved image registries
 - **API authorization**: Per-request access control (OPA, Casbin)

@@ -1,6 +1,7 @@
 # GitOps
 
 ## Category
+
 DevOps, GitOps, ArgoCD, Flux, Declarative Deployment, Pull-Based Delivery, Reconciliation
 
 ## Context
@@ -9,35 +10,35 @@ DevOps, GitOps, ArgoCD, Flux, Declarative Deployment, Pull-Based Delivery, Recon
 
 ### GitOps principles (OpenGitOps v1.0)
 
-| Principle | Description |
-|-----------|-------------|
-| **Declarative** | The system is described declaratively — *what*, not *how* |
+| Principle                   | Description                                                                |
+| --------------------------- | -------------------------------------------------------------------------- |
+| **Declarative**             | The system is described declaratively — _what_, not _how_                  |
 | **Versioned and immutable** | Desired state stored in Git with full history; any version can be restored |
-| **Pulled automatically** | Software agents (not people or CI systems) pull and apply changes |
-| **Continuously reconciled** | Agents detect drift and correct it automatically |
+| **Pulled automatically**    | Software agents (not people or CI systems) pull and apply changes          |
+| **Continuously reconciled** | Agents detect drift and correct it automatically                           |
 
 ### Push vs Pull deployment
 
-| Model | Mechanism | Risks |
-|-------|-----------|-------|
-| **Push** (traditional CD) | CI pipeline authenticates to cluster and `kubectl apply` | Pipeline credentials are powerful; drift is not detected |
-| **Pull** (GitOps) | Operator inside the cluster watches Git and applies changes | No outbound cluster credentials in CI; drift auto-corrected |
+| Model                     | Mechanism                                                   | Risks                                                       |
+| ------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| **Push** (traditional CD) | CI pipeline authenticates to cluster and `kubectl apply`    | Pipeline credentials are powerful; drift is not detected    |
+| **Pull** (GitOps)         | Operator inside the cluster watches Git and applies changes | No outbound cluster credentials in CI; drift auto-corrected |
 
 ### GitOps tools
 
-| Tool | Description | Strengths |
-|------|-------------|-----------|
-| **ArgoCD** | Declarative GitOps controller for Kubernetes with full UI | Rich UI, multi-cluster, SSO, RBAC, webhook sync |
-| **Flux v2** | CNCF GitOps toolkit — composable controllers | GitRepository, Kustomization, HelmRelease CRDs; Flagger for progressive delivery |
-| **Weave GitOps** | Flux-based with enterprise UI and policy | Built on Flux; COTS support |
+| Tool             | Description                                               | Strengths                                                                        |
+| ---------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **ArgoCD**       | Declarative GitOps controller for Kubernetes with full UI | Rich UI, multi-cluster, SSO, RBAC, webhook sync                                  |
+| **Flux v2**      | CNCF GitOps toolkit — composable controllers              | GitRepository, Kustomization, HelmRelease CRDs; Flagger for progressive delivery |
+| **Weave GitOps** | Flux-based with enterprise UI and policy                  | Built on Flux; COTS support                                                      |
 
 ### GitOps repository patterns
 
-| Pattern | Structure | When to use |
-|---------|-----------|-------------|
-| **Monorepo** | All apps + infra in one repo | Small org, tight coupling |
+| Pattern                    | Structure                                              | When to use                                             |
+| -------------------------- | ------------------------------------------------------ | ------------------------------------------------------- |
+| **Monorepo**               | All apps + infra in one repo                           | Small org, tight coupling                               |
 | **App repo + config repo** | App source in one repo; K8s manifests in separate repo | Most common; separates deployment artefacts from source |
-| **Repo-per-environment** | `env/staging` and `env/prod` are separate repos | Max isolation; harder to promote |
+| **Repo-per-environment**   | `env/staging` and `env/prod` are separate repos        | Max isolation; harder to promote                        |
 
 ### Promotion flow (app → staging → prod)
 
@@ -112,31 +113,31 @@ flowchart LR
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name:      api-service-staging
+  name: api-service-staging
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io   # Cascade delete managed resources
+    - resources-finalizer.argocd.argoproj.io # Cascade delete managed resources
 spec:
   project: staging
 
   source:
-    repoURL:        https://github.com/myorg/config-repo.git
+    repoURL: https://github.com/myorg/config-repo.git
     targetRevision: main
-    path:           staging/api-service           # Path in config repo
+    path: staging/api-service # Path in config repo
     helm:
       valueFiles:
         - values.yaml
         - values-staging.yaml
 
   destination:
-    server:    https://kubernetes.default.svc
+    server: https://kubernetes.default.svc
     namespace: production
 
   syncPolicy:
     automated:
-      prune:       true       # Remove resources deleted from Git
-      selfHeal:    true       # Revert manual changes (drift correction)
-      allowEmpty:  false      # Never sync an empty application
+      prune: true # Remove resources deleted from Git
+      selfHeal: true # Revert manual changes (drift correction)
+      allowEmpty: false # Never sync an empty application
     syncOptions:
       - CreateNamespace=true
       - PrunePropagationPolicy=foreground
@@ -144,16 +145,16 @@ spec:
     retry:
       limit: 5
       backoff:
-        duration:    5s
-        factor:      2
+        duration: 5s
+        factor: 2
         maxDuration: 3m
 
   ignoreDifferences:
     # Ignore fields that change at runtime without being a real drift
     - group: apps
-      kind:  Deployment
+      kind: Deployment
       jsonPointers:
-        - /spec/replicas   # HPA manages replica count
+        - /spec/replicas # HPA manages replica count
 ```
 
 ### YAML — ArgoCD ApplicationSet (multi-environment from one template)
@@ -163,21 +164,21 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name:      api-service
+  name: api-service
   namespace: argocd
 spec:
   goTemplate: true
   generators:
     - list:
         elements:
-          - env:        staging
-            cluster:    https://staging-cluster.example.com
-            namespace:  api-staging
-            autoSync:   "true"
-          - env:        production
-            cluster:    https://prod-cluster.example.com
-            namespace:  api-production
-            autoSync:   "false"    # Production requires manual sync trigger
+          - env: staging
+            cluster: https://staging-cluster.example.com
+            namespace: api-staging
+            autoSync: "true"
+          - env: production
+            cluster: https://prod-cluster.example.com
+            namespace: api-production
+            autoSync: "false" # Production requires manual sync trigger
 
   template:
     metadata:
@@ -185,15 +186,15 @@ spec:
     spec:
       project: default
       source:
-        repoURL:        https://github.com/myorg/config-repo.git
+        repoURL: https://github.com/myorg/config-repo.git
         targetRevision: main
-        path:           "environments/{{ .env }}/api-service"
+        path: "environments/{{ .env }}/api-service"
       destination:
-        server:    "{{ .cluster }}"
+        server: "{{ .cluster }}"
         namespace: "{{ .namespace }}"
       syncPolicy:
         automated:
-          prune:    true
+          prune: true
           selfHeal: "{{ .autoSync }}"
 ```
 
@@ -204,50 +205,50 @@ spec:
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name:      api-service
+  name: api-service
   namespace: production
 spec:
   interval: 5m
   chart:
     spec:
-      chart:   api-service
+      chart: api-service
       version: ">=1.0.0"
       sourceRef:
-        kind:      HelmRepository
-        name:      myorg-charts
+        kind: HelmRepository
+        name: myorg-charts
         namespace: flux-system
 
   values:
     image:
       repository: ghcr.io/myorg/api
-      tag:         latest   # Overridden by ImagePolicy below
+      tag: latest # Overridden by ImagePolicy below
 
   # Rollback on Helm upgrade failure
   rollback:
-    timeout:         5m
-    cleanupOnFail:   true
-    recreate:        false
+    timeout: 5m
+    cleanupOnFail: true
+    recreate: false
 
 ---
 # Image policy: track semver patch releases only
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name:      api-service
+  name: api-service
   namespace: flux-system
 spec:
   imageRepositoryRef:
     name: api-service
   policy:
     semver:
-      range: ">=1.0.0 <2.0.0"   # Stay on 1.x, auto-upgrade patches
+      range: ">=1.0.0 <2.0.0" # Stay on 1.x, auto-upgrade patches
 
 ---
 # Automation: update HelmRelease.values.image.tag in Git when new image detected
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageUpdateAutomation
 metadata:
-  name:      flux-system
+  name: flux-system
   namespace: flux-system
 spec:
   interval: 1m
@@ -259,7 +260,7 @@ spec:
       ref: { branch: main }
     commit:
       author:
-        name:  Flux Image Automation Bot
+        name: Flux Image Automation Bot
         email: flux@example.com
       messageTemplate: |
         chore(deps): update api-service image to {{ range .Updated.Images }}{{ .NewTag }}{{ end }}
@@ -267,7 +268,7 @@ spec:
       branch: main
   update:
     strategy: Setters
-    path:     ./gitops/flux
+    path: ./gitops/flux
 ```
 
 ### Bash — Config Repo Image Tag Promotion Script

@@ -1,6 +1,7 @@
 # Supply Chain Security & SBOM
 
 ## Category
+
 DevSecOps, Supply Chain, Software Integrity, Compliance
 
 ## Context
@@ -8,16 +9,18 @@ DevSecOps, Supply Chain, Software Integrity, Compliance
 The **software supply chain** encompasses everything involved in building and delivering software: source code, dependencies, build tools, CI/CD pipelines, registries, and deployment infrastructure. A **supply chain attack** compromises one of these upstream components to inject malicious code into production systems.
 
 Notable incidents:
+
 - **SolarWinds (2020)**: Build pipeline compromised to inject backdoor into signed software updates.
 - **Log4Shell (2021)**: Critical RCE in a ubiquitous logging library used by millions of applications.
 - **XZ Utils (2024)**: Backdoor injected into a compression library over years of social engineering.
 - **event-stream npm (2018)**: Malicious maintainer added cryptomining code to a widely used npm package.
 
 **Key Supply Chain Security practices**:
+
 1. **SBOM (Software Bill of Materials)**: A machine-readable inventory of all software components and their versions.
 2. **SLSA (Supply Chain Levels for Software Artifacts)**: A framework of security requirements for build pipelines.
 3. **Sigstore/Cosign**: Keyless cryptographic signing of artifacts (containers, packages).
-4. **Provenance attestation**: Signed metadata proving *how* and *where* a build was produced.
+4. **Provenance attestation**: Signed metadata proving _how_ and _where_ a build was produced.
 5. **Dependency pinning**: Use exact versions and lock files, not floating ranges.
 6. **Typosquatting protection**: Verify package names before install.
 
@@ -117,7 +120,7 @@ jobs:
         id: sbom
         with:
           image: ghcr.io/myorg/my-app:${{ github.sha }}
-          format: spdx-json          # or cyclonedx-json
+          format: spdx-json # or cyclonedx-json
           output-file: sbom.spdx.json
           upload-artifact: true
           upload-release-assets: true
@@ -197,41 +200,52 @@ jobs:
 ```typescript
 // scripts/verify-packages.ts
 // Verify that installed packages match expected checksums (lockfile integrity)
-import { execSync } from 'child_process';
-import * as fs from 'fs';
-import * as crypto from 'crypto';
+import { execSync } from "child_process";
+import * as fs from "fs";
+import * as crypto from "crypto";
 
 interface LockfilePackage {
   resolved: string;
-  integrity: string;  // sha512 hash
+  integrity: string; // sha512 hash
 }
 
 function verifyLockfileIntegrity(): void {
-  const lockfile = JSON.parse(fs.readFileSync('package-lock.json', 'utf-8'));
+  const lockfile = JSON.parse(fs.readFileSync("package-lock.json", "utf-8"));
 
   let failures = 0;
 
-  for (const [name, pkg] of Object.entries(lockfile.packages as Record<string, LockfilePackage>)) {
+  for (const [name, pkg] of Object.entries(
+    lockfile.packages as Record<string, LockfilePackage>,
+  )) {
     if (!pkg.integrity || !pkg.resolved) continue;
 
     // Detect packages resolved from non-registry sources (red flag)
-    if (pkg.resolved && !pkg.resolved.startsWith('https://registry.npmjs.org/')) {
-      if (!pkg.resolved.startsWith('https://registry.yarnpkg.com/') &&
-          !pkg.resolved.startsWith('file:')) {
-        console.warn(`⚠️  Non-standard registry source: ${name} → ${pkg.resolved}`);
+    if (
+      pkg.resolved &&
+      !pkg.resolved.startsWith("https://registry.npmjs.org/")
+    ) {
+      if (
+        !pkg.resolved.startsWith("https://registry.yarnpkg.com/") &&
+        !pkg.resolved.startsWith("file:")
+      ) {
+        console.warn(
+          `⚠️  Non-standard registry source: ${name} → ${pkg.resolved}`,
+        );
         failures++;
       }
     }
   }
 
   if (failures > 0) {
-    console.error(`${failures} packages from non-standard registries — investigate before installing`);
+    console.error(
+      `${failures} packages from non-standard registries — investigate before installing`,
+    );
     process.exit(1);
   }
 
   // Let npm itself verify integrity hashes
-  execSync('npm ci --ignore-scripts', { stdio: 'inherit' });
-  console.log('✅ Package integrity verified');
+  execSync("npm ci --ignore-scripts", { stdio: "inherit" });
+  console.log("✅ Package integrity verified");
 }
 
 verifyLockfileIntegrity();
@@ -272,8 +286,8 @@ name: Socket Security (Supply Chain)
 on:
   pull_request:
     paths:
-      - 'package.json'
-      - 'package-lock.json'
+      - "package.json"
+      - "package-lock.json"
 
 jobs:
   socket:

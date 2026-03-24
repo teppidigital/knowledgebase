@@ -1,6 +1,7 @@
 # Compliance as Code
 
 ## Category
+
 DevSecOps, Compliance, Governance, Automation, Audit
 
 ## Context
@@ -94,7 +95,7 @@ import {
   ConfigServiceClient,
   PutEvaluationsCommand,
   ConfigurationItem,
-} from '@aws-sdk/client-config-service';
+} from "@aws-sdk/client-config-service";
 
 const config = new ConfigServiceClient({ region: process.env.AWS_REGION });
 
@@ -107,7 +108,7 @@ export const handler = async (event: {
   const invokingEvent = JSON.parse(event.invokingEvent);
   const configurationItem: ConfigurationItem = invokingEvent.configurationItem;
 
-  if (configurationItem.resourceType !== 'AWS::RDS::DBInstance') return;
+  if (configurationItem.resourceType !== "AWS::RDS::DBInstance") return;
 
   const configuration = configurationItem.configuration as {
     storageEncrypted: boolean;
@@ -120,33 +121,43 @@ export const handler = async (event: {
   const violations: string[] = [];
 
   if (!configuration.storageEncrypted) {
-    violations.push('Storage encryption is not enabled');
+    violations.push("Storage encryption is not enabled");
   }
   if (configuration.publiclyAccessible) {
-    violations.push('RDS instance is publicly accessible');
+    violations.push("RDS instance is publicly accessible");
   }
   if (!configuration.deletionProtection) {
-    violations.push('Deletion protection is not enabled');
+    violations.push("Deletion protection is not enabled");
   }
   if (configuration.backupRetentionPeriod < 7) {
-    violations.push(`Backup retention ${configuration.backupRetentionPeriod} days < required 7 days`);
+    violations.push(
+      `Backup retention ${configuration.backupRetentionPeriod} days < required 7 days`,
+    );
   }
 
-  const compliance = violations.length === 0 ? 'COMPLIANT' : 'NON_COMPLIANT';
+  const compliance = violations.length === 0 ? "COMPLIANT" : "NON_COMPLIANT";
 
-  await config.send(new PutEvaluationsCommand({
-    Evaluations: [{
-      ComplianceResourceType: configurationItem.resourceType!,
-      ComplianceResourceId: configurationItem.resourceId!,
-      ComplianceType: compliance,
-      Annotation: violations.length ? violations.join('; ') : 'All RDS security requirements met',
-      OrderingTimestamp: new Date(),
-    }],
-    ResultToken: event.resultToken,
-  }));
+  await config.send(
+    new PutEvaluationsCommand({
+      Evaluations: [
+        {
+          ComplianceResourceType: configurationItem.resourceType!,
+          ComplianceResourceId: configurationItem.resourceId!,
+          ComplianceType: compliance,
+          Annotation: violations.length
+            ? violations.join("; ")
+            : "All RDS security requirements met",
+          OrderingTimestamp: new Date(),
+        },
+      ],
+      ResultToken: event.resultToken,
+    }),
+  );
 
-  if (compliance === 'NON_COMPLIANT') {
-    console.error(`NON_COMPLIANT RDS: ${configurationItem.resourceId} — ${violations.join('; ')}`);
+  if (compliance === "NON_COMPLIANT") {
+    console.error(
+      `NON_COMPLIANT RDS: ${configurationItem.resourceId} — ${violations.join("; ")}`,
+    );
   }
 };
 ```
@@ -159,7 +170,7 @@ name: Compliance Scan (Prowler)
 
 on:
   schedule:
-    - cron: '0 2 * * 1'  # Weekly Monday 2 AM
+    - cron: "0 2 * * 1" # Weekly Monday 2 AM
   workflow_dispatch:
 
 jobs:
@@ -250,13 +261,13 @@ spec:
 
 ```typescript
 // compliance/report-generator.ts
-import * as fs from 'fs';
+import * as fs from "fs";
 
 interface ComplianceControl {
   id: string;
   description: string;
   framework: string;
-  status: 'PASS' | 'FAIL' | 'MANUAL';
+  status: "PASS" | "FAIL" | "MANUAL";
   evidence: string;
   lastChecked: Date;
 }
@@ -271,20 +282,23 @@ interface ComplianceSummary {
   generatedAt: Date;
 }
 
-function generateComplianceReport(controls: ComplianceControl[]): ComplianceSummary[] {
+function generateComplianceReport(
+  controls: ComplianceControl[],
+): ComplianceSummary[] {
   const byFramework = new Map<string, ComplianceControl[]>();
 
   for (const control of controls) {
-    if (!byFramework.has(control.framework)) byFramework.set(control.framework, []);
+    if (!byFramework.has(control.framework))
+      byFramework.set(control.framework, []);
     byFramework.get(control.framework)!.push(control);
   }
 
   const summaries: ComplianceSummary[] = [];
 
   for (const [framework, fControls] of byFramework) {
-    const passed = fControls.filter(c => c.status === 'PASS').length;
-    const failed = fControls.filter(c => c.status === 'FAIL').length;
-    const manual = fControls.filter(c => c.status === 'MANUAL').length;
+    const passed = fControls.filter((c) => c.status === "PASS").length;
+    const failed = fControls.filter((c) => c.status === "FAIL").length;
+    const manual = fControls.filter((c) => c.status === "MANUAL").length;
     const automated = passed + failed;
 
     summaries.push({
@@ -300,19 +314,19 @@ function generateComplianceReport(controls: ComplianceControl[]): ComplianceSumm
     if (failed > 0) {
       console.warn(`\n[${framework}] ${failed} failing controls:`);
       fControls
-        .filter(c => c.status === 'FAIL')
-        .forEach(c => console.warn(`  ❌ ${c.id}: ${c.description}`));
+        .filter((c) => c.status === "FAIL")
+        .forEach((c) => console.warn(`  ❌ ${c.id}: ${c.description}`));
     }
   }
 
   const report = {
     generatedAt: new Date().toISOString(),
     summaries,
-    failingControls: controls.filter(c => c.status === 'FAIL'),
+    failingControls: controls.filter((c) => c.status === "FAIL"),
   };
 
-  fs.writeFileSync('compliance-report.json', JSON.stringify(report, null, 2));
-  console.log('\nCompliance report written to compliance-report.json');
+  fs.writeFileSync("compliance-report.json", JSON.stringify(report, null, 2));
+  console.log("\nCompliance report written to compliance-report.json");
 
   return summaries;
 }

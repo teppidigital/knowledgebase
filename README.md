@@ -91,18 +91,29 @@ Patterns for building production-grade workloads on Azure using managed services
 
 ---
 
+### [Data Solutions](data-solutions/README.md)
+
+> 15 patterns · Data engineering, analytics, governance, privacy, and AI data infrastructure
+
+End-to-end data architecture patterns from raw ingestion through to real-time analytics, machine learning feature stores, data governance, and organisational models (Data Mesh).
+
+**Key topics:** Batch Ingestion & ETL (Airflow/dbt), Change Data Capture (Debezium/Kafka), Real-time Stream Processing (Flink/Kafka Streams), Data Lakehouse (Iceberg/Delta), Data Modelling (Star Schema/SCD2), Search & Full-Text (Elasticsearch/OpenSearch), Caching (Redis/Cache-Aside), Time-Series (TimescaleDB), Graph Databases (Neo4j), OLAP Engines (ClickHouse/Trino), ML Feature Store (Feast), Data Governance & Catalogue (DataHub), Data Privacy & GDPR Compliance, Data Mesh, Real-time Analytics & Reverse ETL.
+
+---
+
 ## At a Glance
 
 | Section                                                             | Patterns | Primary Languages           |
 | ------------------------------------------------------------------- | -------- | --------------------------- |
-| [System Design](system-design/README.md)                            | 34       | TypeScript, YAML            |
-| [Distributed Design Patterns](distributed-design-pattern/README.md) | 19       | TypeScript, Go, YAML        |
-| [DevOps](devops/README.md)                                          | 15       | TypeScript, YAML, HCL, Bash |
-| [DevSecOps](devsecops/README.md)                                    | 15       | TypeScript, YAML, Bash      |
-| [Security](security/README.md)                                      | 15       | TypeScript, YAML            |
-| [Cloud Native — AWS](cloud-native/aws/README.md)                    | 15       | TypeScript, HCL, Bash       |
-| [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL      |
-| **Total**                                                           | **128**  |                             |
+| [System Design](system-design/README.md)                            | 34       | TypeScript, YAML                   |
+| [Distributed Design Patterns](distributed-design-pattern/README.md) | 19       | TypeScript, Go, YAML               |
+| [DevOps](devops/README.md)                                          | 15       | TypeScript, YAML, HCL, Bash        |
+| [DevSecOps](devsecops/README.md)                                    | 15       | TypeScript, YAML, Bash             |
+| [Security](security/README.md)                                      | 15       | TypeScript, YAML                   |
+| [Cloud Native — AWS](cloud-native/aws/README.md)                    | 15       | TypeScript, HCL, Bash              |
+| [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
+| [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
+| **Total**                                                           | **143**  |                                    |
 
 ---
 
@@ -132,3 +143,9 @@ Patterns for building production-grade workloads on Azure using managed services
 | Measuring team performance     | [DevOps — DORA Metrics](devops/15-devops-metrics.md)                                         |
 | Zero-downtime schema changes   | [DevOps — Database DevOps](devops/09-database-devops.md)                                     |
 | Incident response              | [DevOps — Alerting & On-Call](devops/10-alerting-oncall.md)                                  |
+| Data pipelines & ETL           | [Data Solutions — Batch Ingestion](data-solutions/01-batch-ingestion-etl.md)                 |
+| Real-time event processing     | [Data Solutions — Stream Processing](data-solutions/03-stream-processing.md)                  |
+| Analytical queries at scale    | [Data Solutions — OLAP Engines](data-solutions/10-olap-query-engines.md)                     |
+| GDPR right-to-erasure          | [Data Solutions — Privacy & Compliance](data-solutions/13-data-privacy-compliance.md)         |
+| ML features for real-time AI   | [Data Solutions — Feature Store](data-solutions/11-feature-store-ml.md)                      |
+| Scaling data across many teams | [Data Solutions — Data Mesh](data-solutions/14-data-mesh.md)                                 |

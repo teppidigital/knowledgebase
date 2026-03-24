@@ -1,6 +1,7 @@
 # Infrastructure as Code (IaC)
 
 ## Category
+
 DevOps, Infrastructure as Code, Terraform, Pulumi, Bicep, State Management, Drift Detection
 
 ## Context
@@ -9,14 +10,14 @@ DevOps, Infrastructure as Code, Terraform, Pulumi, Bicep, State Management, Drif
 
 ### IaC tools comparison
 
-| Tool | Language | State | Cloud support | Approach |
-|------|----------|-------|--------------|---------|
-| **Terraform** (OpenTofu) | HCL | Remote state (S3, Azure Blob) | Multi-cloud | Declarative |
-| **Pulumi** | TypeScript, Python, Go, C# | Pulumi Cloud or self-hosted | Multi-cloud | Declarative with real languages |
-| **Bicep** | DSL (ARM successor) | None (ARM-driven) | Azure only | Declarative |
-| **CloudFormation** | YAML/JSON | None (CFn-driven) | AWS only | Declarative |
-| **Ansible** | YAML | Stateless (idempotent runs) | Multi-cloud + on-prem | Procedural/idempotent |
-| **CDK (AWS/Azure)** | TypeScript, Python | CFn / ARM state | AWS / Azure | Declarative via synthesis |
+| Tool                     | Language                   | State                         | Cloud support         | Approach                        |
+| ------------------------ | -------------------------- | ----------------------------- | --------------------- | ------------------------------- |
+| **Terraform** (OpenTofu) | HCL                        | Remote state (S3, Azure Blob) | Multi-cloud           | Declarative                     |
+| **Pulumi**               | TypeScript, Python, Go, C# | Pulumi Cloud or self-hosted   | Multi-cloud           | Declarative with real languages |
+| **Bicep**                | DSL (ARM successor)        | None (ARM-driven)             | Azure only            | Declarative                     |
+| **CloudFormation**       | YAML/JSON                  | None (CFn-driven)             | AWS only              | Declarative                     |
+| **Ansible**              | YAML                       | Stateless (idempotent runs)   | Multi-cloud + on-prem | Procedural/idempotent           |
+| **CDK (AWS/Azure)**      | TypeScript, Python         | CFn / ARM state               | AWS / Azure           | Declarative via synthesis       |
 
 ### Terraform project structure
 
@@ -39,19 +40,20 @@ infra/
 ### State management
 
 Terraform maintains a **state file** — a mapping between the configuration and real infrastructure resources. Remote state must be:
+
 - **Locked** to prevent concurrent applies (DynamoDB, Azure Blob lease, GCS)
 - **Encrypted** at rest (S3 SSE-KMS, Azure Blob CMK)
 - **Versioned** to enable rollback to a previous known state
 
 ### IaC practices
 
-| Practice | Description |
-|----------|-------------|
-| **Plan before apply** | `terraform plan` shows changes before applying — never `apply` without reviewing the plan |
-| **PR-based workflow** | All changes via code review; auto-run `plan` on PR; apply only after merge |
-| **Module versioning** | Pin module versions (`source = "git::...?ref=v2.1.0"`) — never use `ref=main` in production |
-| **Drift detection** | Schedule `terraform plan` to detect manual changes made outside IaC |
-| **Workspace or directory isolation** | Separate state per environment — never share state between staging and prod |
+| Practice                             | Description                                                                                 |
+| ------------------------------------ | ------------------------------------------------------------------------------------------- |
+| **Plan before apply**                | `terraform plan` shows changes before applying — never `apply` without reviewing the plan   |
+| **PR-based workflow**                | All changes via code review; auto-run `plan` on PR; apply only after merge                  |
+| **Module versioning**                | Pin module versions (`source = "git::...?ref=v2.1.0"`) — never use `ref=main` in production |
+| **Drift detection**                  | Schedule `terraform plan` to detect manual changes made outside IaC                         |
+| **Workspace or directory isolation** | Separate state per environment — never share state between staging and prod                 |
 
 ---
 
@@ -263,14 +265,14 @@ name: Terraform Plan / Apply
 on:
   push:
     branches: [main]
-    paths:    ['infra/**']
+    paths: ["infra/**"]
   pull_request:
-    paths:   ['infra/**']
+    paths: ["infra/**"]
 
 permissions:
-  id-token:       write      # OIDC token for Azure federated identity
-  contents:       read
-  pull-requests:  write      # Post plan to PR comments
+  id-token: write # OIDC token for Azure federated identity
+  contents: read
+  pull-requests: write # Post plan to PR comments
 
 jobs:
   terraform:
@@ -287,8 +289,8 @@ jobs:
       - name: Azure OIDC login
         uses: azure/login@v2
         with:
-          client-id:       ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id:       ${{ secrets.AZURE_TENANT_ID }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Terraform Init

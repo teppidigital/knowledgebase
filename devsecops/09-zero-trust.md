@@ -1,6 +1,7 @@
 # Zero Trust Architecture
 
 ## Category
+
 DevSecOps, Security Architecture, Identity, Network Security
 
 ## Context
@@ -8,11 +9,13 @@ DevSecOps, Security Architecture, Identity, Network Security
 **Zero Trust** is a security model based on the principle of **"never trust, always verify"**. It abandons the traditional perimeter-based ("castle and moat") security model, which assumed everything inside the corporate network was trustworthy. In the perimeter model, once an attacker breaches the perimeter (via VPN credential theft, phishing, or insider threat), they can move laterally with little resistance.
 
 Zero Trust operates on three core principles:
+
 1. **Verify explicitly**: Always authenticate and authorize based on all available data points — identity, location, device health, service, workload, and behavior.
 2. **Use least privilege**: Limit user and service access with just-enough-access (JEA). Use Just-In-Time (JIT) provisioning.
 3. **Assume breach**: Minimize blast radius, segment access, encrypt everything end-to-end, and use analytics to detect anomalies.
 
 **Zero Trust pillars**:
+
 - **Identity**: mTLS, OIDC, SPIFFE/SPIRE for workload identity
 - **Device**: Device posture checking, MDM enrollment
 - **Network**: Microsegmentation, service mesh (Istio), NetworkPolicies
@@ -84,14 +87,14 @@ graph TD
 // zero-trust/spiffe-identity.ts
 // SPIRE agent provides short-lived X.509 SVIDs to workloads via Unix socket
 
-import { spiffeHelper } from '@spiffe/spiffe-helper';
-import * as https from 'https';
-import * as tls from 'tls';
+import { spiffeHelper } from "@spiffe/spiffe-helper";
+import * as https from "https";
+import * as tls from "tls";
 
 interface SPIFFEWorkloadCredentials {
-  svid: Buffer;     // X.509 certificate (SVID)
+  svid: Buffer; // X.509 certificate (SVID)
   privateKey: Buffer;
-  bundle: Buffer;   // Trust bundle (CA certs)
+  bundle: Buffer; // Trust bundle (CA certs)
   spiffeId: string; // e.g., spiffe://cluster.local/ns/prod/sa/payment-service
 }
 
@@ -100,7 +103,7 @@ class WorkloadIdentityManager {
   private rotationTimer: NodeJS.Timeout | null = null;
 
   constructor(
-    private readonly spiffeSocketPath = '/tmp/spire-agent/public/api.sock'
+    private readonly spiffeSocketPath = "/tmp/spire-agent/public/api.sock",
   ) {}
 
   async initialize(): Promise<void> {
@@ -126,12 +129,15 @@ class WorkloadIdentityManager {
     if (this.rotationTimer) clearTimeout(this.rotationTimer);
     this.rotationTimer = setTimeout(() => this.fetchCredentials(), rotateIn);
 
-    console.log(`SPIFFE identity: ${this.credentials.spiffeId} (rotates in ${Math.round(rotateIn / 1000)}s)`);
+    console.log(
+      `SPIFFE identity: ${this.credentials.spiffeId} (rotates in ${Math.round(rotateIn / 1000)}s)`,
+    );
   }
 
   /** Create an HTTPS agent that presents the SPIFFE SVID for mTLS */
   createMtlsAgent(trustedSpiffeId: string): https.Agent {
-    if (!this.credentials) throw new Error('WorkloadIdentityManager not initialized');
+    if (!this.credentials)
+      throw new Error("WorkloadIdentityManager not initialized");
 
     return new https.Agent({
       cert: this.credentials.svid,
@@ -139,9 +145,13 @@ class WorkloadIdentityManager {
       ca: this.credentials.bundle,
       // Verify peer's SPIFFE ID (not just certificate validity)
       checkServerIdentity: (_, cert) => {
-        const peerSpiffeId = cert.subjectaltname?.match(/URI:spiffe:\/\/[^,]+/)?.[0]?.replace('URI:', '');
+        const peerSpiffeId = cert.subjectaltname
+          ?.match(/URI:spiffe:\/\/[^,]+/)?.[0]
+          ?.replace("URI:", "");
         if (peerSpiffeId !== trustedSpiffeId) {
-          return new Error(`SPIFFE ID mismatch: expected ${trustedSpiffeId}, got ${peerSpiffeId}`);
+          return new Error(
+            `SPIFFE ID mismatch: expected ${trustedSpiffeId}, got ${peerSpiffeId}`,
+          );
         }
         return undefined;
       },
@@ -153,7 +163,9 @@ class WorkloadIdentityManager {
 const identity = new WorkloadIdentityManager();
 await identity.initialize();
 
-const agent = identity.createMtlsAgent('spiffe://cluster.local/ns/prod/sa/payment-service');
+const agent = identity.createMtlsAgent(
+  "spiffe://cluster.local/ns/prod/sa/payment-service",
+);
 // All HTTP calls using this agent are mutually authenticated
 ```
 
@@ -161,10 +173,10 @@ const agent = identity.createMtlsAgent('spiffe://cluster.local/ns/prod/sa/paymen
 
 ```typescript
 // zero-trust/opa-middleware.ts
-import { Request, Response, NextFunction } from 'express';
-import axios from 'axios';
+import { Request, Response, NextFunction } from "express";
+import axios from "axios";
 
-const OPA_URL = process.env.OPA_URL ?? 'http://opa:8181';
+const OPA_URL = process.env.OPA_URL ?? "http://opa:8181";
 
 interface OPAInput {
   user: { id: string; roles: string[]; tenantId: string };
@@ -178,11 +190,15 @@ interface OPAResult {
 }
 
 export function requireOPAAuthorization(resourceType: string, action: string) {
-  return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const user = (req as Request & { user: OPAInput['user'] }).user;
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
+    const user = (req as Request & { user: OPAInput["user"] }).user;
 
     if (!user) {
-      res.status(401).json({ error: 'Unauthenticated' });
+      res.status(401).json({ error: "Unauthenticated" });
       return;
     }
 
@@ -190,13 +206,13 @@ export function requireOPAAuthorization(resourceType: string, action: string) {
       user,
       resource: {
         type: resourceType,
-        id: req.params.id ?? '',
+        id: req.params.id ?? "",
         ownerId: req.body?.ownerId,
       },
       action,
       context: {
-        ip: req.ip ?? '',
-        userAgent: req.get('user-agent') ?? '',
+        ip: req.ip ?? "",
+        userAgent: req.get("user-agent") ?? "",
       },
     };
 
@@ -205,20 +221,20 @@ export function requireOPAAuthorization(resourceType: string, action: string) {
       const response = await axios.post<OPAResult>(
         `${OPA_URL}/v1/data/myapp/authz/allow`,
         { input },
-        { timeout: 500 } // OPA must be fast — <500ms
+        { timeout: 500 }, // OPA must be fast — <500ms
       );
       result = response.data;
     } catch (err) {
       // Fail closed — if OPA is unreachable, deny
-      console.error('OPA unreachable — denying request:', err);
-      res.status(503).json({ error: 'Authorization service unavailable' });
+      console.error("OPA unreachable — denying request:", err);
+      res.status(503).json({ error: "Authorization service unavailable" });
       return;
     }
 
     if (!result.result.allow) {
       res.status(403).json({
-        error: 'Forbidden',
-        reason: result.result.reason ?? 'Access denied by policy',
+        error: "Forbidden",
+        reason: result.result.reason ?? "Access denied by policy",
       });
       return;
     }
@@ -290,7 +306,7 @@ metadata:
   namespace: production
 spec:
   mtls:
-    mode: STRICT  # Reject any non-mTLS traffic
+    mode: STRICT # Reject any non-mTLS traffic
 ---
 # Authorization Policy — Service A may only call Service B on specific paths
 apiVersion: security.istio.io/v1beta1
@@ -307,7 +323,7 @@ spec:
     - from:
         - source:
             principals:
-              - "cluster.local/ns/production/sa/order-service"  # SPIFFE identity
+              - "cluster.local/ns/production/sa/order-service" # SPIFFE identity
       to:
         - operation:
             methods: ["POST"]
@@ -325,5 +341,5 @@ spec:
       app: payment-service
   action: DENY
   rules:
-    - {}  # Match all (deny-all baseline; allow rules above take precedence)
+    - {} # Match all (deny-all baseline; allow rules above take precedence)
 ```

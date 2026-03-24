@@ -1,6 +1,7 @@
 # Security CI/CD Pipeline
 
 ## Category
+
 DevSecOps, CI/CD, Automation, Security Orchestration
 
 ## Context
@@ -8,6 +9,7 @@ DevSecOps, CI/CD, Automation, Security Orchestration
 A **Security CI/CD Pipeline** integrates all security testing and enforcement tools into a single, ordered pipeline that runs automatically on every code change. Rather than running security tools ad hoc or in isolated silos, the security pipeline orchestrates SAST, SCA, secret scanning, IaC scanning, SBOM generation, container scanning, DAST, and policy gates into a cohesive, developer-friendly workflow.
 
 **Key design principles**:
+
 1. **Fail fast**: Run the fastest and most impactful checks first (pre-commit → PR checks → deployment checks).
 2. **Security as a quality gate**: Security checks are mandatory, not optional — block merges or deployments on findings.
 3. **Developer-first feedback**: Results appear inline in PRs with actionable guidance, not in separate portals.
@@ -236,7 +238,7 @@ jobs:
           format: sarif
           output: trivy.sarif
           severity: CRITICAL
-          exit-code: '1'
+          exit-code: "1"
           ignore-unfixed: true
         continue-on-error: false
 
@@ -310,14 +312,14 @@ jobs:
 
 interface SecurityException {
   id: string;
-  tool: 'semgrep' | 'snyk' | 'checkov' | 'trivy' | 'zap';
+  tool: "semgrep" | "snyk" | "checkov" | "trivy" | "zap";
   ruleId: string;
   filePath?: string;
-  reason: string;               // Why it's a false positive or accepted risk
-  approvedBy: string;           // Security team member who approved
-  approvalDate: string;         // ISO date
-  expiresAt: string;            // Exceptions must expire and be reviewed
-  jiraTicket: string;           // Link to tracking ticket
+  reason: string; // Why it's a false positive or accepted risk
+  approvedBy: string; // Security team member who approved
+  approvalDate: string; // ISO date
+  expiresAt: string; // Exceptions must expire and be reviewed
+  jiraTicket: string; // Link to tracking ticket
 }
 
 // exceptions.json — committed to repo, PR-reviewed
@@ -327,21 +329,26 @@ const exceptions: SecurityException[] = [
     tool: "checkov",
     ruleId: "CKV_AWS_20",
     filePath: "infrastructure/terraform/cdn/s3.tf",
-    reason: "S3 bucket intentionally public — serves static CDN assets (images, CSS, JS). No sensitive data",
+    reason:
+      "S3 bucket intentionally public — serves static CDN assets (images, CSS, JS). No sensitive data",
     approvedBy: "security@company.com",
     approvalDate: "2024-01-15",
-    expiresAt: "2025-01-15",  // Review annually
+    expiresAt: "2025-01-15", // Review annually
     jiraTicket: "SEC-123",
   },
 ];
 
 function validateExceptions(): void {
   const now = new Date();
-  const expired = exceptions.filter(e => new Date(e.expiresAt) < now);
+  const expired = exceptions.filter((e) => new Date(e.expiresAt) < now);
 
   if (expired.length > 0) {
     console.error(`❌ ${expired.length} security exceptions have EXPIRED:`);
-    expired.forEach(e => console.error(`  [${e.tool}:${e.ruleId}] ${e.id} — expired ${e.expiresAt}`));
+    expired.forEach((e) =>
+      console.error(
+        `  [${e.tool}:${e.ruleId}] ${e.id} — expired ${e.expiresAt}`,
+      ),
+    );
     process.exit(1);
   }
 

@@ -1,13 +1,15 @@
 # Runtime Security Monitoring
 
 ## Category
+
 DevSecOps, Observability, Threat Detection, Incident Response
 
 ## Context
 
-**Runtime Security Monitoring** detects malicious or anomalous behavior *while applications are running* in production. Even with perfect shift-left controls, sophisticated attackers can bypass static defenses, exploit zero-days, or abuse legitimate features. Runtime security provides the final layer of defense.
+**Runtime Security Monitoring** detects malicious or anomalous behavior _while applications are running_ in production. Even with perfect shift-left controls, sophisticated attackers can bypass static defenses, exploit zero-days, or abuse legitimate features. Runtime security provides the final layer of defense.
 
 **What runtime monitoring detects**:
+
 - Container escapes (writing to host filesystem, namespace pivoting)
 - Unexpected process spawns (shell in a node.js container — likely RCE)
 - Network connections to C2 servers or cryptocurrency mining pools
@@ -210,8 +212,8 @@ falcosidekick:
 
 ```typescript
 // runtime-security/auto-responder.ts
-import { KubeConfig, CoreV1Api } from '@kubernetes/client-node';
-import { WebClient } from '@slack/web-api';
+import { KubeConfig, CoreV1Api } from "@kubernetes/client-node";
+import { WebClient } from "@slack/web-api";
 
 const kc = new KubeConfig();
 kc.loadFromCluster();
@@ -220,7 +222,15 @@ const slack = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 interface FalcoAlert {
   rule: string;
-  priority: 'DEBUG' | 'INFORMATIONAL' | 'NOTICE' | 'WARNING' | 'ERROR' | 'CRITICAL' | 'ALERT' | 'EMERGENCY';
+  priority:
+    | "DEBUG"
+    | "INFORMATIONAL"
+    | "NOTICE"
+    | "WARNING"
+    | "ERROR"
+    | "CRITICAL"
+    | "ALERT"
+    | "EMERGENCY";
   output: string;
   outputFields: {
     containerName: string;
@@ -234,19 +244,29 @@ export async function handleFalcoAlert(alert: FalcoAlert): Promise<void> {
 
   // Notify security team immediately
   await slack.chat.postMessage({
-    channel: '#security-alerts',
+    channel: "#security-alerts",
     text: `:rotating_light: *[${alert.priority}] Falco Alert*\n*Rule:* ${alert.rule}\n*Details:* ${alert.output}`,
-    attachments: [{
-      color: alert.priority === 'CRITICAL' ? '#FF0000' : '#FFA500',
-      fields: [
-        { title: 'Container', value: alert.outputFields.containerName, short: true },
-        { title: 'Namespace', value: alert.outputFields.namespace, short: true },
-      ],
-    }],
+    attachments: [
+      {
+        color: alert.priority === "CRITICAL" ? "#FF0000" : "#FFA500",
+        fields: [
+          {
+            title: "Container",
+            value: alert.outputFields.containerName,
+            short: true,
+          },
+          {
+            title: "Namespace",
+            value: alert.outputFields.namespace,
+            short: true,
+          },
+        ],
+      },
+    ],
   });
 
   // Automated response for CRITICAL alerts
-  if (['CRITICAL', 'ALERT', 'EMERGENCY'].includes(alert.priority)) {
+  if (["CRITICAL", "ALERT", "EMERGENCY"].includes(alert.priority)) {
     await automaticIsolation(alert);
   }
 }
@@ -260,21 +280,23 @@ async function automaticIsolation(alert: FalcoAlert): Promise<void> {
   await k8s.patchNamespacedPod(
     podName,
     namespace,
-    { metadata: { labels: { 'security.myorg.com/isolated': 'true' } } },
+    { metadata: { labels: { "security.myorg.com/isolated": "true" } } },
     undefined,
     undefined,
     undefined,
     undefined,
     undefined,
-    { headers: { 'Content-Type': 'application/strategic-merge-patch+json' } }
+    { headers: { "Content-Type": "application/strategic-merge-patch+json" } },
   );
 
   // After isolation, collect forensic data before termination
-  console.log(`Pod ${podName} in ${namespace} isolated — collecting forensic data...`);
+  console.log(
+    `Pod ${podName} in ${namespace} isolated — collecting forensic data...`,
+  );
 
   // Signal forensic collector (another pod/sidecar)
   await slack.chat.postMessage({
-    channel: '#security-alerts',
+    channel: "#security-alerts",
     text: `:shield: Pod \`${podName}\` in \`${namespace}\` has been automatically *isolated*. Manual investigation required.`,
   });
 }
@@ -284,8 +306,8 @@ async function automaticIsolation(alert: FalcoAlert): Promise<void> {
 
 ```typescript
 // runtime-security/guardduty-handler.ts — AWS Lambda
-import { SNSEvent } from 'aws-lambda';
-import { GuardDutyClient, GetFindingsCommand } from '@aws-sdk/client-guardduty';
+import { SNSEvent } from "aws-lambda";
+import { GuardDutyClient, GetFindingsCommand } from "@aws-sdk/client-guardduty";
 
 const gd = new GuardDutyClient({ region: process.env.AWS_REGION });
 
@@ -293,18 +315,23 @@ export const handler = async (event: SNSEvent): Promise<void> => {
   for (const record of event.Records) {
     const notification = JSON.parse(record.Sns.Message);
 
-    if (notification.source !== 'aws.guardduty') continue;
+    if (notification.source !== "aws.guardduty") continue;
 
     const { findingIds, detectorId } = notification.detail;
 
-    const findings = await gd.send(new GetFindingsCommand({
-      DetectorId: detectorId,
-      FindingIds: findingIds,
-    }));
+    const findings = await gd.send(
+      new GetFindingsCommand({
+        DetectorId: detectorId,
+        FindingIds: findingIds,
+      }),
+    );
 
     for (const finding of findings.Findings ?? []) {
-      if ((finding.Severity ?? 0) >= 7.0) { // HIGH or CRITICAL
-        console.error(`GuardDuty HIGH finding: ${finding.Type} - ${finding.Description}`);
+      if ((finding.Severity ?? 0) >= 7.0) {
+        // HIGH or CRITICAL
+        console.error(
+          `GuardDuty HIGH finding: ${finding.Type} - ${finding.Description}`,
+        );
         // Trigger incident response workflow
       }
     }

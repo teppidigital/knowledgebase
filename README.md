@@ -101,6 +101,16 @@ End-to-end data architecture patterns from raw ingestion through to real-time an
 
 ---
 
+### [AI & LLM Integration](ai-llm/README.md)
+
+> 15 patterns · Production-ready patterns for building reliable, safe, and cost-efficient LLM systems
+
+Patterns for integrating large language models into production applications — from retrieval-augmented generation and agent architectures through to cost control, safety guardrails, and automated quality evaluation.
+
+**Key topics:** Retrieval-Augmented Generation (RAG), LLM Gateway & Provider Abstraction, Prompt Engineering & Management, AI Agents & Tool Use (ReAct/LangGraph), Vector Databases (pgvector/Pinecone/Weaviate), Embedding Pipelines, Semantic Caching, AI Observability (LangSmith/Phoenix), Guardrails & Content Safety, Fine-tuning vs RAG, Multimodal Pipelines (vision/audio), AI Cost Optimisation (model routing/Batch API), LLM Evaluation & Evals (RAGAS), Function Calling & Structured Outputs, AI-Assisted Code Generation.
+
+---
+
 ## At a Glance
 
 | Section                                                             | Patterns | Primary Languages           |
@@ -113,7 +123,8 @@ End-to-end data architecture patterns from raw ingestion through to real-time an
 | [Cloud Native — AWS](cloud-native/aws/README.md)                    | 15       | TypeScript, HCL, Bash              |
 | [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
 | [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
-| **Total**                                                           | **143**  |                                    |
+| [AI & LLM Integration](ai-llm/README.md)                           | 15       | TypeScript, Python, YAML           |
+| **Total**                                                           | **158**  |                                    |
 
 ---
 
@@ -149,3 +160,8 @@ End-to-end data architecture patterns from raw ingestion through to real-time an
 | GDPR right-to-erasure          | [Data Solutions — Privacy & Compliance](data-solutions/13-data-privacy-compliance.md)         |
 | ML features for real-time AI   | [Data Solutions — Feature Store](data-solutions/11-feature-store-ml.md)                      |
 | Scaling data across many teams | [Data Solutions — Data Mesh](data-solutions/14-data-mesh.md)                                 |
+| RAG / LLM in production        | [AI & LLM — RAG + Guardrails](ai-llm/README.md)                                              |
+| LLM cost control               | [AI & LLM — Cost Optimisation](ai-llm/12-ai-cost-optimisation.md)                            |
+| LLM quality regression testing | [AI & LLM — Evals](ai-llm/13-llm-evaluation.md)                                              |
+| AI agent / tool use            | [AI & LLM — Agents](ai-llm/04-ai-agents-tool-use.md)                                         |
+| Structured LLM outputs         | [AI & LLM — Function Calling](ai-llm/14-function-calling-structured-outputs.md)               |

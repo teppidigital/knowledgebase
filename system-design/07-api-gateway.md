@@ -40,14 +40,14 @@ graph TD
     Mobile["Mobile Client"]
     ThirdParty["3rd Party Client"]
 
-    GW["API Gateway\n(Auth · Rate Limit · Routing · Logging)"]
+    GW["API Gateway<br/>(Auth · Rate Limit · Routing · Logging)"]
 
-    US["User Service\n:3001"]
-    OS["Order Service\n:3002"]
-    PS["Product Service\n:3003"]
-    NS["Notification Service\n:3004"]
+    US["User Service<br/>:3001"]
+    OS["Order Service<br/>:3002"]
+    PS["Product Service<br/>:3003"]
+    NS["Notification Service<br/>:3004"]
 
-    AuthSvc["Auth Service\n(JWT Validation)"]
+    AuthSvc["Auth Service<br/>(JWT Validation)"]
 
     Web --> GW
     Mobile --> GW

@@ -73,8 +73,8 @@ Azure's observability stack is built around three tightly integrated services:
 ```mermaid
 flowchart TD
     subgraph Applications["Applications"]
-        APIApp["API Service\n(AKS)"]
-        WorkerApp["Order Worker\n(ACA)"]
+        APIApp["API Service<br/>(AKS)"]
+        WorkerApp["Order Worker<br/>(ACA)"]
         FunctionApp["Azure Function"]
     end
 
@@ -85,13 +85,13 @@ flowchart TD
     end
 
     subgraph ObservabilityStack["Azure Monitor Stack"]
-        AppInsights["Application Insights\n(traces, exceptions, live metrics)"]
-        LogAnalytics["Log Analytics Workspace\n(KQL-queryable log tables)"]
-        MonitorMetrics["Azure Monitor Metrics\n(time-series, 93-day)"]
+        AppInsights["Application Insights<br/>(traces, exceptions, live metrics)"]
+        LogAnalytics["Log Analytics Workspace<br/>(KQL-queryable log tables)"]
+        MonitorMetrics["Azure Monitor Metrics<br/>(time-series, 93-day)"]
 
-        Alerts["Alert Rules\n(Log + Metric)"]
-        ActionGroup["Action Group\n(email, Slack, PagerDuty, webhook)"]
-        Workbooks["Monitor Workbooks\n(dashboards)"]
+        Alerts["Alert Rules<br/>(Log + Metric)"]
+        ActionGroup["Action Group<br/>(email, Slack, PagerDuty, webhook)"]
+        Workbooks["Monitor Workbooks<br/>(dashboards)"]
     end
 
     APIApp & WorkerApp & FunctionApp -->|OTLP / SDK| AppInsights

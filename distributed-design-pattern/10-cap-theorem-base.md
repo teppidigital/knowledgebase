@@ -56,17 +56,17 @@ graph TD
         A["A — Availability"]
         P["P — Partition Tolerance"]
 
-        C --- CA["CA Systems\n(Single-node RDBMS,\ntraditional RDBMS)"]
-        C --- CP["CP Systems\nHBase · ZooKeeper\netcd · MongoDB (default)"]
+        C --- CA["CA Systems<br/>(Single-node RDBMS,<br/>traditional RDBMS)"]
+        C --- CP["CP Systems<br/>HBase · ZooKeeper<br/>etcd · MongoDB (default)"]
         A --- CA
-        A --- AP["AP Systems\nCassandra · DynamoDB\nCouchDB · Riak"]
+        A --- AP["AP Systems<br/>Cassandra · DynamoDB<br/>CouchDB · Riak"]
         P --- CP
         P --- AP
     end
 
     subgraph BASE["BASE vs ACID"]
-        ACID["ACID\nAtomic · Consistent\nIsolated · Durable"]
-        BASE2["BASE\nBasically Available\nSoft state\nEventually Consistent"]
+        ACID["ACID<br/>Atomic · Consistent<br/>Isolated · Durable"]
+        BASE2["BASE<br/>Basically Available<br/>Soft state<br/>Eventually Consistent"]
     end
 
     CP --> ACID

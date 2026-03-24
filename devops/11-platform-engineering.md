@@ -65,23 +65,23 @@ Crossplane extends Kubernetes with **Composite Resource Definitions (XRDs)** —
 ```mermaid
 flowchart TB
     subgraph Developer Experience
-        A[Developer] --> B[Backstage\nInternal Dev Portal]
-        B --> C[Service Catalog\nAll services, owners, APIs]
-        B --> D[Software Templates\nNew microservice in 5 min]
-        B --> E[Tech Docs\nMD docs from repo]
+        A[Developer] --> B[Backstage<br/>Internal Dev Portal]
+        B --> C[Service Catalog<br/>All services, owners, APIs]
+        B --> D[Software Templates<br/>New microservice in 5 min]
+        B --> E[Tech Docs<br/>MD docs from repo]
     end
 
     subgraph Self-Service
-        D -->|Scaffold| F[New GitHub repo\nwith CI/CD, Dockerfile,\nobservability pre-wired]
-        A --> G[Crossplane XR:\nDatabase, Cache, Topic]
-        G -->|Provision| H[Azure PostgreSQL\nRedis, Service Bus]
+        D -->|Scaffold| F[New GitHub repo<br/>with CI/CD, Dockerfile,<br/>observability pre-wired]
+        A --> G[Crossplane XR:<br/>Database, Cache, Topic]
+        G -->|Provision| H[Azure PostgreSQL<br/>Redis, Service Bus]
     end
 
     subgraph Paved Road
-        F --> I[Reusable CI/CD\nGitHub Actions workflows]
-        I --> J[Security gates\nSAST, SCA, secrets scan]
-        I --> K[Build & publish\nDocker + Helm]
-        K --> L[GitOps deploy\nArgoCD]
+        F --> I[Reusable CI/CD<br/>GitHub Actions workflows]
+        I --> J[Security gates<br/>SAST, SCA, secrets scan]
+        I --> K[Build & publish<br/>Docker + Helm]
+        K --> L[GitOps deploy<br/>ArgoCD]
     end
 
     subgraph Shared Platform Services

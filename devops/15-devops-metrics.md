@@ -70,23 +70,23 @@ Measure again → (did the metric move in the right direction?)
 ```mermaid
 flowchart LR
     subgraph Input["Data Sources"]
-        GH[GitHub API\ncommit, PR, deployment events]
-        PD[PagerDuty API\nincidents, resolved times]
-        PR[Prometheus\nbuild duration, failure rate]
-        SV[Survey tool\nDevEx scores]
+        GH[GitHub API<br/>commit, PR, deployment events]
+        PD[PagerDuty API<br/>incidents, resolved times]
+        PR[Prometheus<br/>build duration, failure rate]
+        SV[Survey tool<br/>DevEx scores]
     end
 
     subgraph Collector["DORA Collector Service"]
-        DF[Deployment Frequency\ncalculator]
-        LT[Lead Time\ncalculator]
-        CFR[Change Failure Rate\ncalculator]
-        MTTR_C[MTTR\ncalculator]
+        DF[Deployment Frequency<br/>calculator]
+        LT[Lead Time<br/>calculator]
+        CFR[Change Failure Rate<br/>calculator]
+        MTTR_C[MTTR<br/>calculator]
     end
 
     subgraph Output["Dashboards & Alerts"]
-        PROM[Prometheus\nmetrics]
-        GRAF[Grafana Dashboard\nDORA board per team]
-        ALERT[Weekly report\nSlack digest]
+        PROM[Prometheus<br/>metrics]
+        GRAF[Grafana Dashboard<br/>DORA board per team]
+        ALERT[Weekly report<br/>Slack digest]
     end
 
     GH --> DF & LT & CFR
@@ -211,15 +211,15 @@ async function emitMetrics(): Promise<void> {
     `dora_change_failure_rate_percent{team="${team}"} ${cfr.toFixed(4)}`,
   ];
 
-  console.log('\n--- Prometheus output ---');
-  console.log(lines.join('\n'));
+  console.log('<br/>--- Prometheus output ---');
+  console.log(lines.join('<br/>'));
 
   // Push to Pushgateway (if PUSHGATEWAY_URL set)
   const pgUrl = process.env.PUSHGATEWAY_URL;
   if (pgUrl) {
     await fetch(`${pgUrl}/metrics/job/dora-metrics/instance/${team}`, {
       method: 'POST',
-      body:   lines.join('\n'),
+      body:   lines.join('<br/>'),
       headers: { 'Content-Type': 'text/plain' },
     });
   }

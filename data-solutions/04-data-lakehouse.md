@@ -63,31 +63,31 @@ Gold (aggregated)→ aggregated, business-ready facts and dimensions for BI/ML
 ```mermaid
 flowchart LR
     subgraph Ingestion
-        CDC[Debezium CDC\nKafka topics]
-        BATCH[Batch ETL\nAirflow jobs]
-        FILES[File drops\nCSV / JSON / Parquet]
+        CDC[Debezium CDC<br/>Kafka topics]
+        BATCH[Batch ETL<br/>Airflow jobs]
+        FILES[File drops<br/>CSV / JSON / Parquet]
     end
 
     subgraph Bronze["Bronze Layer (raw) — S3/ADLS"]
-        B1[payments/\nyear=2026/month=03/...]
+        B1[payments/<br/>year=2026/month=03/...]
         B2[customers/]
         B3[events/]
     end
 
     subgraph Silver["Silver Layer (cleaned) — Iceberg tables"]
-        S1[payments_cleaned\nIceberg + schema enforcement]
-        S2[customers_scd2\nIceberg + SCD Type 2 history]
+        S1[payments_cleaned<br/>Iceberg + schema enforcement]
+        S2[customers_scd2<br/>Iceberg + SCD Type 2 history]
     end
 
     subgraph Gold["Gold Layer (aggregated)"]
-        G1[daily_revenue_by_merchant\nIceberg mart]
-        G2[customer_lifetime_value\nIceberg mart]
+        G1[daily_revenue_by_merchant<br/>Iceberg mart]
+        G2[customer_lifetime_value<br/>Iceberg mart]
     end
 
     subgraph Consumers
-        BI[BI Tool\nTableau / Power BI]
-        DS[Data Science\nJupyter / MLflow]
-        API2[Reverse ETL\nHightouch / Census → CRM]
+        BI[BI Tool<br/>Tableau / Power BI]
+        DS[Data Science<br/>Jupyter / MLflow]
+        API2[Reverse ETL<br/>Hightouch / Census → CRM]
     end
 
     CDC & BATCH & FILES --> B1 & B2 & B3

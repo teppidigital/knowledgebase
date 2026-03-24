@@ -67,26 +67,26 @@ Data Solutions, Privacy Engineering, GDPR, CCPA, Right to Erasure, Data Anonymis
 ```mermaid
 flowchart LR
     subgraph Collection["Data Collection"]
-        UI[Web/mobile\nconsent capture]
-        CONSENT[Consent store\n(purpose + timestamp)]
-        API4[API layer\nPII validation at boundary]
+        UI[Web/mobile<br/>consent capture]
+        CONSENT[Consent store<br/>(purpose + timestamp)]
+        API4[API layer<br/>PII validation at boundary]
     end
 
     subgraph Storage2["Storage (Privacy Controls)"]
-        PG3[(PostgreSQL\ncolumn encryption\nfor PII)]
-        VAULT2[Tokenisation Vault\nPII → token mapping]
-        LAKE4[Data Lake\npseudonymised\n(tokens only)]
+        PG3[(PostgreSQL<br/>column encryption<br/>for PII)]
+        VAULT2[Tokenisation Vault<br/>PII → token mapping]
+        LAKE4[Data Lake<br/>pseudonymised<br/>(tokens only)]
     end
 
     subgraph Analytics["Analytics (Anonymised)"]
-        MASK[Column masking\nSnowflake / BigQuery\nby role]
-        AGG[Aggregated exports\ndifferential privacy noise]
+        MASK[Column masking<br/>Snowflake / BigQuery<br/>by role]
+        AGG[Aggregated exports<br/>differential privacy noise]
     end
 
     subgraph Compliance["Compliance Automation"]
-        SAR_SVC[SAR Service\ncollect data across systems]
-        ERASURE[Erasure Service\ncoordinated delete]
-        AUDIT3[Audit log\nevery PII access event]
+        SAR_SVC[SAR Service<br/>collect data across systems]
+        ERASURE[Erasure Service<br/>coordinated delete]
+        AUDIT3[Audit log<br/>every PII access event]
     end
 
     UI -->|consent recorded| CONSENT

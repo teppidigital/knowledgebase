@@ -64,15 +64,15 @@ sequenceDiagram
 ```mermaid
 graph TD
     subgraph Partition
-        A["Node A\n(Old Leader)"]
-        B["Node B\n(Isolated)"]
+        A["Node A<br/>(Old Leader)"]
+        B["Node B<br/>(Isolated)"]
     end
 
-    A --> |"Partition heals\nToken=33 attempts"| Storage
+    A --> |"Partition heals<br/>Token=33 attempts"| Storage
     Storage -->|"Rejects: token 33 < 34"| A
     A -->|"Self-demote"| Follower
 
-    C["Node C\n(New Leader, Token=34)"] -->|"Valid write"| Storage
+    C["Node C<br/>(New Leader, Token=34)"] -->|"Valid write"| Storage
 ```
 
 ---

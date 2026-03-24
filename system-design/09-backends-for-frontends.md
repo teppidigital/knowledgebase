@@ -36,13 +36,13 @@ This pattern was popularized by SoundCloud and described by Sam Newman. It solve
 
 ```mermaid
 graph TD
-    WebApp["Web Application\n(React / Angular)"]
-    MobileApp["Mobile App\n(iOS / Android)"]
-    ThirdParty["3rd Party\n(Partner API)"]
+    WebApp["Web Application<br/>(React / Angular)"]
+    MobileApp["Mobile App<br/>(iOS / Android)"]
+    ThirdParty["3rd Party<br/>(Partner API)"]
 
-    WebBFF["Web BFF\n(Aggregates full page data)"]
-    MobileBFF["Mobile BFF\n(Lightweight payloads)"]
-    PartnerBFF["Partner BFF\n(Public API with versioning)"]
+    WebBFF["Web BFF<br/>(Aggregates full page data)"]
+    MobileBFF["Mobile BFF<br/>(Lightweight payloads)"]
+    PartnerBFF["Partner BFF<br/>(Public API with versioning)"]
 
     UserSvc["User Service"]
     OrderSvc["Order Service"]

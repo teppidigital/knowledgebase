@@ -62,28 +62,28 @@ Cloud Native, Database, AWS RDS, Aurora, PostgreSQL
 ```mermaid
 flowchart TD
     subgraph App["Application Layer"]
-        Lambda["Lambda Functions\n(serverless)"]
-        ECS["ECS Tasks\n(containers)"]
+        Lambda["Lambda Functions<br/>(serverless)"]
+        ECS["ECS Tasks<br/>(containers)"]
     end
 
     subgraph Proxy["RDS Proxy (Managed)"]
-        PX["Connection Pool\nIAM Auth\nGraceful Failover"]
+        PX["Connection Pool<br/>IAM Auth<br/>Graceful Failover"]
     end
 
     subgraph Aurora["Aurora PostgreSQL Cluster"]
-        Writer["Writer Instance\n(Primary)"]
-        Reader1["Reader 1\n(AZ-b)"]
-        Reader2["Reader 2\n(AZ-c)"]
-        Storage["Shared Storage\n6 copies across 3 AZs"]
+        Writer["Writer Instance<br/>(Primary)"]
+        Reader1["Reader 1<br/>(AZ-b)"]
+        Reader2["Reader 2<br/>(AZ-c)"]
+        Storage["Shared Storage<br/>6 copies across 3 AZs"]
     end
 
     subgraph DR["Disaster Recovery"]
-        Global["Aurora Global DB\n(Secondary Region)\n< 1s replication lag"]
+        Global["Aurora Global DB<br/>(Secondary Region)<br/>< 1s replication lag"]
     end
 
     subgraph Ops["Observability"]
         PI["Performance Insights"]
-        CW["CloudWatch\nEnhanced Monitoring"]
+        CW["CloudWatch<br/>Enhanced Monitoring"]
     end
 
     Lambda & ECS --> PX

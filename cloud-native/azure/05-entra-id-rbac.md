@@ -77,23 +77,23 @@ Management Group
 ```mermaid
 flowchart TD
     subgraph Humans["Human Identities"]
-        Dev["Developer\n(Entra User)"]
-        Admin["Platform Admin\n(Entra User)"]
+        Dev["Developer<br/>(Entra User)"]
+        Admin["Platform Admin<br/>(Entra User)"]
     end
 
     subgraph Workloads["Workload Identities"]
-        GHACTIONS["GitHub Actions\n(OIDC token)"]
-        AKSPod["AKS Pod\n(K8s ServiceAccount OIDC)"]
-        FuncApp["Azure Function\nManaged Identity"]
-        ACA["Container App\nManaged Identity"]
+        GHACTIONS["GitHub Actions<br/>(OIDC token)"]
+        AKSPod["AKS Pod<br/>(K8s ServiceAccount OIDC)"]
+        FuncApp["Azure Function<br/>Managed Identity"]
+        ACA["Container App<br/>Managed Identity"]
     end
 
     subgraph EntraID["Microsoft Entra ID"]
-        WIF["Workload Identity\nFederation"]
-        SP["Service Principal\n(App Registration)"]
+        WIF["Workload Identity<br/>Federation"]
+        SP["Service Principal<br/>(App Registration)"]
         MI["Managed Identity"]
-        CA["Conditional Access\nPolicies"]
-        PIM["Privileged Identity\nManagement"]
+        CA["Conditional Access<br/>Policies"]
+        PIM["Privileged Identity<br/>Management"]
     end
 
     subgraph AzureRBAC["Azure RBAC"]

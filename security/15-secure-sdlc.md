@@ -95,20 +95,20 @@ A lightweight gate that must be passed before a release reaches production:
 ```mermaid
 flowchart LR
     subgraph Sprint 0 — Design
-        A[Security Requirements\nAbuse cases, regulatory mapping] --> B[Threat Modelling\nSTRIDE on DFD]
-        B --> C[Security Architecture Review\nADRs, risk register]
+        A[Security Requirements<br/>Abuse cases, regulatory mapping] --> B[Threat Modelling<br/>STRIDE on DFD]
+        B --> C[Security Architecture Review<br/>ADRs, risk register]
     end
 
     subgraph Sprint N — Dev
-        D[Security Story ACs\nGherkin + automated tests]
-        E[Secure Code Review\nChecklist: injection, auth, secrets]
-        F[SAST in IDE\nSonarQube / Semgrep]
+        D[Security Story ACs<br/>Gherkin + automated tests]
+        E[Secure Code Review<br/>Checklist: injection, auth, secrets]
+        F[SAST in IDE<br/>SonarQube / Semgrep]
     end
 
     subgraph CI Pipeline
-        G[SAST scan\nSemgrep / CodeQL]
-        H[SCA scan\nSnyk / Dependabot]
-        I[Secrets scan\ngit-leaks / detect-secrets]
+        G[SAST scan<br/>Semgrep / CodeQL]
+        H[SCA scan<br/>Snyk / Dependabot]
+        I[Secrets scan<br/>git-leaks / detect-secrets]
         J{All gates pass?}
         G & H & I --> J
     end
@@ -119,7 +119,7 @@ flowchart LR
     end
 
     subgraph Release Gate
-        M[Security sign-off\nchecklist]
+        M[Security sign-off<br/>checklist]
         N{Approved?}
         M --> N
         N -->|Yes| O[Production deploy]

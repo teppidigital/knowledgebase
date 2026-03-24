@@ -51,19 +51,19 @@ An SCA tool:
 
 ```mermaid
 graph TD
-    APP["Application\npackage.json\nyarn.lock"]
+    APP["Application<br/>package.json<br/>yarn.lock"]
 
     subgraph SCA["SCA Engine"]
-        PARSE["Parse Dependency Tree\n(direct + transitive)"]
-        DB["Vulnerability DBs\nNVD · GitHub Advisory\nSnyk DB · OSV"]
+        PARSE["Parse Dependency Tree<br/>(direct + transitive)"]
+        DB["Vulnerability DBs<br/>NVD · GitHub Advisory<br/>Snyk DB · OSV"]
         MATCH["CVE Matching"]
     end
 
     subgraph Output["Output"]
-        REPORT["Vulnerability Report\nSeverity · CVSS · Fix Version"]
+        REPORT["Vulnerability Report<br/>Severity · CVSS · Fix Version"]
         SARIF["SARIF → GitHub Security"]
-        PR["Auto-fix PR\n(Dependabot / Snyk)"]
-        BLOCK["CI Pipeline Block\n(CRITICAL found)"]
+        PR["Auto-fix PR<br/>(Dependabot / Snyk)"]
+        BLOCK["CI Pipeline Block<br/>(CRITICAL found)"]
     end
 
     APP --> PARSE --> MATCH
@@ -243,7 +243,7 @@ function triageVulnerabilities(reportPath: string): void {
 
   const upgradable = report.vulnerabilities.filter(v => v.isUpgradable);
 
-  console.log(`\n📦 Dependency Count: ${report.dependencyCount}`);
+  console.log(`<br/>📦 Dependency Count: ${report.dependencyCount}`);
   console.log(`🔴 Critical: ${bySeverity.critical.length}`);
   console.log(`🟠 High:     ${bySeverity.high.length}`);
   console.log(`🟡 Medium:   ${bySeverity.medium.length}`);
@@ -251,7 +251,7 @@ function triageVulnerabilities(reportPath: string): void {
   console.log(`🔧 Upgradable fixes available: ${upgradable.length}`);
 
   if (bySeverity.critical.length > 0 || bySeverity.high.length > 0) {
-    console.error('\n❌ Build BLOCKED — CRITICAL or HIGH vulnerabilities found:');
+    console.error('<br/>❌ Build BLOCKED — CRITICAL or HIGH vulnerabilities found:');
     [...bySeverity.critical, ...bySeverity.high].forEach(v => {
       console.error(`  [${v.severity.toUpperCase()}] ${v.packageName}@${v.version} — ${v.title}`);
       if (v.isUpgradable && v.fixedIn.length > 0) {

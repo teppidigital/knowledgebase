@@ -56,22 +56,22 @@ DevSecOps, Observability, Threat Detection, Incident Response
 ```mermaid
 graph TD
     subgraph Node["Kubernetes Node"]
-        KERNEL["Linux Kernel\n(syscalls)"]
-        EBPF["eBPF Probe\n(Falco / Tetragon)"]
-        CONTAINER["Running Container\n(my-app)"]
+        KERNEL["Linux Kernel<br/>(syscalls)"]
+        EBPF["eBPF Probe<br/>(Falco / Tetragon)"]
+        CONTAINER["Running Container<br/>(my-app)"]
     end
 
     subgraph Falco["Falco Engine"]
-        RULES["Rules Engine\n1000+ built-in + custom"]
+        RULES["Rules Engine<br/>1000+ built-in + custom"]
         EVAL["Syscall Event Evaluation"]
         ALERT["Alert Generation"]
     end
 
     subgraph Output["Alert Routing"]
         SLACK["Slack / PagerDuty"]
-        SIEM["SIEM\n(Splunk / Datadog)"]
+        SIEM["SIEM<br/>(Splunk / Datadog)"]
         K8S_EVENT["Kubernetes Event"]
-        KILL["Pod Termination\n(automated response)"]
+        KILL["Pod Termination<br/>(automated response)"]
     end
 
     CONTAINER -->|"write, exec, connect..."| KERNEL
@@ -245,7 +245,7 @@ export async function handleFalcoAlert(alert: FalcoAlert): Promise<void> {
   // Notify security team immediately
   await slack.chat.postMessage({
     channel: "#security-alerts",
-    text: `:rotating_light: *[${alert.priority}] Falco Alert*\n*Rule:* ${alert.rule}\n*Details:* ${alert.output}`,
+    text: `:rotating_light: *[${alert.priority}] Falco Alert*<br/>*Rule:* ${alert.rule}<br/>*Details:* ${alert.output}`,
     attachments: [
       {
         color: alert.priority === "CRITICAL" ? "#FF0000" : "#FFA500",

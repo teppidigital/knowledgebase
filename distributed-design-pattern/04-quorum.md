@@ -47,7 +47,7 @@ graph TD
     Client["Client"]
 
     subgraph Replication Group N=3
-        R1["Replica 1\n(Primary)"]
+        R1["Replica 1<br/>(Primary)"]
         R2["Replica 2"]
         R3["Replica 3"]
     end
@@ -57,7 +57,7 @@ graph TD
         R1 -->|"Replicate"| R2
         R1 -->|"Replicate"| R3
         R2 -->|"ACK (W quorum met)"| Client
-        Note1["R3 may ACK later\n(async)"]
+        Note1["R3 may ACK later<br/>(async)"]
     end
 
     subgraph Read R=2
@@ -65,7 +65,7 @@ graph TD
         Client2 --> R2
         R1 -->|"v=5"| Client2
         R2 -->|"v=5"| Client2
-        Note2["R3 (stale v=4) not\npart of quorum"]
+        Note2["R3 (stale v=4) not<br/>part of quorum"]
     end
 ```
 

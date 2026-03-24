@@ -41,13 +41,13 @@ graph LR
     subgraph Write Side
         CS["Command Service"]
         DM["Domain Model"]
-        WDB[("Write Store\n(PostgreSQL)")]
+        WDB[("Write Store<br/>(PostgreSQL)")]
         EB["Event Bus (Kafka)"]
     end
 
     subgraph Read Side
         Proj["Projection Handler"]
-        RDB[("Read Store\n(Elasticsearch / Redis)")]
+        RDB[("Read Store<br/>(Elasticsearch / Redis)")]
         QS["Query Service"]
     end
 

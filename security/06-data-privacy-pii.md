@@ -83,24 +83,24 @@ flowchart TD
     end
 
     subgraph Storage
-        D --> G[(PII Store\nencrypted fields)]
-        D --> H[(Token Vault\nreversible mapping)]
+        D --> G[(PII Store<br/>encrypted fields)]
+        D --> H[(Token Vault<br/>reversible mapping)]
         E --> G
     end
 
     subgraph Access
-        I[App / API] --> J[Decrypt on Read\nACL check + audit log]
+        I[App / API] --> J[Decrypt on Read<br/>ACL check + audit log]
         J --> G
-        K[Analytics] --> L[Pseudonymised View\nno direct identifiers]
+        K[Analytics] --> L[Pseudonymised View<br/>no direct identifiers]
         L --> G
-        M[Support Staff] --> N[Masked View\nname**, email**]
+        M[Support Staff] --> N[Masked View<br/>name**, email**]
     end
 
     subgraph Rights
         O[Erasure Request] --> P[Erasure Workflow]
         P --> Q[Purge PII Store]
         P --> R[Purge Token Vault]
-        P --> S[Retain Legal Hold Records\nno PII]
+        P --> S[Retain Legal Hold Records<br/>no PII]
         T[Export Request] --> U[Collect + Package]
         U --> V[Machine-readable JSON/CSV]
     end

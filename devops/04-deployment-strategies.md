@@ -81,19 +81,19 @@ Automated canary analysis: the progressive delivery controller promotes automati
 ```mermaid
 flowchart TD
     subgraph Canary Deployment with Flagger
-        A[New image pushed\nto registry] --> B[Flagger detects\nnew image tag]
-        B --> C[Deploy canary pod\n5% traffic weight]
+        A[New image pushed<br/>to registry] --> B[Flagger detects<br/>new image tag]
+        B --> C[Deploy canary pod<br/>5% traffic weight]
 
         subgraph Analysis Loop
-            C --> D[Observe metrics\nfor 5min interval]
-            D --> E{Success rate ≥ 99%\nP99 latency ≤ 200ms?}
-            E -->|Yes| F[Increase weight\n+10%]
+            C --> D[Observe metrics<br/>for 5min interval]
+            D --> E{Success rate ≥ 99%<br/>P99 latency ≤ 200ms?}
+            E -->|Yes| F[Increase weight<br/>+10%]
             F --> D
-            E -->|No| G[Rollback\ncanary → 0%]
+            E -->|No| G[Rollback<br/>canary → 0%]
         end
 
-        F -->|Weight = 100%| H[Promote canary\nto primary]
-        H --> I[Remove old primary\ndeployment]
+        F -->|Weight = 100%| H[Promote canary<br/>to primary]
+        H --> I[Remove old primary<br/>deployment]
     end
 ```
 

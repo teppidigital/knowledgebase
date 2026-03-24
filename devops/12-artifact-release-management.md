@@ -77,26 +77,26 @@ The same image SHA is promoted through tags — never rebuilt. Immutability guar
 ```mermaid
 flowchart LR
     subgraph Build
-        A[git push\nmain branch] --> B[CI: docker build\n+ SBOM + provenance]
-        B --> C[Sign with Cosign\nkeyless via OIDC]
-        C --> D[(GHCR\nsha-abc1234)]
+        A[git push<br/>main branch] --> B[CI: docker build<br/>+ SBOM + provenance]
+        B --> C[Sign with Cosign<br/>keyless via OIDC]
+        C --> D[(GHCR<br/>sha-abc1234)]
     end
 
     subgraph Promote to staging
-        D --> E[Staging deploy\nStaging tests pass]
-        E --> F[Tag: 1.4.2-rc.1\ncopy same digest]
+        D --> E[Staging deploy<br/>Staging tests pass]
+        E --> F[Tag: 1.4.2-rc.1<br/>copy same digest]
     end
 
     subgraph Promote to prod
-        F -->|Manual approval| G[Tag: 1.4.2\ncopy same digest]
-        G --> H[Production deploy\nvia GitOps]
+        F -->|Manual approval| G[Tag: 1.4.2<br/>copy same digest]
+        G --> H[Production deploy<br/>via GitOps]
     end
 
     subgraph Policy Enforcement
-        I[Kyverno policy:\nreject unverified images]
+        I[Kyverno policy:<br/>reject unverified images]
         H --> I
-        I -->|Cosign verify| J[Image admitted\nto cluster]
-        I -->|Unsigned or\nuntrusted| K[Deployment blocked]
+        I -->|Cosign verify| J[Image admitted<br/>to cluster]
+        I -->|Unsigned or<br/>untrusted| K[Deployment blocked]
     end
 ```
 
@@ -262,7 +262,7 @@ async function createRelease(): Promise<void> {
   const lastTag = git('git describe --tags --abbrev=0 2>/dev/null || echo v0.0.0');
 
   // Parse conventional commits since last tag
-  const rawCommits = git(`git log ${lastTag}..HEAD --pretty=format:"%s"`).split('\n').filter(Boolean);
+  const rawCommits = git(`git log ${lastTag}..HEAD --pretty=format:"%s"`).split('<br/>').filter(Boolean);
 
   const groups: CommitGroup = { breaking: [], features: [], fixes: [] };
   for (const msg of rawCommits) {
@@ -284,10 +284,10 @@ async function createRelease(): Promise<void> {
 
   // Build release notes
   const notes = [
-    groups.breaking.length ? `## ⚠️ Breaking Changes\n${groups.breaking.map(c => `- ${c}`).join('\n')}` : '',
-    groups.features.length  ? `## ✨ Features\n${groups.features.map(c => `- ${c}`).join('\n')}` : '',
-    groups.fixes.length     ? `## 🐛 Bug Fixes\n${groups.fixes.map(c => `- ${c}`).join('\n')}` : '',
-  ].filter(Boolean).join('\n\n');
+    groups.breaking.length ? `## ⚠️ Breaking Changes<br/>${groups.breaking.map(c => `- ${c}`).join('<br/>')}` : '',
+    groups.features.length  ? `## ✨ Features<br/>${groups.features.map(c => `- ${c}`).join('<br/>')}` : '',
+    groups.fixes.length     ? `## 🐛 Bug Fixes<br/>${groups.fixes.map(c => `- ${c}`).join('<br/>')}` : '',
+  ].filter(Boolean).join('<br/><br/>');
 
   // Create GitHub Release
   await octokit.rest.repos.createRelease({

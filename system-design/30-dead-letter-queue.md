@@ -37,10 +37,10 @@ DLQs are supported natively in AWS SQS, RabbitMQ, Azure Service Bus, and Apache 
 ```mermaid
 graph LR
     Producer["Producer"]
-    MainQueue["Main Queue\n(e.g. order-processing)"]
-    Consumer["Consumer\n(Worker)"]
-    DLQ["Dead Letter Queue\n(order-processing-dlq)"]
-    Alert["Alerting\n(CloudWatch / PagerDuty)"]
+    MainQueue["Main Queue<br/>(e.g. order-processing)"]
+    Consumer["Consumer<br/>(Worker)"]
+    DLQ["Dead Letter Queue<br/>(order-processing-dlq)"]
+    Alert["Alerting<br/>(CloudWatch / PagerDuty)"]
     Admin["Admin / Replay Tool"]
 
     Producer -->|"Publish message"| MainQueue

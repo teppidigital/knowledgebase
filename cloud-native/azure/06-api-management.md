@@ -59,24 +59,24 @@ Cloud Native, API Gateway, APIM, Rate Limiting, JWT, Policies, Developer Portal
 
 ```mermaid
 flowchart TD
-    Consumers["API Consumers\n(web / mobile / B2B)"]
+    Consumers["API Consumers<br/>(web / mobile / B2B)"]
 
     subgraph APIM["Azure API Management (Premium)"]
-        Inbound["Inbound Policies\n1. Validate JWT (Entra ID)\n2. Rate limit (1000 req/min)\n3. Check IP allowlist\n4. Add correlation-id header"]
-        Backend["Backend Policy\n5. Set backend URL\n6. Circuit breaker"]
-        Outbound["Outbound Policy\n7. Remove internal headers\n8. Cache response (GET)"]
+        Inbound["Inbound Policies<br/>1. Validate JWT (Entra ID)<br/>2. Rate limit (1000 req/min)<br/>3. Check IP allowlist<br/>4. Add correlation-id header"]
+        Backend["Backend Policy<br/>5. Set backend URL<br/>6. Circuit breaker"]
+        Outbound["Outbound Policy<br/>7. Remove internal headers<br/>8. Cache response (GET)"]
 
         subgraph Products["Products"]
-            PublicProd["Public Plan\n(100 req/min)"]
-            PartnerProd["Partner Plan\n(10,000 req/min)"]
-            InternalProd["Internal Plan\n(unlimited)"]
+            PublicProd["Public Plan<br/>(100 req/min)"]
+            PartnerProd["Partner Plan<br/>(10,000 req/min)"]
+            InternalProd["Internal Plan<br/>(unlimited)"]
         end
     end
 
     subgraph Backends["Backend Services (VNet)"]
-        OrderSvc["Order Service\n(AKS / ACA)"]
-        ProductSvc["Product Service\n(AKS / ACA)"]
-        LegacySvc["Legacy SOAP Service\n(on-premises)"]
+        OrderSvc["Order Service<br/>(AKS / ACA)"]
+        ProductSvc["Product Service<br/>(AKS / ACA)"]
+        LegacySvc["Legacy SOAP Service<br/>(on-premises)"]
     end
 
     Consumers --> APIM

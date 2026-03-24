@@ -54,20 +54,20 @@ SAST tools can identify:
 graph TD
     subgraph Developer["Developer Workflow"]
         CODE["Code Change"]
-        IDE["IDE Plugin\nReal-time hints"]
+        IDE["IDE Plugin<br/>Real-time hints"]
     end
 
     subgraph PR["Pull Request"]
         TRIGGER["PR Opened/Updated"]
-        SAST["SAST Engine\n(Semgrep / CodeQL)"]
-        REVIEW["PR Comment\n+ Inline annotation"]
+        SAST["SAST Engine<br/>(Semgrep / CodeQL)"]
+        REVIEW["PR Comment<br/>+ Inline annotation"]
         GATE{Security Gate}
     end
 
     subgraph Results["Results"]
         PASS["✅ PR can merge"]
-        FAIL["❌ PR blocked\nFindings must be resolved"]
-        SARIF["SARIF Report\n→ GitHub Security Tab"]
+        FAIL["❌ PR blocked<br/>Findings must be resolved"]
+        SARIF["SARIF Report<br/>→ GitHub Security Tab"]
     end
 
     CODE --> IDE

@@ -66,8 +66,8 @@ Frozen / Delete  → snapshot to object storage; delete from cluster
 ```mermaid
 flowchart LR
     subgraph Source
-        PG[(PostgreSQL\nproducts table)]
-        CDC_PIPE[Debezium CDC\nor batch sync]
+        PG[(PostgreSQL<br/>products table)]
+        CDC_PIPE[Debezium CDC<br/>or batch sync]
     end
 
     subgraph Kafka
@@ -75,21 +75,21 @@ flowchart LR
     end
 
     subgraph Indexer["Indexing Service"]
-        ENRICH[Enrich with\ncategory / stock data]
-        EMBED[Generate embeddings\nOpenAI / local model]
-        IDX[Elasticsearch\nbulk index]
+        ENRICH[Enrich with<br/>category / stock data]
+        EMBED[Generate embeddings<br/>OpenAI / local model]
+        IDX[Elasticsearch<br/>bulk index]
     end
 
     subgraph ES["Elasticsearch Cluster"]
-        HOT[Hot tier shards\nNVMe SSD]
-        WARM[Warm tier\nHDD]
-        ILM[ILM policy\nroll over at 50GB]
+        HOT[Hot tier shards<br/>NVMe SSD]
+        WARM[Warm tier<br/>HDD]
+        ILM[ILM policy<br/>roll over at 50GB]
     end
 
     subgraph Query["Query Layer"]
-        API_GATEWAY[Search API\nNode.js]
-        HYBRID[Hybrid query\nBM25 + kNN vector]
-        FACETS[Aggregations\nfacets + counts]
+        API_GATEWAY[Search API<br/>Node.js]
+        HYBRID[Hybrid query<br/>BM25 + kNN vector]
+        FACETS[Aggregations<br/>facets + counts]
     end
 
     PG -->|CDC| CDC_PIPE --> T_PROD

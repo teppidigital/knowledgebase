@@ -76,17 +76,17 @@ flowchart TD
     subgraph AppLayer["Application"]
         App["Service A"]
         PlainText["Plaintext data"]
-        DEK["DEK\n(AES-256, ephemeral)"]
+        DEK["DEK<br/>(AES-256, ephemeral)"]
     end
 
     subgraph KeyManagement["Key Management Service (HSM-backed)"]
-        KEK["Key Encryption Key\n(never leaves HSM)"]
+        KEK["Key Encryption Key<br/>(never leaves HSM)"]
         AuditLog["Key usage audit log"]
     end
 
     subgraph Storage["Storage"]
-        EncData["Encrypted data\n(AES-256-GCM)"]
-        EncDEK["Encrypted DEK\n(stored alongside data)"]
+        EncData["Encrypted data<br/>(AES-256-GCM)"]
+        EncDEK["Encrypted DEK<br/>(stored alongside data)"]
     end
 
     PlainText -->|encrypt with DEK| EncData
@@ -98,7 +98,7 @@ flowchart TD
 
     subgraph Decrypt["Decryption flow"]
         D1["Fetch EncDEK from storage"]
-        D2["Call KMS to decrypt DEK\n(HSM operation — audited)"]
+        D2["Call KMS to decrypt DEK<br/>(HSM operation — audited)"]
         D3["Decrypt EncData with DEK"]
         D4["Discard DEK from memory"]
     end

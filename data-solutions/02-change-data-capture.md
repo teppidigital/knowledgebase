@@ -69,31 +69,31 @@ Most relational databases write every committed change to a binary transaction l
 flowchart LR
     subgraph Source["Source DB (PostgreSQL)"]
         TBL[(payments table)]
-        WAL[WAL\nreplication slot]
+        WAL[WAL<br/>replication slot]
         TBL -->|every commit| WAL
     end
 
     subgraph Connect["Kafka Connect"]
-        DEB[Debezium\nPostgreSQL connector]
+        DEB[Debezium<br/>PostgreSQL connector]
         WAL -->|log tailing| DEB
     end
 
     subgraph Kafka
-        T1[topic: db.public.payments\nkey=payment_id\nAvro schema]
+        T1[topic: db.public.payments<br/>key=payment_id<br/>Avro schema]
         DEB -->|produce| T1
     end
 
     subgraph Consumers
-        SR[Search index\nElasticsearch sink]
-        DW[Data warehouse\nSnowflake sink]
-        CACHE[Cache invalidation\nRedis consumer]
+        SR[Search index<br/>Elasticsearch sink]
+        DW[Data warehouse<br/>Snowflake sink]
+        CACHE[Cache invalidation<br/>Redis consumer]
         AUDIT[Audit log service]
     end
 
     T1 --> SR & DW & CACHE & AUDIT
 
     subgraph Registry["Confluent Schema Registry"]
-        SCH[Avro schemas\ncompatibility: BACKWARD]
+        SCH[Avro schemas<br/>compatibility: BACKWARD]
     end
 
     DEB <-->|register/validate schema| SCH

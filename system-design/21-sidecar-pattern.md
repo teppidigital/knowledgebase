@@ -36,10 +36,10 @@ The pattern is the foundation of **Service Mesh** (Istio, Linkerd), where every 
 ```mermaid
 graph TD
     subgraph Pod: Order Service
-        App["Order Service\n(main container)\n:3000"]
-        Sidecar["Envoy Proxy Sidecar\n:15001 (inbound)\n:15006 (outbound)"]
-        LogSidecar["Log Shipper Sidecar\n(Fluentd)"]
-        Volume[/"Shared Volume\n(logs, config)"/]
+        App["Order Service<br/>(main container)<br/>:3000"]
+        Sidecar["Envoy Proxy Sidecar<br/>:15001 (inbound)<br/>:15006 (outbound)"]
+        LogSidecar["Log Shipper Sidecar<br/>(Fluentd)"]
+        Volume[/"Shared Volume<br/>(logs, config)"/]
 
         App <-->|"Traffic intercepted"| Sidecar
         App -->|"Write logs"| Volume

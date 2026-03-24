@@ -81,21 +81,21 @@ Root CA (offline — HSM, air-gapped)
 ```mermaid
 flowchart TD
     subgraph PKI Hierarchy
-        A[Root CA\nHSM — Offline] -->|Signs| B[Intermediate CA\nOnline]
-        B -->|Signs| C[Issuing CA\nVault PKI / cert-manager]
+        A[Root CA<br/>HSM — Offline] -->|Signs| B[Intermediate CA<br/>Online]
+        B -->|Signs| C[Issuing CA<br/>Vault PKI / cert-manager]
     end
 
     subgraph cert-manager
-        D[Certificate resource\n90-day Let's Encrypt] -->|HTTP-01 challenge| E[ACME / Let's Encrypt]
-        F[Certificate resource\n24h internal TLS] -->|Vault PKI role| C
-        G[Certificate resource\n1h mTLS client cert] -->|Vault PKI role| C
+        D[Certificate resource<br/>90-day Let's Encrypt] -->|HTTP-01 challenge| E[ACME / Let's Encrypt]
+        F[Certificate resource<br/>24h internal TLS] -->|Vault PKI role| C
+        G[Certificate resource<br/>1h mTLS client cert] -->|Vault PKI role| C
     end
 
     subgraph Kubernetes
         H[IngressController] --- D
         I[Service TLS mount] --- F
         J[Sidecar mTLS cert] --- G
-        K[(TLS Secret\nK8s Secret)] --- H & I & J
+        K[(TLS Secret<br/>K8s Secret)] --- H & I & J
     end
 
     subgraph Revocation

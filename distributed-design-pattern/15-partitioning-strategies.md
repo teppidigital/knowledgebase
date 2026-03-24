@@ -44,19 +44,19 @@ Choosing the right partitioning strategy is critical — a poor strategy leads t
 ```mermaid
 graph TB
     subgraph Range["Range Partitioning by User ID"]
-        C1["Partition 1\nUser IDs 1–333,333"]
-        C2["Partition 2\nUser IDs 333,334–666,666"]
-        C3["Partition 3\nUser IDs 666,667–1,000,000"]
+        C1["Partition 1<br/>User IDs 1–333,333"]
+        C2["Partition 2<br/>User IDs 333,334–666,666"]
+        C3["Partition 3<br/>User IDs 666,667–1,000,000"]
     end
 
     subgraph Hash["Hash Partitioning"]
-        H1["Partition A\nhash(key) % 3 == 0"]
-        H2["Partition B\nhash(key) % 3 == 1"]
-        H3["Partition C\nhash(key) % 3 == 2"]
+        H1["Partition A<br/>hash(key) % 3 == 0"]
+        H2["Partition B<br/>hash(key) % 3 == 1"]
+        H3["Partition C<br/>hash(key) % 3 == 2"]
     end
 
     subgraph Directory["Directory Partitioning"]
-        DIR["Partition Map\nuser:1 → P1\nuser:2 → P3\norder:5 → P2"]
+        DIR["Partition Map<br/>user:1 → P1<br/>user:2 → P3<br/>order:5 → P2"]
         P1["Partition 1"]
         P2["Partition 2"]
         P3["Partition 3"]
@@ -67,10 +67,10 @@ graph TB
 ```mermaid
 graph LR
     subgraph Composite["Composite: Hash then Range (Cassandra-style)"]
-        PK["Partition Key\nhash(user_id) → node"]
-        CK["Clustering Key\nevent_time → sorted within partition"]
+        PK["Partition Key<br/>hash(user_id) → node"]
+        CK["Clustering Key<br/>event_time → sorted within partition"]
 
-        PK -->|"Determines node"| Node1["Node 1\nUser 42 events"]
+        PK -->|"Determines node"| Node1["Node 1<br/>User 42 events"]
         CK -->|"Sorted scan"| TimeRange["Events Jan–Mar sorted"]
     end
 ```

@@ -59,25 +59,25 @@ A feature store eliminates skew by using **one computation definition** for both
 ```mermaid
 flowchart LR
     subgraph RawData["Raw Data Sources"]
-        EVENTS[Event stream\nKafka]
-        LAKE2[Data Lakehouse\nIceberg / S3]
+        EVENTS[Event stream<br/>Kafka]
+        LAKE2[Data Lakehouse<br/>Iceberg / S3]
     end
 
     subgraph FeaturePipelines["Feature Pipelines"]
-        BATCH_FP[Batch pipeline\nSpark / dbt]
-        STREAM_FP[Streaming pipeline\nFlink / Beam]
+        BATCH_FP[Batch pipeline<br/>Spark / dbt]
+        STREAM_FP[Streaming pipeline<br/>Flink / Beam]
     end
 
     subgraph FeatureStore["Feature Store (Feast)"]
-        OFFLINE[Offline Store\nS3 + Parquet\nhistorical features]
-        ONLINE[Online Store\nRedis\nlatest features per entity]
-        REGISTRY[Feature Registry\nschema + metadata]
+        OFFLINE[Offline Store<br/>S3 + Parquet<br/>historical features]
+        ONLINE[Online Store<br/>Redis<br/>latest features per entity]
+        REGISTRY[Feature Registry<br/>schema + metadata]
     end
 
     subgraph ML["ML Workflow"]
-        TRAIN[Training job\npoint-in-time offline join]
-        SERVE[Prediction service\nonline feature retrieval]
-        MODEL[Model\nbatch scoring]
+        TRAIN[Training job<br/>point-in-time offline join]
+        SERVE[Prediction service<br/>online feature retrieval]
+        MODEL[Model<br/>batch scoring]
     end
 
     EVENTS --> STREAM_FP --> ONLINE

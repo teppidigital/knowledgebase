@@ -52,26 +52,26 @@ Notable incidents:
 ```mermaid
 graph TD
     subgraph Source["Source Control"]
-        CODE2["Code\n(branch protection, signed commits)"]
-        DEPS["Dependencies\n(pinned lock files, Renovate)"]
+        CODE2["Code<br/>(branch protection, signed commits)"]
+        DEPS["Dependencies<br/>(pinned lock files, Renovate)"]
     end
 
     subgraph Build["Build Pipeline (SLSA Level 3)"]
         TRIGGER["Signed build trigger"]
         BUILDER["Ephemeral build environment"]
-        PROV["Provenance attestation\n(who · what · when · how)"]
-        SBOM2["SBOM Generation\nSyft (SPDX / CycloneDX)"]
-        SIGN2["Artifact Signing\nCosign (Sigstore)"]
+        PROV["Provenance attestation<br/>(who · what · when · how)"]
+        SBOM2["SBOM Generation<br/>Syft (SPDX / CycloneDX)"]
+        SIGN2["Artifact Signing<br/>Cosign (Sigstore)"]
     end
 
     subgraph Dist["Distribution"]
-        REG2["Registry\n+ Attestation store"]
-        VERIFY2["Consumer Verification\ncosign verify\nslsa-verifier"]
+        REG2["Registry<br/>+ Attestation store"]
+        VERIFY2["Consumer Verification<br/>cosign verify<br/>slsa-verifier"]
     end
 
     subgraph Ops["Operations"]
-        GRYPE["Vulnerability Scan\nGrype against SBOM"]
-        VEX["VEX Statements\n(not affected by CVE-X)"]
+        GRYPE["Vulnerability Scan<br/>Grype against SBOM"]
+        VEX["VEX Statements<br/>(not affected by CVE-X)"]
     end
 
     CODE2 --> TRIGGER

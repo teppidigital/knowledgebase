@@ -39,12 +39,12 @@ The Health Check pattern adds a dedicated endpoint or mechanism to a service tha
 ```mermaid
 graph TD
     LB["Load Balancer / Kubernetes"]
-    Svc1["Service Instance 1\n✅ Healthy"]
-    Svc2["Service Instance 2\n⚠️ Starting"]
-    Svc3["Service Instance 3\n❌ Unhealthy"]
+    Svc1["Service Instance 1<br/>✅ Healthy"]
+    Svc2["Service Instance 2<br/>⚠️ Starting"]
+    Svc3["Service Instance 3<br/>❌ Unhealthy"]
 
     LB -->|"GET /health/live → 200"| Svc1
-    LB -->|"GET /health/ready → 503\n(not ready yet)"| Svc2
+    LB -->|"GET /health/ready → 503<br/>(not ready yet)"| Svc2
     LB -->|"GET /health/live → timeout"| Svc3
 
     LB -->|"Route traffic"| Svc1

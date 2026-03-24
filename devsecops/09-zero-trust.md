@@ -50,21 +50,21 @@ Zero Trust operates on three core principles:
 ```mermaid
 graph TD
     subgraph External["External (Untrusted)"]
-        USER["User\nBrowser / Mobile"]
+        USER["User<br/>Browser / Mobile"]
         PARTNER["Partner / B2B API"]
     end
 
     subgraph ZeroTrustEdge["Zero Trust Edge"]
-        IDP["Identity Provider\n(Auth0 / Azure AD / Keycloak)"]
-        APIGATEWAY["API Gateway\n(JWT validation + RBAC)"]
-        DEVICE["Device Health Check\n(MDM / Posture)"]
+        IDP["Identity Provider<br/>(Auth0 / Azure AD / Keycloak)"]
+        APIGATEWAY["API Gateway<br/>(JWT validation + RBAC)"]
+        DEVICE["Device Health Check<br/>(MDM / Posture)"]
     end
 
     subgraph Mesh["Service Mesh (mTLS between all services)"]
-        SVC_A["Service A\n(SPIFFE: spiffe://cluster/sa/svc-a)"]
-        SVC_B["Service B\n(SPIFFE: spiffe://cluster/sa/svc-b)"]
-        SVC_C["Service C\n(SPIFFE: spiffe://cluster/sa/svc-c)"]
-        OPA2["OPA / Policy Engine\n(per-request authz)"]
+        SVC_A["Service A<br/>(SPIFFE: spiffe://cluster/sa/svc-a)"]
+        SVC_B["Service B<br/>(SPIFFE: spiffe://cluster/sa/svc-b)"]
+        SVC_C["Service C<br/>(SPIFFE: spiffe://cluster/sa/svc-c)"]
+        OPA2["OPA / Policy Engine<br/>(per-request authz)"]
     end
 
     USER -->|"OIDC login"| IDP

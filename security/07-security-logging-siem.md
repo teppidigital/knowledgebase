@@ -90,21 +90,21 @@ flowchart LR
     end
 
     subgraph Log Pipeline
-        B[Structured JSON Logs\ncontextual fields + HMAC chain]
-        C[Log Agent\nFluentBit / Filebeat]
-        D[Log Buffer\nKafka / Event Hub]
+        B[Structured JSON Logs<br/>contextual fields + HMAC chain]
+        C[Log Agent<br/>FluentBit / Filebeat]
+        D[Log Buffer<br/>Kafka / Event Hub]
     end
 
     subgraph SIEM
-        E[Ingest & Parse\nSentinel DCR / Splunk HEC]
-        F[Correlation Engine\nAlert rules, UEBA]
-        G[Dashboard & Hunting\nKQL / SPL queries]
-        H[Alert → SOAR\nAutomated playbook]
+        E[Ingest & Parse<br/>Sentinel DCR / Splunk HEC]
+        F[Correlation Engine<br/>Alert rules, UEBA]
+        G[Dashboard & Hunting<br/>KQL / SPL queries]
+        H[Alert → SOAR<br/>Automated playbook]
     end
 
     subgraph Storage
-        I[(Hot Store\n90 days — searchable)]
-        J[(Cold Archive\nimmutable S3 / ADLS)]
+        I[(Hot Store<br/>90 days — searchable)]
+        J[(Cold Archive<br/>immutable S3 / ADLS)]
     end
 
     A1 & A2 & A3 --> B
@@ -187,7 +187,7 @@ export class AuditLogger {
 
     // Write as newline-delimited JSON
     await new Promise<void>((resolve, reject) => {
-      this.stream.write(JSON.stringify(record) + '\n', err => err ? reject(err) : resolve());
+      this.stream.write(JSON.stringify(record) + '<br/>', err => err ? reject(err) : resolve());
     });
   }
 }

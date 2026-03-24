@@ -75,21 +75,21 @@ For distributed traces to work, trace context (`trace-id`, `span-id`) must be pr
 ```mermaid
 flowchart LR
     subgraph Services
-        A[API Service\nOTel SDK]
-        B[Order Service\nOTel SDK]
-        C[Database\nslow queries]
+        A[API Service<br/>OTel SDK]
+        B[Order Service<br/>OTel SDK]
+        C[Database<br/>slow queries]
     end
 
     subgraph Collector
-        D[OTel Collector\nhorizontally scaled]
+        D[OTel Collector<br/>horizontally scaled]
         D -->|Traces| E[Tempo / Jaeger]
         D -->|Metrics| F[Prometheus]
         D -->|Logs| G[Loki]
     end
 
     subgraph Visualization
-        F & G & E --> H[Grafana\nunified dashboards]
-        F --> I[Alertmanager\nSLO burn-rate alerts]
+        F & G & E --> H[Grafana<br/>unified dashboards]
+        F --> I[Alertmanager<br/>SLO burn-rate alerts]
         I --> J[PagerDuty on-call]
     end
 

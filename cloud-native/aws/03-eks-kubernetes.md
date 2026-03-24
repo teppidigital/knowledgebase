@@ -55,7 +55,7 @@ flowchart TD
     subgraph AWS["AWS"]
         subgraph VPC["VPC"]
             subgraph PublicSubnets["Public Subnets"]
-                ALB["AWS ALB\n(Load Balancer Controller)"]
+                ALB["AWS ALB<br/>(Load Balancer Controller)"]
                 NAT["NAT Gateways"]
             end
 
@@ -66,13 +66,13 @@ flowchart TD
                         ETCD["etcd"]
                     end
                     subgraph Nodes["Managed Node Groups"]
-                        N1["Node AZ-a\nm6i.xlarge"]
-                        N2["Node AZ-b\nm6i.xlarge"]
+                        N1["Node AZ-a<br/>m6i.xlarge"]
+                        N2["Node AZ-b<br/>m6i.xlarge"]
                     end
                     subgraph Pods["Workloads"]
-                        P1["api\nDeployment\n3 replicas"]
-                        P2["worker\nDeployment\n2 replicas"]
-                        P3["Karpenter\n(autoscaler)"]
+                        P1["api<br/>Deployment<br/>3 replicas"]
+                        P2["worker<br/>Deployment<br/>2 replicas"]
+                        P3["Karpenter<br/>(autoscaler)"]
                     end
                 end
                 RDS["Aurora PostgreSQL"]
@@ -81,9 +81,9 @@ flowchart TD
         end
 
         ECR["ECR"]
-        SM["Secrets Manager\n(External Secrets Operator)"]
-        IAM["IAM / STS\n(IRSA via OIDC)"]
-        CW["CloudWatch\nContainer Insights"]
+        SM["Secrets Manager<br/>(External Secrets Operator)"]
+        IAM["IAM / STS<br/>(IRSA via OIDC)"]
+        CW["CloudWatch<br/>Container Insights"]
     end
 
     Internet["Internet"] --> ALB --> P1

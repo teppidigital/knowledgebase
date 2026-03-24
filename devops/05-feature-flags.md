@@ -66,22 +66,22 @@ Feature flags that are never cleaned up accumulate as **flag debt**: stale flags
 ```mermaid
 flowchart LR
     subgraph Developer
-        A[Ship code with\nnew feature behind flag]
-        A --> B[Flag: new-checkout-flow\n= false globally]
+        A[Ship code with<br/>new feature behind flag]
+        A --> B[Flag: new-checkout-flow<br/>= false globally]
     end
 
     subgraph Progressive Rollout
-        B --> C[Enable for\ninternal team only]
-        C --> D[Enable 5%\nrandom users]
+        B --> C[Enable for<br/>internal team only]
+        C --> D[Enable 5%<br/>random users]
         D -->|Metrics OK| E[Enable 25%]
         E -->|Metrics OK| F[Enable 100%]
-        F --> G[Remove flag\nclean up code]
-        D -->|Regression| H[Set to 0%\ninstant rollback]
+        F --> G[Remove flag<br/>clean up code]
+        D -->|Regression| H[Set to 0%<br/>instant rollback]
     end
 
     subgraph Flag Evaluation
         I[User request] --> J[OpenFeature SDK]
-        J --> K{Evaluate rule:\nuser in 5% bucket?}
+        J --> K{Evaluate rule:<br/>user in 5% bucket?}
         K -->|Yes| L[New checkout flow]
         K -->|No| M[Old checkout flow]
     end

@@ -79,8 +79,8 @@ sequenceDiagram
 
     Note over C,S: Server-Sent Events
     C->>S: GET /events (EventSource)
-    S-->>C: event: order-updated\ndata: {"id":43}\n\n
-    S-->>C: event: shipment\ndata: {"id":44}\n\n
+    S-->>C: event: order-updated<br/>data: {"id":43}<br/><br/>
+    S-->>C: event: shipment<br/>data: {"id":44}<br/><br/>
     Note over C: Connection drops
     C->>S: GET /events (Last-Event-ID: 44) (auto-reconnect)
 
@@ -191,7 +191,7 @@ app.get('/api/stream', (req, res) => {
 
   // Send heartbeat every 15s to keep connection alive
   const heartbeat = setInterval(() => {
-    res.write(': heartbeat\n\n');
+    res.write(': heartbeat<br/><br/>');
   }, 15000);
 
   // Subscribe to new events
@@ -211,9 +211,9 @@ app.get('/api/stream', (req, res) => {
 });
 
 function sendSSEEvent(res: express.Response, type: string, data: unknown, id?: string): void {
-  if (id) res.write(`id: ${id}\n`);
-  res.write(`event: ${type}\n`);
-  res.write(`data: ${JSON.stringify(data)}\n\n`);
+  if (id) res.write(`id: ${id}<br/>`);
+  res.write(`event: ${type}<br/>`);
+  res.write(`data: ${JSON.stringify(data)}<br/><br/>`);
 }
 
 function getMissedEvents(sinceId: number): Array<{ id: number; type: string; data: unknown }> {

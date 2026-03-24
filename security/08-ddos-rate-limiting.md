@@ -77,22 +77,22 @@ Internet traffic
 
 ```mermaid
 flowchart TD
-    Internet -->|All traffic| A[Cloud DDoS Scrubbing\nAzure DDoS Standard]
-    A -->|Clean traffic| B[WAF at Edge\nCloudflare / Azure Front Door]
+    Internet -->|All traffic| A[Cloud DDoS Scrubbing<br/>Azure DDoS Standard]
+    A -->|Clean traffic| B[WAF at Edge<br/>Cloudflare / Azure Front Door]
 
-    B -->|L7 rate limit\nGeo & bot rules| C[API Gateway / Ingress\nNGINX / APIM]
+    B -->|L7 rate limit<br/>Geo & bot rules| C[API Gateway / Ingress<br/>NGINX / APIM]
 
     subgraph Rate Limiting Layers
-        C -->|Global IP limit\n1000 req/min| D[Per-IP limiter\nRedis sliding window]
-        D -->|Authenticated| E[Per-user limit\n500 req/min API key]
-        D -->|Unauthenticated| F[Strict limit\n60 req/min]
+        C -->|Global IP limit<br/>1000 req/min| D[Per-IP limiter<br/>Redis sliding window]
+        D -->|Authenticated| E[Per-user limit<br/>500 req/min API key]
+        D -->|Unauthenticated| F[Strict limit<br/>60 req/min]
     end
 
     E & F --> G[Application Services]
 
     subgraph Responses
-        H[429 Too Many Requests\nRetry-After header]
-        I[503 Service Unavailable\nunder attack]
+        H[429 Too Many Requests<br/>Retry-After header]
+        I[503 Service Unavailable<br/>under attack]
     end
 
     D -->|Exceeded| H

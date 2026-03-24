@@ -66,15 +66,15 @@ Cloud Native, API Management, AWS API Gateway, REST/HTTP/WebSocket
 
 ```mermaid
 flowchart TD
-    Client["Client\n(browser / mobile / service)"]
+    Client["Client<br/>(browser / mobile / service)"]
 
     subgraph AWS["AWS"]
-        WAF["AWS WAF\n(OWASP rules)"]
-        APIGW["API Gateway\n(HTTP API)"]
+        WAF["AWS WAF<br/>(OWASP rules)"]
+        APIGW["API Gateway<br/>(HTTP API)"]
 
         subgraph Auth["Auth Layer"]
-            Cognito["Cognito\n(JWT Authorizer)"]
-            LambdaAuth["Lambda Authorizer\n(custom token)"]
+            Cognito["Cognito<br/>(JWT Authorizer)"]
+            LambdaAuth["Lambda Authorizer<br/>(custom token)"]
         end
 
         subgraph Routes["Routes"]
@@ -85,14 +85,14 @@ flowchart TD
         end
 
         subgraph Backend["Backends"]
-            Fn1["order-create\n(Lambda)"]
-            Fn2["order-get\n(Lambda)"]
-            Fn3["order-delete\n(Lambda)"]
-            VPCLink["VPC Link → NLB\n→ ECS (private)"]
+            Fn1["order-create<br/>(Lambda)"]
+            Fn2["order-get<br/>(Lambda)"]
+            Fn3["order-delete<br/>(Lambda)"]
+            VPCLink["VPC Link → NLB<br/>→ ECS (private)"]
         end
 
-        CW["CloudWatch\nLogs + Metrics"]
-        XRay["X-Ray\n(tracing)"]
+        CW["CloudWatch<br/>Logs + Metrics"]
+        XRay["X-Ray<br/>(tracing)"]
     end
 
     Client --> WAF --> APIGW

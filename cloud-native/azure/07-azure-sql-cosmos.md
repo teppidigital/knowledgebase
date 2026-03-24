@@ -83,26 +83,26 @@ Azure offers two primary managed database families for cloud-native workloads:
 
 ```mermaid
 flowchart TD
-    App["Application\n(AKS / ACA)"]
+    App["Application<br/>(AKS / ACA)"]
 
     subgraph RelationalLayer["Azure SQL — Transactional Data"]
-        SQLPrimary["SQL Database\n(Primary — Write)\nGeneral Purpose 8 vCores"]
-        SQLReplica["SQL Database\n(Read Replica — zone 2)"]
-        ElasticPool["Elastic Pool\n(Tenant DBs)"]
+        SQLPrimary["SQL Database<br/>(Primary — Write)<br/>General Purpose 8 vCores"]
+        SQLReplica["SQL Database<br/>(Read Replica — zone 2)"]
+        ElasticPool["Elastic Pool<br/>(Tenant DBs)"]
 
         SQLPrimary -->|Geo-replication| SQLReplica
     end
 
     subgraph NoSQLLayer["Cosmos DB — Global Low-Latency Data"]
         direction LR
-        WestEurope["Write Region\nWest Europe"]
-        EastUS["Read Region\nEast US"]
-        SoutheastAsia["Read Region\nSE Asia"]
+        WestEurope["Write Region<br/>West Europe"]
+        EastUS["Read Region<br/>East US"]
+        SoutheastAsia["Read Region<br/>SE Asia"]
 
         WestEurope <-->|Multi-region replication| EastUS & SoutheastAsia
     end
 
-    ChangeFeed["Change Feed\n(per partition)"] -->|Real-time events| EventHub["Event Hub / Function"]
+    ChangeFeed["Change Feed<br/>(per partition)"] -->|Real-time events| EventHub["Event Hub / Function"]
 
     App -->|Writes| SQLPrimary
     App -->|Reads| SQLReplica

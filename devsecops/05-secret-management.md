@@ -59,25 +59,25 @@ A **Secret Management** system provides:
 ```mermaid
 graph TD
     subgraph Developer["Developer"]
-        LOCAL["Local Dev\n.env (gitignored)\nor Vault Dev Mode"]
+        LOCAL["Local Dev<br/>.env (gitignored)<br/>or Vault Dev Mode"]
     end
 
     subgraph CI["CI/CD (GitHub Actions)"]
-        GH_SECRETS["GitHub Encrypted Secrets\n(non-prod only)"]
-        OIDC["OIDC Token\n(no long-lived keys)"]
+        GH_SECRETS["GitHub Encrypted Secrets<br/>(non-prod only)"]
+        OIDC["OIDC Token<br/>(no long-lived keys)"]
     end
 
     subgraph Runtime["Application Runtime"]
-        INIT["App Startup\nFetch secrets once"]
-        SIDE["Vault Agent Sidecar\n(pushes secrets to env/file)"]
-        ESO["External Secrets Operator\n(Kubernetes → K8s Secret)"]
+        INIT["App Startup<br/>Fetch secrets once"]
+        SIDE["Vault Agent Sidecar<br/>(pushes secrets to env/file)"]
+        ESO["External Secrets Operator<br/>(Kubernetes → K8s Secret)"]
     end
 
     subgraph Vault["HashiCorp Vault / AWS Secrets Manager"]
-        AUTH["Auth Backend\nKubernetes SA / AWS IAM / OIDC"]
-        POLICY["Policy\napp-x can read db/prod/*"]
+        AUTH["Auth Backend<br/>Kubernetes SA / AWS IAM / OIDC"]
+        POLICY["Policy<br/>app-x can read db/prod/*"]
         STORE["Encrypted Secret Store"]
-        ROTATE["Auto-Rotation\nDB creds / API keys"]
+        ROTATE["Auto-Rotation<br/>DB creds / API keys"]
     end
 
     OIDC -->|"Short-lived token"| Vault

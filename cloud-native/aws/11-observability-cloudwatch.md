@@ -71,26 +71,26 @@ Cloud Native, Observability, AWS CloudWatch, X-Ray, OpenTelemetry
 ```mermaid
 flowchart TD
     subgraph Apps["Application Layer"]
-        Lambda["Lambda\n(Powertools Logger/Tracer/Metrics)"]
-        ECS["ECS Tasks\n(ADOT Sidecar)"]
-        EKS["EKS Pods\n(ADOT DaemonSet)"]
+        Lambda["Lambda<br/>(Powertools Logger/Tracer/Metrics)"]
+        ECS["ECS Tasks<br/>(ADOT Sidecar)"]
+        EKS["EKS Pods<br/>(ADOT DaemonSet)"]
     end
 
     subgraph Collection["Collection Layer"]
-        ADOT["ADOT Collector\n(OpenTelemetry)"]
-        CWAgent["CloudWatch Agent\n(EC2 / on-prem)"]
+        ADOT["ADOT Collector<br/>(OpenTelemetry)"]
+        CWAgent["CloudWatch Agent<br/>(EC2 / on-prem)"]
     end
 
     subgraph Storage["AWS Observability Services"]
-        CWLogs["CloudWatch Logs\n(log groups)"]
-        CWMetrics["CloudWatch Metrics\n(custom + AWS)"]
-        XRay["AWS X-Ray\n(traces + service map)"]
-        CI["Container Insights\n(ECS / EKS)"]
+        CWLogs["CloudWatch Logs<br/>(log groups)"]
+        CWMetrics["CloudWatch Metrics<br/>(custom + AWS)"]
+        XRay["AWS X-Ray<br/>(traces + service map)"]
+        CI["Container Insights<br/>(ECS / EKS)"]
     end
 
     subgraph Action["Alerting & Analysis"]
         Alarms["CloudWatch Alarms"]
-        Insights["Log Insights\n(ad-hoc queries)"]
+        Insights["Log Insights<br/>(ad-hoc queries)"]
         Dashboard["CloudWatch Dashboard"]
         SNS["SNS → PagerDuty / Slack"]
     end

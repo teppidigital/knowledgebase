@@ -71,23 +71,23 @@ Cloud Native, FinOps, Cost Optimisation, AWS Cost Management
 ```mermaid
 flowchart TD
     subgraph Strategy["Cost Strategy"]
-        SP["Savings Plans\n(Compute — 66% off)"]
-        RI["Reserved Instances\n(RDS / ElastiCache)"]
-        Spot["Spot Instances\n(Karpenter batch nodes)"]
-        Graviton["Graviton ARM\n(20% cheaper per vCPU)"]
+        SP["Savings Plans<br/>(Compute — 66% off)"]
+        RI["Reserved Instances<br/>(RDS / ElastiCache)"]
+        Spot["Spot Instances<br/>(Karpenter batch nodes)"]
+        Graviton["Graviton ARM<br/>(20% cheaper per vCPU)"]
     end
 
     subgraph Architectura["Architecture Optimisation"]
-        SLS["Serverless\n(Lambda/Fargate — zero idle)"]
-        EP["VPC Endpoints\n(eliminate NAT costs)"]
-        CF["CloudFront\n(cache → reduce origin calls)"]
-        S3LC["S3 Lifecycle\n(auto-tier to Glacier)"]
+        SLS["Serverless<br/>(Lambda/Fargate — zero idle)"]
+        EP["VPC Endpoints<br/>(eliminate NAT costs)"]
+        CF["CloudFront<br/>(cache → reduce origin calls)"]
+        S3LC["S3 Lifecycle<br/>(auto-tier to Glacier)"]
     end
 
     subgraph Tooling["AWS Cost Tools"]
-        CE["Cost Explorer\n(visualise + RI/SP recs)"]
-        Budget["AWS Budgets\n(alerts + auto-stop)"]
-        CO["Compute Optimizer\n(rightsizing recs)"]
+        CE["Cost Explorer<br/>(visualise + RI/SP recs)"]
+        Budget["AWS Budgets<br/>(alerts + auto-stop)"]
+        CO["Compute Optimizer<br/>(rightsizing recs)"]
         CAD["Cost Anomaly Detection"]
     end
 
@@ -310,7 +310,7 @@ export const handler = async (): Promise<void> => {
   // Format Slack message
   const topServices = costs.slice(0, 10)
     .map(c => `• ${c.service}: $${c.cost.toFixed(2)}`)
-    .join('\n');
+    .join('<br/>');
 
   const message = {
     text: `*AWS Cost Summary — ${startOfMonth.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })} MTD*`,
@@ -319,7 +319,7 @@ export const handler = async (): Promise<void> => {
         type: 'section',
         text: {
           type: 'mrkdwn',
-          text: `*Total MTD: $${total.toFixed(2)}*\n\n*Top 10 Services:*\n${topServices}`,
+          text: `*Total MTD: $${total.toFixed(2)}*<br/><br/>*Top 10 Services:*<br/>${topServices}`,
         },
       },
     ],

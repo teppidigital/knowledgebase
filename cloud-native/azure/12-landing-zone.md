@@ -68,29 +68,29 @@ flowchart TD
     TenantRoot["Tenant Root Group"]
 
     subgraph Platform["Platform MG"]
-        MgmtSub["Management Subscription\n(Security Centre, Log Analytics,\nAutomation Account)"]
-        ConnSub["Connectivity Subscription\n(Hub VNet, Firewall,\nExpressRoute Gateway)"]
-        IdSub["Identity Subscription\n(Entra ID Connect, AD DS)"]
+        MgmtSub["Management Subscription<br/>(Security Centre, Log Analytics,<br/>Automation Account)"]
+        ConnSub["Connectivity Subscription<br/>(Hub VNet, Firewall,<br/>ExpressRoute Gateway)"]
+        IdSub["Identity Subscription<br/>(Entra ID Connect, AD DS)"]
     end
 
     subgraph LandingZones["Landing Zones MG"]
-        subgraph Corp["Corp MG\n(Policy: private endpoints only,\nno public IP, hub VNet peering required)"]
-            ProdSub["Prod Subscription\nBudget: $50K/mo\nDDOS: Standard"]
-            NonProdSub["NonProd Subscription\nBudget: $10K/mo"]
+        subgraph Corp["Corp MG<br/>(Policy: private endpoints only,<br/>no public IP, hub VNet peering required)"]
+            ProdSub["Prod Subscription<br/>Budget: $50K/mo<br/>DDOS: Standard"]
+            NonProdSub["NonProd Subscription<br/>Budget: $10K/mo"]
         end
 
-        subgraph Online["Online MG\n(Policy: public IP allowed,\nWAF required on App Gateway)"]
-            WebSub["Web Subscription\n(Internet-facing apps)"]
+        subgraph Online["Online MG<br/>(Policy: public IP allowed,<br/>WAF required on App Gateway)"]
+            WebSub["Web Subscription<br/>(Internet-facing apps)"]
         end
     end
 
     TenantRoot --> Platform & LandingZones
     Platform ----> |Shared services VNet peering| Corp
 
-    Policy1["Policy Initiative:\nAzure Security Benchmark"] --> TenantRoot
-    Policy2["Policy: Require Tags\n(cost-centre, owner, env)"] --> LandingZones
-    Policy3["Policy: Deny public\nStorage Accounts"] --> Corp
-    Policy4["Policy: Deploy Defender\nfor Containers"] --> LandingZones
+    Policy1["Policy Initiative:<br/>Azure Security Benchmark"] --> TenantRoot
+    Policy2["Policy: Require Tags<br/>(cost-centre, owner, env)"] --> LandingZones
+    Policy3["Policy: Deny public<br/>Storage Accounts"] --> Corp
+    Policy4["Policy: Deploy Defender<br/>for Containers"] --> LandingZones
 ```
 
 ---

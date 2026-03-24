@@ -65,21 +65,21 @@ flowchart TD
     Users["Users (worldwide)"] --> FrontDoor
 
     subgraph FrontDoor["Azure Front Door Premium"]
-        PoP["Nearest Edge PoP\n(192+ global PoPs)"]
-        Cache["Edge Cache\n(static assets)"]
-        WAFPolicy["WAF Policy\nDRS 2.1 + Bot Manager\nRate Limit Rules"]
-        RulesEngine["Rules Engine\nURL rewrite\nCache override\nRedirects"]
+        PoP["Nearest Edge PoP<br/>(192+ global PoPs)"]
+        Cache["Edge Cache<br/>(static assets)"]
+        WAFPolicy["WAF Policy<br/>DRS 2.1 + Bot Manager<br/>Rate Limit Rules"]
+        RulesEngine["Rules Engine<br/>URL rewrite<br/>Cache override<br/>Redirects"]
     end
 
     subgraph OriginGroups["Origin Groups"]
-        WebOG["web-app-origins\n(health probe: /health 30s interval)"]
-        StaticOG["static-assets-origins\n(Storage Account)"]
+        WebOG["web-app-origins<br/>(health probe: /health 30s interval)"]
+        StaticOG["static-assets-origins<br/>(Storage Account)"]
     end
 
     subgraph Origins["Origins (Private Link — no public IP)"]
-        ACA_Primary["api-service\n(West Europe — primary)"]
-        ACA_Secondary["api-service\n(East US — failover)"]
-        BlobStorage["reports container\n(Blob Storage)"]
+        ACA_Primary["api-service<br/>(West Europe — primary)"]
+        ACA_Secondary["api-service<br/>(East US — failover)"]
+        BlobStorage["reports container<br/>(Blob Storage)"]
     end
 
     FrontDoor --> Cache

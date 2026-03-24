@@ -74,24 +74,24 @@ Need retry + DLQ?            → All three support DLQ
 flowchart TD
     subgraph Producers["Event Producers"]
         API["API Service"]
-        Scheduler["EventBridge\nScheduler"]
+        Scheduler["EventBridge<br/>Scheduler"]
     end
 
     subgraph EB["EventBridge (default bus)"]
-        Rule1["Rule: source=order\nroute to Order Bus"]
-        Rule2["Rule: source=payment\nroute to Payment Bus"]
+        Rule1["Rule: source=order<br/>route to Order Bus"]
+        Rule2["Rule: source=payment<br/>route to Payment Bus"]
     end
 
     subgraph SNS["SNS Topic: order-events"]
-        Filter1["Subscription Filter\neventType=ORDER_CREATED"]
-        Filter2["Subscription Filter\neventType=ORDER_SHIPPED"]
+        Filter1["Subscription Filter<br/>eventType=ORDER_CREATED"]
+        Filter2["Subscription Filter<br/>eventType=ORDER_SHIPPED"]
     end
 
     subgraph SQS["SQS Queues"]
-        Q1["inventory-queue\n(Standard + DLQ)"]
-        Q2["notification-queue\n(Standard + DLQ)"]
-        Q3["shipping-queue\n(Standard + DLQ)"]
-        Q4["payment-retry-queue\n(FIFO)"]
+        Q1["inventory-queue<br/>(Standard + DLQ)"]
+        Q2["notification-queue<br/>(Standard + DLQ)"]
+        Q3["shipping-queue<br/>(Standard + DLQ)"]
+        Q4["payment-retry-queue<br/>(FIFO)"]
     end
 
     subgraph Consumers["Lambda Consumers"]

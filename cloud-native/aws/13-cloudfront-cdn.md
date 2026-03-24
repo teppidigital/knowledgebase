@@ -62,15 +62,15 @@ Cloud Native, Networking, AWS CloudFront, CDN, Edge Computing
 ```mermaid
 flowchart TD
     subgraph Users["End Users"]
-        EU["Europe\n(Frankfurt PoP)"]
-        US["US East\n(NYC PoP)"]
-        AP["APAC\n(Singapore PoP)"]
+        EU["Europe<br/>(Frankfurt PoP)"]
+        US["US East<br/>(NYC PoP)"]
+        AP["APAC<br/>(Singapore PoP)"]
     end
 
     subgraph CloudFront["CloudFront Distribution"]
-        WAF["AWS WAF\n(OWASP + Rate Limit)"]
-        Edge["Edge Cache\n(600+ PoPs)"]
-        FN["CloudFront Functions\n(URL rewrite, auth headers)"]
+        WAF["AWS WAF<br/>(OWASP + Rate Limit)"]
+        Edge["Edge Cache<br/>(600+ PoPs)"]
+        FN["CloudFront Functions<br/>(URL rewrite, auth headers)"]
     end
 
     subgraph Behaviors["Cache Behaviors"]
@@ -81,8 +81,8 @@ flowchart TD
     end
 
     subgraph Origins["Origins"]
-        S3_App["S3 Bucket\n(SPA + static assets)"]
-        APIGW["API Gateway\n(HTTP API)"]
+        S3_App["S3 Bucket<br/>(SPA + static assets)"]
+        APIGW["API Gateway<br/>(HTTP API)"]
     end
 
     EU & US & AP --> WAF --> Edge

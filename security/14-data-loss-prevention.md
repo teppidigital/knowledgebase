@@ -72,13 +72,13 @@ Security, DLP, Data Classification, Information Protection, Egress Control, Poli
 ```mermaid
 flowchart TD
     subgraph Data Discovery
-        A[Cloud Storage\nS3 / Blob / GCS] -->|Scan all buckets| B[AWS Macie /\nAzure Purview]
-        B -->|Classify| C[Labelled dataset:\nPII, Confidential, etc.]
+        A[Cloud Storage<br/>S3 / Blob / GCS] -->|Scan all buckets| B[AWS Macie /<br/>Azure Purview]
+        B -->|Classify| C[Labelled dataset:<br/>PII, Confidential, etc.]
     end
 
     subgraph Egress Controls
-        D[Email gateway\nM365 Exchange Online]
-        E[Web proxy\nZscaler / squid]
+        D[Email gateway<br/>M365 Exchange Online]
+        E[Web proxy<br/>Zscaler / squid]
         F[Cloud upload API]
 
         D & E & F --> G[DLP Policy Engine]
@@ -89,14 +89,14 @@ flowchart TD
     end
 
     subgraph Endpoint
-        L[Endpoint agent\nPurview / Forcepoint]
+        L[Endpoint agent<br/>Purview / Forcepoint]
         L -->|Monitor copy, print, USB| M{Classification check}
         M -->|Restricted tier| N[Block write to USB/cloud]
         M -->|Confidential tier| O[Allow + audit log]
     end
 
     subgraph Alerting
-        J & N --> P[SIEM alert\n+ SOC ticket]
+        J & N --> P[SIEM alert<br/>+ SOC ticket]
     end
 ```
 

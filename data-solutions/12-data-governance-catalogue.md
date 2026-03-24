@@ -76,22 +76,22 @@ flowchart TB
     end
 
     subgraph Catalogue["DataHub / OpenMetadata"]
-        INGEST[Metadata ingestion\nconnectors]
-        META[Metadata store\nassets + owners + tags]
-        LIN[Lineage graph\nsource → transform → consumer]
-        SEARCH2[Search &\ndiscovery UI]
-        GQ[Data quality\nscores + freshness]
+        INGEST[Metadata ingestion<br/>connectors]
+        META[Metadata store<br/>assets + owners + tags]
+        LIN[Lineage graph<br/>source → transform → consumer]
+        SEARCH2[Search &<br/>discovery UI]
+        GQ[Data quality<br/>scores + freshness]
     end
 
     subgraph Quality["Data Quality (Great Expectations / Soda)"]
-        SUITE[Expectation suites\nper dataset]
-        RUN[Validation runs\nin CI / Airflow]
-        RESULTS[Validation results\n→ DataHub]
+        SUITE[Expectation suites<br/>per dataset]
+        RUN[Validation runs<br/>in CI / Airflow]
+        RESULTS[Validation results<br/>→ DataHub]
     end
 
     subgraph Governance["Access & Compliance"]
-        ATLAS[Apache Ranger\ncolumn masking + RLS]
-        PII2[PII scanner\nclassification tags]
+        ATLAS[Apache Ranger<br/>column masking + RLS]
+        PII2[PII scanner<br/>classification tags]
     end
 
     DB2 & KAFKA2 & LAKE3 & BI3 -->|connector pull| INGEST

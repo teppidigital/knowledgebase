@@ -95,26 +95,26 @@ Cross-Site Request Forgery causes an authenticated user's browser to submit requ
 flowchart LR
     subgraph Browser
         U[User] --> F[Browser / SPA]
-        F -->|Cookie: session=…\nSameSite=Strict| S
+        F -->|Cookie: session=…<br/>SameSite=Strict| S
     end
 
     subgraph Gateway
-        S[HTTPS only\nHSTS preloaded]
-        S -->|Security headers\nCSP nonce injected| App
+        S[HTTPS only<br/>HSTS preloaded]
+        S -->|Security headers<br/>CSP nonce injected| App
     end
 
     subgraph App
         App[Express / Next.js]
-        App --> V[Input Validation\nzod / express-validator]
-        V --> DB[(Parameterised queries\nnever string concat)]
-        App --> T[Output Encoding\nDOMPurify / textContent]
+        App --> V[Input Validation<br/>zod / express-validator]
+        V --> DB[(Parameterised queries<br/>never string concat)]
+        App --> T[Output Encoding<br/>DOMPurify / textContent]
     end
 
     subgraph Protections
-        P1[XSS: CSP nonce\n+ output encode]
-        P2[SQLi: parameterised\nqueries]
-        P3[CSRF: SameSite cookie\n+ CSRF token]
-        P4[Clickjack: frame-\nancestors none]
+        P1[XSS: CSP nonce<br/>+ output encode]
+        P2[SQLi: parameterised<br/>queries]
+        P3[CSRF: SameSite cookie<br/>+ CSRF token]
+        P4[Clickjack: frame-<br/>ancestors none]
     end
 
     App --- P1 & P2 & P3 & P4

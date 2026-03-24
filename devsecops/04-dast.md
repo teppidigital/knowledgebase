@@ -65,7 +65,7 @@ sequenceDiagram
     APP-->>DAST: Sitemap discovered
 
     loop For each discovered endpoint
-        DAST->>APP: Send attack payloads\n(SQLi, XSS, SSRF, IDOR...)
+        DAST->>APP: Send attack payloads<br/>(SQLi, XSS, SSRF, IDOR...)
         APP-->>DAST: Response analyzed
     end
 

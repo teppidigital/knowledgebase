@@ -42,11 +42,11 @@ Categories:
 flowchart TD
     Request["User Request"]
     App["Application"]
-    FFS["Feature Flag Service\n(LaunchDarkly / ConfigCat / custom)"]
-    FlagDB[("Flag Configuration Store\n(Redis / DB)")]
+    FFS["Feature Flag Service<br/>(LaunchDarkly / ConfigCat / custom)"]
+    FlagDB[("Flag Configuration Store<br/>(Redis / DB)")]
 
     subgraph Feature Flag Evaluation
-        Rule1{{"Flag: new-checkout-ui\nenabled for user?"}}
+        Rule1{{"Flag: new-checkout-ui<br/>enabled for user?"}}
         NewUI["Render New Checkout UI"]
         OldUI["Render Old Checkout UI"]
     end

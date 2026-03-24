@@ -69,26 +69,26 @@ flowchart TD
     subgraph Primary["Primary Region (eu-west-1)"]
         ALB1["ALB"]
         App1["ECS / Lambda"]
-        Aurora1["Aurora PostgreSQL\n(Writer)"]
-        DDB1["DynamoDB\n(Global Table)"]
-        S3P["S3\n(with CRR)"]
+        Aurora1["Aurora PostgreSQL<br/>(Writer)"]
+        DDB1["DynamoDB<br/>(Global Table)"]
+        S3P["S3<br/>(with CRR)"]
     end
 
     subgraph Secondary["Secondary Region (eu-central-1)"]
-        ALB2["ALB\n(Route53 health-check failover)"]
-        App2["ECS / Lambda\n(scaled down in warm standby)"]
-        Aurora2["Aurora Global DB\n(Secondary — read-only until promoted)"]
-        DDB2["DynamoDB\n(Global Table — active)"]
-        S3S["S3\n(CRR replica)"]
+        ALB2["ALB<br/>(Route53 health-check failover)"]
+        App2["ECS / Lambda<br/>(scaled down in warm standby)"]
+        Aurora2["Aurora Global DB<br/>(Secondary — read-only until promoted)"]
+        DDB2["DynamoDB<br/>(Global Table — active)"]
+        S3S["S3<br/>(CRR replica)"]
     end
 
     subgraph DNS["Route53"]
-        Primary_Record["Primary A record\n(health check)"]
-        Failover_Record["Failover A record\n(SECONDARY routing policy)"]
+        Primary_Record["Primary A record<br/>(health check)"]
+        Failover_Record["Failover A record<br/>(SECONDARY routing policy)"]
     end
 
     subgraph Backup["AWS Backup"]
-        Vault["Backup Vault\n(primary + cross-region copy)"]
+        Vault["Backup Vault<br/>(primary + cross-region copy)"]
     end
 
     Users["Users"] --> Primary_Record

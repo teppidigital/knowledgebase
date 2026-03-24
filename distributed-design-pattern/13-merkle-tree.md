@@ -43,7 +43,7 @@ Key property: If **any** piece of data changes, the hashes propagate up and prod
 
 ```mermaid
 graph TD
-    ROOT["Root Hash\nH(H12 + H34)"]
+    ROOT["Root Hash<br/>H(H12 + H34)"]
 
     H12["H12 = H(H1 + H2)"]
     H34["H34 = H(H3 + H4)"]

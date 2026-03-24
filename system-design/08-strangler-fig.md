@@ -36,9 +36,9 @@ A **façade** (often an API Gateway or reverse proxy) intercepts all traffic and
 ```mermaid
 graph TD
     Client["Client (Web / Mobile)"]
-    Facade["Façade / API Gateway\n(Routing Layer)"]
+    Facade["Façade / API Gateway<br/>(Routing Layer)"]
 
-    Legacy["Legacy Monolith\n(Shrinking over time)"]
+    Legacy["Legacy Monolith<br/>(Shrinking over time)"]
 
     subgraph New Microservices
         US["User Service ✅ migrated"]

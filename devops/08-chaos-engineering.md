@@ -76,22 +76,22 @@ A **game day** is a scheduled, collaborative chaos experiment where engineers de
 ```mermaid
 flowchart TD
     subgraph Experiment Design
-        A[Identify weakness hypothesis:\ne.g. What if payments service\ntimes out for >3s?]
-        A --> B[Define steady state:\nsuccess rate > 99%\nlatency p99 < 200ms]
-        B --> C[Define abort criteria:\nerror rate > 5%\nor revenue impact detected]
+        A[Identify weakness hypothesis:<br/>e.g. What if payments service<br/>times out for >3s?]
+        A --> B[Define steady state:<br/>success rate > 99%<br/>latency p99 < 200ms]
+        B --> C[Define abort criteria:<br/>error rate > 5%<br/>or revenue impact detected]
     end
 
     subgraph Execution
-        C --> D[Inject fault:\nLitmusChaos pod-network-latency\n500ms on payments-svc]
-        D --> E[Observe:\nSLO dashboards\nerror rates\nuser impact metrics]
-        E --> F{Abort criteria\nbreached?}
-        F -->|No| G[Continue experiment\nfor 10 minutes]
-        F -->|Yes| H[Abort immediately\nrestore normal state]
+        C --> D[Inject fault:<br/>LitmusChaos pod-network-latency<br/>500ms on payments-svc]
+        D --> E[Observe:<br/>SLO dashboards<br/>error rates<br/>user impact metrics]
+        E --> F{Abort criteria<br/>breached?}
+        F -->|No| G[Continue experiment<br/>for 10 minutes]
+        F -->|Yes| H[Abort immediately<br/>restore normal state]
     end
 
     subgraph Learning
-        G & H --> I[Document findings:\n- Did circuit breaker trip?\n- Did retries cause storm?\n- Was fallback triggered?]
-        I --> J[Action items:\n- Add timeout to payments client\n- Wire circuit breaker\n- Write chaos test in CI]
+        G & H --> I[Document findings:<br/>- Did circuit breaker trip?<br/>- Did retries cause storm?<br/>- Was fallback triggered?]
+        I --> J[Action items:<br/>- Add timeout to payments client<br/>- Wire circuit breaker<br/>- Write chaos test in CI]
     end
 ```
 

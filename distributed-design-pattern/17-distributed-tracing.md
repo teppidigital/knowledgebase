@@ -47,16 +47,16 @@ In a microservices architecture, a single user request may traverse dozens of se
 
 ```mermaid
 graph LR
-    Client -->|"GET /checkout\ntraceparent: 00-abc123-1-01"| Gateway
+    Client -->|"GET /checkout<br/>traceparent: 00-abc123-1-01"| Gateway
 
-    Gateway -->|"traceId: abc123\nspanId: span-2"| OrderSvc["Order Service"]
-    Gateway -->|"traceId: abc123\nspanId: span-3"| AuthSvc["Auth Service"]
+    Gateway -->|"traceId: abc123<br/>spanId: span-2"| OrderSvc["Order Service"]
+    Gateway -->|"traceId: abc123<br/>spanId: span-3"| AuthSvc["Auth Service"]
 
-    OrderSvc -->|"traceId: abc123\nspanId: span-4"| InventorySvc["Inventory Service"]
-    OrderSvc -->|"traceId: abc123\nspanId: span-5"| PaymentSvc["Payment Service"]
+    OrderSvc -->|"traceId: abc123<br/>spanId: span-4"| InventorySvc["Inventory Service"]
+    OrderSvc -->|"traceId: abc123<br/>spanId: span-5"| PaymentSvc["Payment Service"]
 
-    InventorySvc -->|"traceId: abc123\nspanId: span-6"| DB1["Inventory DB"]
-    PaymentSvc -->|"traceId: abc123\nspanId: span-7"| PaymentGW["Payment Gateway"]
+    InventorySvc -->|"traceId: abc123<br/>spanId: span-6"| DB1["Inventory DB"]
+    PaymentSvc -->|"traceId: abc123<br/>spanId: span-7"| PaymentGW["Payment Gateway"]
 
     subgraph Collector["OpenTelemetry Collector"]
         Exporter["OTLP Exporter"]

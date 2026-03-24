@@ -58,15 +58,15 @@ Data Solutions, OLAP, ClickHouse, Apache Druid, Trino, DuckDB, Presto, Columnar 
 ```mermaid
 flowchart LR
     subgraph Sources2
-        K[Kafka\nreal-time events]
-        LAKE[Iceberg Lakehouse\nS3 / ADLS]
-        PG2[(PostgreSQL\noperational DB)]
+        K[Kafka<br/>real-time events]
+        LAKE[Iceberg Lakehouse<br/>S3 / ADLS]
+        PG2[(PostgreSQL<br/>operational DB)]
     end
 
     subgraph ClickHouse["ClickHouse Cluster"]
-        KE[Kafka Engine\nreal-time ingest]
-        MV_CH[Materialized Views\naggregation on insert]
-        RB[ReplicatedMergeTree\nshard + replicate]
+        KE[Kafka Engine<br/>real-time ingest]
+        MV_CH[Materialized Views<br/>aggregation on insert]
+        RB[ReplicatedMergeTree<br/>shard + replicate]
     end
 
     subgraph Trino["Trino (Federated)"]
@@ -76,9 +76,9 @@ flowchart LR
     end
 
     subgraph Consumers3
-        GRAFANA2[Grafana\nreal-time dashboards]
-        BI2[BI tool\nTableau / Metabase]
-        DS2[Data Science\nJupyter + DuckDB]
+        GRAFANA2[Grafana<br/>real-time dashboards]
+        BI2[BI tool<br/>Tableau / Metabase]
+        DS2[Data Science<br/>Jupyter + DuckDB]
     end
 
     K --> KE --> MV_CH --> RB

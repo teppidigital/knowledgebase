@@ -93,25 +93,25 @@ For very large tables (>100GB), even non-locking migrations can cause replicatio
 ```mermaid
 flowchart LR
     subgraph Developer
-        A[Write migration\nV20260324_1__add_email_verified.sql]
-        A --> B[PR review:\ncheck for locks,\nonline DDL compliance]
+        A[Write migration<br/>V20260324_1__add_email_verified.sql]
+        A --> B[PR review:<br/>check for locks,<br/>online DDL compliance]
     end
 
     subgraph CI Pipeline
-        B -->|Merge| C[flyway validate\ntestcontainers DB]
-        C --> D[flyway migrate\nstaging DB]
+        B -->|Merge| C[flyway validate<br/>testcontainers DB]
+        C --> D[flyway migrate<br/>staging DB]
         D --> E[Integration tests]
     end
 
     subgraph Production Deploy
-        E -->|All pass| F[flyway migrate\nproduction DB]
-        F --> G[Kubernetes rolling\nupdate — new app version]
-        G --> H[Health check passes\ndeployment complete]
+        E -->|All pass| F[flyway migrate<br/>production DB]
+        F --> G[Kubernetes rolling<br/>update — new app version]
+        G --> H[Health check passes<br/>deployment complete]
     end
 
     subgraph Zero-Downtime Large Table
-        I[Phase 1: Expand\nadd new column] --> J[Phase 2: Backfill\nbatch UPDATE 1000 rows/s]
-        J --> K[Phase 3: Contract\ndrop old column\nnext release cycle]
+        I[Phase 1: Expand<br/>add new column] --> J[Phase 2: Backfill<br/>batch UPDATE 1000 rows/s]
+        J --> K[Phase 3: Contract<br/>drop old column<br/>next release cycle]
     end
 ```
 

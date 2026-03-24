@@ -38,11 +38,11 @@ graph TD
     Users["100% of Users"]
     LB["Load Balancer / Ingress"]
 
-    Stable["Stable v1.0\n(95% traffic)"]
-    Canary["Canary v1.1\n(5% traffic)"]
+    Stable["Stable v1.0<br/>(95% traffic)"]
+    Canary["Canary v1.1<br/>(5% traffic)"]
 
     DB[("Shared Database")]
-    Monitor["Monitoring / Alerting\n(error rate, latency, CPU)"]
+    Monitor["Monitoring / Alerting<br/>(error rate, latency, CPU)"]
 
     Users --> LB
     LB -->|"95%"| Stable

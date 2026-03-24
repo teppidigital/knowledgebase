@@ -38,12 +38,12 @@ Common tools: Debezium (open-source, Kafka-based), AWS DMS, Google Datastream, M
 ```mermaid
 graph LR
     App["Application"]
-    DB[("PostgreSQL\n(WAL - Write-Ahead Log)")]
-    Debezium["Debezium\n(Kafka Connect)"]
-    Kafka["Kafka Topic\ndbserver1.public.orders"]
-    SearchIndex["Elasticsearch\n(Search Index)"]
-    DataWH["Data Warehouse\n(Snowflake / BigQuery)"]
-    Cache["Redis Cache\n(Invalidation)"]
+    DB[("PostgreSQL<br/>(WAL - Write-Ahead Log)")]
+    Debezium["Debezium<br/>(Kafka Connect)"]
+    Kafka["Kafka Topic<br/>dbserver1.public.orders"]
+    SearchIndex["Elasticsearch<br/>(Search Index)"]
+    DataWH["Data Warehouse<br/>(Snowflake / BigQuery)"]
+    Cache["Redis Cache<br/>(Invalidation)"]
     NotifSvc["Notification Service"]
 
     App -->|"CRUD"| DB

@@ -65,12 +65,12 @@ Edge:  (Customer)-[:PURCHASED {amount, timestamp}]->(Product)
 ```mermaid
 flowchart LR
     subgraph Domain["Graph Data Model"]
-        C1((Customer\nid:C001))
-        C2((Customer\nid:C002))
-        C3((Customer\nid:C003))
-        D1([Device\nid:DEV-X])
-        CARD([Card\nbin:4444))
-        TX1[/Transaction\namount:500/]
+        C1((Customer<br/>id:C001))
+        C2((Customer<br/>id:C002))
+        C3((Customer<br/>id:C003))
+        D1([Device<br/>id:DEV-X])
+        CARD([Card<br/>bin:4444))
+        TX1[/Transaction<br/>amount:500/]
 
         C1 -->|USES_DEVICE| D1
         C2 -->|USES_DEVICE| D1
@@ -80,8 +80,8 @@ flowchart LR
     end
 
     subgraph Pipeline["Ingestion"]
-        CDC3[CDC events\nfrom operational DB]
-        GQL[Graph ingestion\nservice]
+        CDC3[CDC events<br/>from operational DB]
+        GQL[Graph ingestion<br/>service]
     end
 
     subgraph Neo4j["Neo4j Cluster"]
@@ -91,9 +91,9 @@ flowchart LR
     end
 
     subgraph Consumers2
-        FRAUD[Fraud scoring\nservice]
-        RECO[Recommendation\nengine]
-        VIZ[Graph exploration\nBloom / custom UI]
+        FRAUD[Fraud scoring<br/>service]
+        RECO[Recommendation<br/>engine]
+        VIZ[Graph exploration<br/>Bloom / custom UI]
     end
 
     CDC3 --> GQL --> CORE1 & CORE2

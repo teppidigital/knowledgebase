@@ -40,10 +40,10 @@ graph TD
     WriteRouter["Write Router"]
     ReadRouter["Read Router (Load Balanced)"]
 
-    Primary[("Primary DB\n(All Writes)")]
-    Replica1[("Read Replica 1\n(Async Replication)")]
-    Replica2[("Read Replica 2\n(Async Replication)")]
-    Replica3[("Read Replica 3\n(Analytics)")]
+    Primary[("Primary DB<br/>(All Writes)")]
+    Replica1[("Read Replica 1<br/>(Async Replication)")]
+    Replica2[("Read Replica 2<br/>(Async Replication)")]
+    Replica3[("Read Replica 3<br/>(Analytics)")]
 
     App -->|"INSERT / UPDATE / DELETE"| WriteRouter
     App -->|"SELECT"| ReadRouter

@@ -69,10 +69,10 @@ helm chart defaults (values.yaml)
 ```mermaid
 flowchart TB
     subgraph GitRepo["Config Git Repository"]
-        CV[helm/values.yaml\nbase defaults]
-        SV[envs/staging/values.yaml\noverrides]
-        PV[envs/production/values.yaml\noverrides]
-        KP[kustomize/patches/\nresource patches]
+        CV[helm/values.yaml<br/>base defaults]
+        SV[envs/staging/values.yaml<br/>overrides]
+        PV[envs/production/values.yaml<br/>overrides]
+        KP[kustomize/patches/<br/>resource patches]
     end
 
     subgraph SecretStore["Secret Stores"]
@@ -84,8 +84,8 @@ flowchart TB
         ESO[External Secrets Operator]
         KS[Kubernetes Secret]
         CM[ConfigMap]
-        APP[Application Pod\nenv + volume mounts]
-        ARGO[ArgoCD\nDrift detector]
+        APP[Application Pod<br/>env + volume mounts]
+        ARGO[ArgoCD<br/>Drift detector]
     end
 
     CV --> SV & PV

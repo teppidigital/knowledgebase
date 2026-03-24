@@ -69,27 +69,27 @@ Azure cost optimisation follows the **FinOps framework** — a practice of cross
 ```mermaid
 flowchart TD
     subgraph CostSources["Azure Spend"]
-        Compute["Compute\n(AKS nodes, ACA, Functions)"]
-        Data["Data\n(SQL, Cosmos DB, Storage)"]
-        Network["Networking\n(Firewall, Front Door, egress)"]
-        Monitor["Monitoring\n(Log Analytics ingestion)"]
+        Compute["Compute<br/>(AKS nodes, ACA, Functions)"]
+        Data["Data<br/>(SQL, Cosmos DB, Storage)"]
+        Network["Networking<br/>(Firewall, Front Door, egress)"]
+        Monitor["Monitoring<br/>(Log Analytics ingestion)"]
     end
 
     subgraph Optimisation["Cost Optimisation Levers"]
-        RI["Reserved Instances\n(1yr / 3yr — VMs, SQL, Cosmos)"]
-        SP["Savings Plans\n(flexible compute commitment)"]
-        Spot["Spot Node Pools\n(batch workloads — up to 90% off)"]
-        ScaleToZero["Scale to Zero\n(ACA Consumption,\nKEDA on AKS)"]
-        RightSize["Right-Sizing\n(Azure Advisor +\nVPA recommendations)"]
-        Lifecycle["Storage Lifecycle\n(Hot → Cool → Archive)"]
+        RI["Reserved Instances<br/>(1yr / 3yr — VMs, SQL, Cosmos)"]
+        SP["Savings Plans<br/>(flexible compute commitment)"]
+        Spot["Spot Node Pools<br/>(batch workloads — up to 90% off)"]
+        ScaleToZero["Scale to Zero<br/>(ACA Consumption,<br/>KEDA on AKS)"]
+        RightSize["Right-Sizing<br/>(Azure Advisor +<br/>VPA recommendations)"]
+        Lifecycle["Storage Lifecycle<br/>(Hot → Cool → Archive)"]
     end
 
     subgraph Governance["FinOps Governance"]
-        Tags["Mandatory Tags\n(env, team, cost-centre)"]
-        Budgets["Budgets + Alerts\n(per subscription / team)"]
-        CostAlloc["Cost Allocation Rules\n(shared hub costs → teams)"]
-        Reports["Power BI Reports\n(monthly showback)"]
-        Advisor["Azure Advisor\n(daily recommendations)"]
+        Tags["Mandatory Tags<br/>(env, team, cost-centre)"]
+        Budgets["Budgets + Alerts<br/>(per subscription / team)"]
+        CostAlloc["Cost Allocation Rules<br/>(shared hub costs → teams)"]
+        Reports["Power BI Reports<br/>(monthly showback)"]
+        Advisor["Azure Advisor<br/>(daily recommendations)"]
     end
 
     CostSources --> Governance

@@ -58,35 +58,35 @@ Cloud Native, Kubernetes, AKS, KEDA, Workload Identity, GitOps, Azure CNI
 
 ```mermaid
 flowchart TD
-    Dev["Developer"] -->|git push| GitRepo["Git Repository\n(manifests)"]
-    GitRepo --> Flux["Flux\n(GitOps controller)"]
+    Dev["Developer"] -->|git push| GitRepo["Git Repository<br/>(manifests)"]
+    GitRepo --> Flux["Flux<br/>(GitOps controller)"]
 
     subgraph AKSCluster["AKS Private Cluster"]
-        subgraph SystemPool["System Node Pool\n(Standard_D4s_v5 × 3)"]
+        subgraph SystemPool["System Node Pool<br/>(Standard_D4s_v5 × 3)"]
             CoreDNS["CoreDNS"]
             MetricsSvr["Metrics Server"]
             FluxCtrl["Flux Controllers"]
             KEDA["KEDA"]
         end
 
-        subgraph AppPool["User Node Pool\n(Standard_D8s_v5 × 2-20)"]
-            APIDeployment["api-service\nDeployment"]
-            WorkerDeployment["order-worker\nDeployment\n(KEDA scaled)"]
+        subgraph AppPool["User Node Pool<br/>(Standard_D8s_v5 × 2-20)"]
+            APIDeployment["api-service<br/>Deployment"]
+            WorkerDeployment["order-worker<br/>Deployment<br/>(KEDA scaled)"]
         end
 
-        subgraph SpotPool["Spot Node Pool\n(batch only)"]
-            BatchJob["report-generator\nJob"]
+        subgraph SpotPool["Spot Node Pool<br/>(batch only)"]
+            BatchJob["report-generator<br/>Job"]
         end
 
-        AGIC["App Gateway\nIngress Controller"]
+        AGIC["App Gateway<br/>Ingress Controller"]
     end
 
     Flux -->|Reconcile| AKSCluster
-    Internet["Internet"] --> AppGW["Application Gateway\n(WAF v2)"]
+    Internet["Internet"] --> AppGW["Application Gateway<br/>(WAF v2)"]
     AppGW --> AGIC --> APIDeployment
 
     APIDeployment -->|Workload Identity OIDC| EntraID["Entra ID"]
-    EntraID --> SecretsCSI["Secrets Store CSI\n→ Key Vault"]
+    EntraID --> SecretsCSI["Secrets Store CSI<br/>→ Key Vault"]
     WorkerDeployment -->|KEDA scale| ServiceBus["Service Bus"]
 ```
 

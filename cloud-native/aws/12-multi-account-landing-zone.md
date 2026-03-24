@@ -66,28 +66,28 @@ Root
 ```mermaid
 flowchart TD
     subgraph Org["AWS Organization"]
-        Root["Root\n(Management Account)\nBilling + Org Admin only"]
+        Root["Root<br/>(Management Account)<br/>Billing + Org Admin only"]
 
         subgraph SecurityOU["Security OU"]
-            SecTooling["Security Tooling\n- GuardDuty Master\n- Security Hub Aggregator\n- Config Aggregator"]
-            LogArchive["Log Archive\n- CloudTrail (all accounts)\n- Config Snapshots\n- Access Logs\n(Object Lock — immutable)"]
+            SecTooling["Security Tooling<br/>- GuardDuty Master<br/>- Security Hub Aggregator<br/>- Config Aggregator"]
+            LogArchive["Log Archive<br/>- CloudTrail (all accounts)<br/>- Config Snapshots<br/>- Access Logs<br/>(Object Lock — immutable)"]
         end
 
         subgraph InfraOU["Infrastructure OU"]
-            Network["Network Account\n- Transit Gateway\n- Shared VPC\n- Route53 (private zones)"]
-            Shared["Shared Services\n- ECR\n- Artifact Store\n- Internal tooling"]
+            Network["Network Account<br/>- Transit Gateway<br/>- Shared VPC<br/>- Route53 (private zones)"]
+            Shared["Shared Services<br/>- ECR<br/>- Artifact Store<br/>- Internal tooling"]
         end
 
         subgraph WorkloadsOU["Workloads OU"]
-            Prod["Prod Account\n(payment-service)"]
+            Prod["Prod Account<br/>(payment-service)"]
             Staging["Staging Account"]
             Dev["Dev Account"]
         end
     end
 
     subgraph SSO["IAM Identity Center (SSO)"]
-        IdP["Corporate IdP\n(Okta / Azure AD)"]
-        PermSets["Permission Sets\n- ReadOnly\n- Developer\n- Admin"]
+        IdP["Corporate IdP<br/>(Okta / Azure AD)"]
+        PermSets["Permission Sets<br/>- ReadOnly<br/>- Developer<br/>- Admin"]
     end
 
     IdP --> SSO

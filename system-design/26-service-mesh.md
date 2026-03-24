@@ -38,25 +38,25 @@ The service mesh handles: mutual TLS (mTLS), circuit breaking, retries, timeouts
 ```mermaid
 graph TD
     subgraph Control Plane
-        Istiod["Istiod\n(Pilot + Citadel + Galley)"]
+        Istiod["Istiod<br/>(Pilot + Citadel + Galley)"]
     end
 
     subgraph Pod: Order Service
         OrderApp["Order Service"]
-        OrderProxy["Envoy Proxy\n(sidecar)"]
+        OrderProxy["Envoy Proxy<br/>(sidecar)"]
     end
 
     subgraph Pod: Payment Service
         PayApp["Payment Service"]
-        PayProxy["Envoy Proxy\n(sidecar)"]
+        PayProxy["Envoy Proxy<br/>(sidecar)"]
     end
 
     subgraph Pod: Inventory Service
         InvApp["Inventory Service"]
-        InvProxy["Envoy Proxy\n(sidecar)"]
+        InvProxy["Envoy Proxy<br/>(sidecar)"]
     end
 
-    Observability["Observability\n(Jaeger · Prometheus · Grafana · Kiali)"]
+    Observability["Observability<br/>(Jaeger · Prometheus · Grafana · Kiali)"]
 
     Istiod -->|"xDS config (TLS certs, routing)"| OrderProxy
     Istiod --> PayProxy

@@ -64,27 +64,27 @@ Azure provides three distinct messaging services — each solves a different com
 flowchart TD
     subgraph Producers["Producers"]
         OrderSvc["Order Service"]
-        IoTDevices["IoT Devices\n(10 K/sec)"]
-        AzureBlobStorage["Azure Blob Storage\n(file uploaded)"]
+        IoTDevices["IoT Devices<br/>(10 K/sec)"]
+        AzureBlobStorage["Azure Blob Storage<br/>(file uploaded)"]
     end
 
     subgraph ServiceBus["Azure Service Bus Premium"]
-        OrdersTopic["orders\n(Topic)"]
-        InventorySub["inventory-sub\n(SQL filter: type='ORDER_CREATED')"]
-        NotificationSub["notification-sub\n(SQL filter: status='SHIPPED')"]
+        OrdersTopic["orders<br/>(Topic)"]
+        InventorySub["inventory-sub<br/>(SQL filter: type='ORDER_CREATED')"]
+        NotificationSub["notification-sub<br/>(SQL filter: status='SHIPPED')"]
         OrdersDLQ["orders DLQ"]
-        PaymentQueue["payments\n(Queue + Session ID)"]
+        PaymentQueue["payments<br/>(Queue + Session ID)"]
     end
 
     subgraph EventGrid["Azure Event Grid"]
         BlobCreatedEvent["BlobCreated System Topic"]
-        WebhookSub["Function\n(process-file)"]
+        WebhookSub["Function<br/>(process-file)"]
     end
 
     subgraph EventHubs["Azure Event Hubs (Kafka endpoint)"]
-        TelemetryHub["telemetry\n(32 partitions)"]
-        CG1["Consumer Group:\nstream-analytics"]
-        CG2["Consumer Group:\narchive-to-ADLS"]
+        TelemetryHub["telemetry<br/>(32 partitions)"]
+        CG1["Consumer Group:<br/>stream-analytics"]
+        CG2["Consumer Group:<br/>archive-to-ADLS"]
     end
 
     OrderSvc -->|Managed Identity SDK| OrdersTopic
@@ -96,7 +96,7 @@ flowchart TD
 
     IoTDevices -->|Kafka protocol| TelemetryHub
     TelemetryHub --> CG1 & CG2
-    CG2 -->|Capture| ADLS["ADLS Gen2\n(parquet files)"]
+    CG2 -->|Capture| ADLS["ADLS Gen2<br/>(parquet files)"]
 ```
 
 ---

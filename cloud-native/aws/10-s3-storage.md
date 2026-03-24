@@ -73,9 +73,9 @@ flowchart TD
     end
 
     subgraph S3Ops["S3 Operations"]
-        PS["Pre-signed URL\n(upload / download)"]
-        MP["Multipart Upload\n(large files)"]
-        Direct["Direct SDK\n(internal services)"]
+        PS["Pre-signed URL<br/>(upload / download)"]
+        MP["Multipart Upload<br/>(large files)"]
+        Direct["Direct SDK<br/>(internal services)"]
     end
 
     subgraph Bucket["S3 Bucket (private)"]
@@ -87,13 +87,13 @@ flowchart TD
     end
 
     subgraph Events["Event Processing"]
-        Notification["S3 Event Notification\n(ObjectCreated)"]
+        Notification["S3 Event Notification<br/>(ObjectCreated)"]
         SQS_Q["SQS Queue"]
-        Worker["Lambda Worker\n(image resize, scan, index)"]
+        Worker["Lambda Worker<br/>(image resize, scan, index)"]
     end
 
     subgraph CDN["Distribution"]
-        CF["CloudFront CDN\n(public assets only)"]
+        CF["CloudFront CDN<br/>(public assets only)"]
     end
 
     Browser -->|Request pre-signed URL| Service

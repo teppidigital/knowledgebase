@@ -52,20 +52,20 @@ Internet → WAF (L7 rules) → API Gateway (auth, rate limit) → API (validati
 
 ```mermaid
 flowchart TD
-    Client["API Client"] --> WAF["WAF\n(OWASP rules, geo-block,\nbot protection)"]
+    Client["API Client"] --> WAF["WAF<br/>(OWASP rules, geo-block,<br/>bot protection)"]
 
-    WAF --> APIGW["API Gateway\n───────────────\n• TLS termination\n• JWT validation\n• Rate limit (per identity)\n• Request size limit\n• OpenAPI schema validation\n• Security headers injection"]
+    WAF --> APIGW["API Gateway<br/>───────────────<br/>• TLS termination<br/>• JWT validation<br/>• Rate limit (per identity)<br/>• Request size limit<br/>• OpenAPI schema validation<br/>• Security headers injection"]
 
-    APIGW --> APIApp["API Service\n───────────────\n• BOLA ownership check\n• RBAC scope enforcement\n• Input sanitisation\n• DTO allowlist\n• SSRF prevention\n• Structured error responses"]
+    APIGW --> APIApp["API Service<br/>───────────────<br/>• BOLA ownership check<br/>• RBAC scope enforcement<br/>• Input sanitisation<br/>• DTO allowlist<br/>• SSRF prevention<br/>• Structured error responses"]
 
     subgraph SecurityControls["Controls applied at each layer"]
-        WafCtrl["WAF: SQL injection, XSS,\npath traversal, LFI,\nmalformed HTTP"]
-        GWCtrl["Gateway: auth, rate limit,\nsize limit, schema"]
-        AppCtrl["App: BOLA, RBAC, business\nlogic, output filtering"]
+        WafCtrl["WAF: SQL injection, XSS,<br/>path traversal, LFI,<br/>malformed HTTP"]
+        GWCtrl["Gateway: auth, rate limit,<br/>size limit, schema"]
+        AppCtrl["App: BOLA, RBAC, business<br/>logic, output filtering"]
     end
 
-    APIApp --> DB["Database\n(parameterised queries only)"]
-    APIApp --> ExtAPI["Third-party API\n(validate all responses)"]
+    APIApp --> DB["Database<br/>(parameterised queries only)"]
+    APIApp --> ExtAPI["Third-party API<br/>(validate all responses)"]
 ```
 
 ---

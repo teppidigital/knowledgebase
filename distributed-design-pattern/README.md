@@ -95,12 +95,12 @@ flowchart TD
     A -->|Yes| B[Need strong consistency?]
 
     B -->|Yes| C[Latency sensitive?]
-    C -->|No| D[Raft Consensus\n08-raft-consensus.md]
-    C -->|Yes| E[Quorum-based Replication\n04-quorum.md]
+    C -->|No| D[Raft Consensus<br/>08-raft-consensus.md]
+    C -->|Yes| E[Quorum-based Replication<br/>04-quorum.md]
 
     B -->|No — eventual ok| F[Need conflict detection?]
-    F -->|Yes| G[Vector Clocks\n09-vector-clocks.md]
-    F -->|No| H[Gossip Protocol\n03-gossip-protocol.md]
+    F -->|Yes| G[Vector Clocks<br/>09-vector-clocks.md]
+    F -->|No| H[Gossip Protocol<br/>03-gossip-protocol.md]
 ```
 
 ### Which delivery guarantee do I need?
@@ -111,11 +111,11 @@ flowchart TD
     B -->|Yes| C[Standard HTTP / fire-and-forget]
 
     B -->|No| D[Duplicates acceptable?]
-    D -->|Yes + idempotent consumer| E[At-least-once\nKafka default]
+    D -->|Yes + idempotent consumer| E[At-least-once<br/>Kafka default]
     D -->|No| F[Need cross-system EOS?]
 
-    F -->|Within Kafka only| G[Kafka Transactions\n18-exactly-once-delivery.md]
-    F -->|Kafka + DB| H[Outbox Pattern + Idempotent Consumer\n16-idempotency.md + 18-exactly-once-delivery.md]
+    F -->|Within Kafka only| G[Kafka Transactions<br/>18-exactly-once-delivery.md]
+    F -->|Kafka + DB| H[Outbox Pattern + Idempotent Consumer<br/>16-idempotency.md + 18-exactly-once-delivery.md]
 ```
 
 ### Which real-time communication pattern?
@@ -123,11 +123,11 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[Real-time updates needed?] --> B[Bidirectional?]
-    B -->|Yes| C[WebSocket\n19-long-polling-sse-websockets.md]
+    B -->|Yes| C[WebSocket<br/>19-long-polling-sse-websockets.md]
     B -->|No — server to client only| D[High frequency?]
-    D -->|Yes| E[SSE\n19-long-polling-sse-websockets.md]
+    D -->|Yes| E[SSE<br/>19-long-polling-sse-websockets.md]
     D -->|No| F[Legacy proxy/firewall constraints?]
-    F -->|Yes| G[Long Polling\n19-long-polling-sse-websockets.md]
+    F -->|Yes| G[Long Polling<br/>19-long-polling-sse-websockets.md]
     F -->|No| E
 ```
 
@@ -136,12 +136,12 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[Data partitioning strategy?] --> B[Range queries needed?]
-    B -->|Yes| C[Range Partitioning\n15-partitioning-strategies.md]
+    B -->|Yes| C[Range Partitioning<br/>15-partitioning-strategies.md]
     B -->|No| D[Dynamic node addition?]
-    D -->|Frequent| E[Consistent Hashing\n01-consistent-hashing.md]
-    D -->|Rare| F[Hash Partitioning\n15-partitioning-strategies.md]
+    D -->|Frequent| E[Consistent Hashing<br/>01-consistent-hashing.md]
+    D -->|Rare| F[Hash Partitioning<br/>15-partitioning-strategies.md]
     F --> G[Custom routing rules?]
-    G -->|Yes| H[Directory Partitioning\n15-partitioning-strategies.md]
+    G -->|Yes| H[Directory Partitioning<br/>15-partitioning-strategies.md]
 ```
 
 ---

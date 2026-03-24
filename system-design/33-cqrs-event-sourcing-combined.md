@@ -41,14 +41,14 @@ graph TD
         API_W["Command API"]
         CH["Command Handler"]
         Agg["Aggregate"]
-        ES[("Event Store\n(PostgreSQL / EventStoreDB)")]
-        MQ["Message Broker\n(Kafka)"]
+        ES[("Event Store<br/>(PostgreSQL / EventStoreDB)")]
+        MQ["Message Broker<br/>(Kafka)"]
     end
 
     subgraph Read Side
-        PH1["Projection: OrderSummary\n→ PostgreSQL"]
-        PH2["Projection: OrderSearch\n→ Elasticsearch"]
-        PH3["Projection: Analytics\n→ Timescale DB"]
+        PH1["Projection: OrderSummary<br/>→ PostgreSQL"]
+        PH2["Projection: OrderSearch<br/>→ Elasticsearch"]
+        PH3["Projection: Analytics<br/>→ Timescale DB"]
         API_R["Query API"]
     end
 

@@ -38,7 +38,7 @@ Monoliths are the natural starting point for most applications and remain a vali
 ```mermaid
 graph TD
     Client["Client (Browser / Mobile)"]
-    Monolith["Monolith Application\n(UI + Business Logic + Data Access)"]
+    Monolith["Monolith Application<br/>(UI + Business Logic + Data Access)"]
     DB[("Single Database")]
 
     Client -->|HTTP Request| Monolith

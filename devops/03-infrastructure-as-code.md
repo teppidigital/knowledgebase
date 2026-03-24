@@ -89,18 +89,18 @@ flowchart LR
     subgraph CI Pipeline
         C -->|Trigger| D[terraform fmt check]
         D --> E[terraform validate]
-        E --> F[terraform plan\nspeculative plan]
-        F -->|Plan diff posted\nas PR comment| G[Code review]
+        E --> F[terraform plan<br/>speculative plan]
+        F -->|Plan diff posted<br/>as PR comment| G[Code review]
     end
 
     subgraph Merge & Apply
-        G -->|Approved + merged| H[terraform apply\nautomated — main branch only]
-        H --> I[(Remote State\nS3 / Azure Blob)]
-        H --> J[Cloud resources\nprovisioned / updated]
+        G -->|Approved + merged| H[terraform apply<br/>automated — main branch only]
+        H --> I[(Remote State<br/>S3 / Azure Blob)]
+        H --> J[Cloud resources<br/>provisioned / updated]
     end
 
     subgraph Scheduled drift check
-        K[Cron: terraform plan] -->|Diff detected| L[Alert: Drift found\nopen incident]
+        K[Cron: terraform plan] -->|Diff detected| L[Alert: Drift found<br/>open incident]
     end
 ```
 

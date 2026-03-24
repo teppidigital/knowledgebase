@@ -71,32 +71,32 @@ flowchart TD
     subgraph Producers["Producers"]
         App["Application"]
         Functions["Azure Functions"]
-        EventHubs["Event Hubs\n(Capture)"]
+        EventHubs["Event Hubs<br/>(Capture)"]
     end
 
     subgraph StorageAccount["Storage Account — GZRS + HNS (ADLS Gen2)"]
         subgraph Containers["Containers (directories)"]
-            Raw["raw/\n(Hot — ingestion landing)"]
-            Processed["processed/\n(Cool — after ETL)"]
-            Archive["archive/\n(Archive — >90 days)"]
-            Reports["reports/\n(Hot — serving layer)"]
+            Raw["raw/<br/>(Hot — ingestion landing)"]
+            Processed["processed/<br/>(Cool — after ETL)"]
+            Archive["archive/<br/>(Archive — >90 days)"]
+            Reports["reports/<br/>(Hot — serving layer)"]
         end
-        LifecyclePolicy["Lifecycle Management Policy\nraw → processed after 30 days\nprocessed → archive after 90 days"]
-        Versioning["Blob Versioning\n(soft delete: 14 days)"]
+        LifecyclePolicy["Lifecycle Management Policy<br/>raw → processed after 30 days<br/>processed → archive after 90 days"]
+        Versioning["Blob Versioning<br/>(soft delete: 14 days)"]
     end
 
     subgraph Access["Access Control"]
-        PE["Private Endpoint\n(dfs.core.windows.net)"]
-        RBAC["Storage Blob Data\nContributor / Reader"]
-        ImmutabilityPolicy["Immutability Policy\n(audit logs: 7-year WORM)"]
+        PE["Private Endpoint<br/>(dfs.core.windows.net)"]
+        RBAC["Storage Blob Data<br/>Contributor / Reader"]
+        ImmutabilityPolicy["Immutability Policy<br/>(audit logs: 7-year WORM)"]
     end
 
     Producers -->|Upload — Managed Identity| PE --> Raw
     Raw -->|Lifecycle| Processed -->|Lifecycle| Archive
-    EventGrid["Event Grid\n(BlobCreated)"] -->|trigger| Functions
+    EventGrid["Event Grid<br/>(BlobCreated)"] -->|trigger| Functions
     Raw --> EventGrid
 
-    Synapse["Azure Synapse\nServerless SQL"] -->|ABFS query| Processed & Archive
+    Synapse["Azure Synapse<br/>Serverless SQL"] -->|ABFS query| Processed & Archive
     App -->|Download| Reports
 ```
 

@@ -72,20 +72,20 @@ flowchart TD
         subgraph PrivateSubnets["Private Subnets (AZ-a, AZ-b)"]
             subgraph Cluster["ECS Cluster"]
                 subgraph SvcA["Service: api (Fargate)"]
-                    T1["Task\napi:latest\n0.5vCPU 1GB"]
-                    T2["Task\napi:latest\n0.5vCPU 1GB"]
+                    T1["Task<br/>api:latest<br/>0.5vCPU 1GB"]
+                    T2["Task<br/>api:latest<br/>0.5vCPU 1GB"]
                 end
                 subgraph SvcB["Service: worker (Fargate)"]
-                    T3["Task\nworker:latest\n1vCPU 2GB"]
+                    T3["Task<br/>worker:latest<br/>1vCPU 2GB"]
                 end
             end
-            RDS["Aurora PostgreSQL\n(Multi-AZ)"]
-            Cache["ElastiCache\nRedis"]
+            RDS["Aurora PostgreSQL<br/>(Multi-AZ)"]
+            Cache["ElastiCache<br/>Redis"]
         end
     end
 
     subgraph AWS["AWS Services"]
-        ECR["ECR\n(container registry)"]
+        ECR["ECR<br/>(container registry)"]
         SM["Secrets Manager"]
         CW["CloudWatch Logs"]
         SQS["SQS Queue"]

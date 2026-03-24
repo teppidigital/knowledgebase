@@ -60,25 +60,25 @@ flowchart TD
     subgraph Humans["Human Access"]
         Dev["Developer"]
         Ops["Operator"]
-        SSO["IAM Identity Center\n(SSO)"]
+        SSO["IAM Identity Center<br/>(SSO)"]
         Dev & Ops --> SSO
     end
 
     subgraph Services["Service Access"]
-        Lambda["Lambda\n(Execution Role)"]
-        ECS["ECS Task\n(Task Role)"]
-        EKS["EKS Pod\n(IRSA)"]
+        Lambda["Lambda<br/>(Execution Role)"]
+        ECS["ECS Task<br/>(Task Role)"]
+        EKS["EKS Pod<br/>(IRSA)"]
     end
 
     subgraph STS["AWS STS"]
-        OIDC["OIDC Provider\n(EKS)"]
-        AssumeRole["AssumeRole /\nAssumeRoleWithWebIdentity"]
+        OIDC["OIDC Provider<br/>(EKS)"]
+        AssumeRole["AssumeRole /<br/>AssumeRoleWithWebIdentity"]
     end
 
     subgraph IAM["IAM Policy Evaluation"]
-        SCP["SCP\n(Org guardrail)"]
-        PB["Permission Boundary\n(max allowed)"]
-        IP["Identity Policy\n(what's granted)"]
+        SCP["SCP<br/>(Org guardrail)"]
+        PB["Permission Boundary<br/>(max allowed)"]
+        IP["Identity Policy<br/>(what's granted)"]
         ALLOW{Allow?}
     end
 

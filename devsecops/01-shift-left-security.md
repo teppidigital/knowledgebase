@@ -46,32 +46,32 @@ The National Institute of Standards and Technology (NIST) estimates that fixing 
 ```mermaid
 graph LR
     subgraph Plan["Plan"]
-        TM["Threat Modeling\nSTRIDE / Attack Trees"]
-        SR["Security Requirements\nOWASP ASVS"]
+        TM["Threat Modeling<br/>STRIDE / Attack Trees"]
+        SR["Security Requirements<br/>OWASP ASVS"]
     end
 
     subgraph Code["Code"]
-        IDE["IDE Plugins\nSemgrep · Snyk · SonarLint"]
-        PC["Pre-commit Hooks\ngit-secrets · detect-secrets"]
+        IDE["IDE Plugins<br/>Semgrep · Snyk · SonarLint"]
+        PC["Pre-commit Hooks<br/>git-secrets · detect-secrets"]
     end
 
     subgraph Build["Build / PR"]
-        SAST["SAST\nSemgrep · CodeQL · SonarQube"]
-        SCA["SCA\nSnyk · OWASP Dependency-Check"]
-        SECRET["Secrets Scan\nTrivy · Gitleaks"]
-        IAC["IaC Scan\ntfsec · Checkov · Kics"]
+        SAST["SAST<br/>Semgrep · CodeQL · SonarQube"]
+        SCA["SCA<br/>Snyk · OWASP Dependency-Check"]
+        SECRET["Secrets Scan<br/>Trivy · Gitleaks"]
+        IAC["IaC Scan<br/>tfsec · Checkov · Kics"]
     end
 
     subgraph Test["Test / Staging"]
-        DAST["DAST\nOWASP ZAP · Burp Suite"]
-        FUZZ["Fuzzing\nAFL++ · OSS-Fuzz"]
-        PENTEST["Pentest\nQuarterly"]
+        DAST["DAST<br/>OWASP ZAP · Burp Suite"]
+        FUZZ["Fuzzing<br/>AFL++ · OSS-Fuzz"]
+        PENTEST["Pentest<br/>Quarterly"]
     end
 
     subgraph Deploy["Deploy / Runtime"]
-        RUNTIME["Runtime Security\nFalco · eBPF"]
-        SBOM["SBOM + VEX\nSyft · Grype"]
-        MONITOR["SIEM / Alerts\nSplunk · Datadog"]
+        RUNTIME["Runtime Security<br/>Falco · eBPF"]
+        SBOM["SBOM + VEX<br/>Syft · Grype"]
+        MONITOR["SIEM / Alerts<br/>Splunk · Datadog"]
     end
 
     Plan --> Code --> Build --> Test --> Deploy

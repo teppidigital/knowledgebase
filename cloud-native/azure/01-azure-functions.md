@@ -61,19 +61,19 @@ Cloud Native, Serverless, Event-Driven, Azure Functions
 ```mermaid
 flowchart TD
     subgraph Triggers["Triggers"]
-        T1["HTTP Trigger\n(API Management)"]
-        T2["Service Bus Trigger\n(order-queue)"]
-        T3["Timer Trigger\n(cron)"]
-        T4["Event Hub Trigger\n(telemetry stream)"]
-        T5["Blob Trigger\n(upload detected)"]
+        T1["HTTP Trigger<br/>(API Management)"]
+        T2["Service Bus Trigger<br/>(order-queue)"]
+        T3["Timer Trigger<br/>(cron)"]
+        T4["Event Hub Trigger<br/>(telemetry stream)"]
+        T5["Blob Trigger<br/>(upload detected)"]
     end
 
     subgraph Functions["Azure Functions (Premium Plan)"]
-        F1["api-handler\n(Node.js 20)"]
-        F2["order-processor\n(Node.js 20)"]
-        F3["report-generator\n(Python 3.12)"]
-        F4["telemetry-ingester\n(Node.js 20)"]
-        F5["file-processor\n(Node.js 20)"]
+        F1["api-handler<br/>(Node.js 20)"]
+        F2["order-processor<br/>(Node.js 20)"]
+        F3["report-generator<br/>(Python 3.12)"]
+        F4["telemetry-ingester<br/>(Node.js 20)"]
+        F5["file-processor<br/>(Node.js 20)"]
 
         subgraph Durable["Durable Functions (Orchestrator)"]
             ORCH["order-orchestrator"]
@@ -87,7 +87,7 @@ flowchart TD
         DB["Azure SQL / Cosmos DB"]
         SB["Service Bus"]
         BLOB["Blob Storage"]
-        TABLE["Table Storage\n(Durable state)"]
+        TABLE["Table Storage<br/>(Durable state)"]
     end
 
     T1 --> F1

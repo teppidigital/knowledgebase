@@ -38,10 +38,10 @@ graph TD
     ProductSvc["Product Service"]
     PaymentSvc["Payment Service"]
 
-    UserDB[("User DB\n(PostgreSQL)")]
-    OrderDB[("Order DB\n(PostgreSQL)")]
-    ProductDB[("Product DB\n(MongoDB)")]
-    PaymentDB[("Payment DB\n(MySQL)")]
+    UserDB[("User DB<br/>(PostgreSQL)")]
+    OrderDB[("Order DB<br/>(PostgreSQL)")]
+    ProductDB[("Product DB<br/>(MongoDB)")]
+    PaymentDB[("Payment DB<br/>(MySQL)")]
 
     UserSvc --> UserDB
     OrderSvc --> OrderDB

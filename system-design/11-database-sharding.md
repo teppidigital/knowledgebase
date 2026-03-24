@@ -37,18 +37,18 @@ Sharding is used when a single database instance can no longer handle the volume
 ```mermaid
 graph TD
     App["Application Layer"]
-    SR["Shard Router\n(Routing Logic)"]
+    SR["Shard Router<br/>(Routing Logic)"]
 
     subgraph "Shard 0 (userId mod 3 = 0)"
-        DB0[("Database Shard 0\nUsers: 0, 3, 6, 9...")]
+        DB0[("Database Shard 0<br/>Users: 0, 3, 6, 9...")]
     end
 
     subgraph "Shard 1 (userId mod 3 = 1)"
-        DB1[("Database Shard 1\nUsers: 1, 4, 7, 10...")]
+        DB1[("Database Shard 1<br/>Users: 1, 4, 7, 10...")]
     end
 
     subgraph "Shard 2 (userId mod 3 = 2)"
-        DB2[("Database Shard 2\nUsers: 2, 5, 8, 11...")]
+        DB2[("Database Shard 2<br/>Users: 2, 5, 8, 11...")]
     end
 
     App --> SR

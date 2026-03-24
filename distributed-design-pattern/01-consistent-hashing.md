@@ -40,14 +40,14 @@ It is foundational in systems like Amazon DynamoDB, Apache Cassandra, Memcached,
 graph LR
     subgraph Hash Ring 0 to 2³²
         direction LR
-        N1["Node A\n(0-85M)"]
-        N2["Node B\n(85M-170M)"]
-        N3["Node C\n(170M-255M)"]
-        N4["Node D\n(255M-340M)"]
+        N1["Node A<br/>(0-85M)"]
+        N2["Node B<br/>(85M-170M)"]
+        N3["Node C<br/>(170M-255M)"]
+        N4["Node D<br/>(255M-340M)"]
 
-        K1(["Key: user-100\nhash→ 50M → Node A"])
-        K2(["Key: order-42\nhash→ 120M → Node B"])
-        K3(["Key: product-7\nhash→ 220M → Node C"])
+        K1(["Key: user-100<br/>hash→ 50M → Node A"])
+        K2(["Key: order-42<br/>hash→ 120M → Node B"])
+        K3(["Key: product-7<br/>hash→ 220M → Node C"])
     end
 
     K1 --> N1

@@ -39,10 +39,10 @@ For example, a bank account stores "DepositMade(+100)", "WithdrawalMade(-30)" ra
 graph TD
     Client["Client"]
     CS["Command Service"]
-    ES[("Event Store\n(append-only log)")]
+    ES[("Event Store<br/>(append-only log)")]
     Agg["Aggregate (Order)"]
     PH["Projection Handler"]
-    ReadDB[("Read Model DB\n(PostgreSQL / Redis)")]
+    ReadDB[("Read Model DB<br/>(PostgreSQL / Redis)")]
     QS["Query Service"]
     EB["Event Bus (Kafka)"]
 

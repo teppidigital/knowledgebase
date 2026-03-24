@@ -60,11 +60,11 @@ Threat modeling answers four key questions:
 ```mermaid
 graph TD
     subgraph Process["Threat Modeling Process"]
-        DECOMPOSE["1 — Decompose\nDFD + Trust Boundaries\nData flows + Assets"]
-        IDENTIFY["2 — Identify Threats\nSTRIDE per element\nAttack Trees"]
-        PRIORITIZE["3 — Prioritize\nDREAD / CVSS scoring\nRisk = Likelihood × Impact"]
-        MITIGATE["4 — Mitigate\nDesign changes\nSecurity controls"]
-        VALIDATE["5 — Validate\nSecurity tests\nPentest verification"]
+        DECOMPOSE["1 — Decompose<br/>DFD + Trust Boundaries<br/>Data flows + Assets"]
+        IDENTIFY["2 — Identify Threats<br/>STRIDE per element<br/>Attack Trees"]
+        PRIORITIZE["3 — Prioritize<br/>DREAD / CVSS scoring<br/>Risk = Likelihood × Impact"]
+        MITIGATE["4 — Mitigate<br/>Design changes<br/>Security controls"]
+        VALIDATE["5 — Validate<br/>Security tests<br/>Pentest verification"]
     end
 
     DECOMPOSE --> IDENTIFY --> PRIORITIZE --> MITIGATE --> VALIDATE
@@ -198,13 +198,13 @@ function analyzeThreatModel(modelPath: string): void {
     (t) => t.severity === "Very High" || t.severity === "High",
   );
 
-  console.log(`\n📋 Threat Model: ${model.summary.title}`);
+  console.log(`<br/>📋 Threat Model: ${model.summary.title}`);
   console.log(`Total Threats:    ${allThreats.length}`);
   console.log(`Open Threats:     ${openThreats.length}`);
   console.log(`Critical/High:    ${criticalOpen.length}`);
 
   if (criticalOpen.length > 0) {
-    console.error("\n❌ Unmitigated HIGH/CRITICAL threats found:");
+    console.error("<br/>❌ Unmitigated HIGH/CRITICAL threats found:");
     criticalOpen.forEach((t) => {
       console.error(`  [${t.severity}] ${t.type}: ${t.title}`);
       console.error(`    → ${t.description}`);
@@ -214,7 +214,7 @@ function analyzeThreatModel(modelPath: string): void {
     process.exit(1);
   }
 
-  console.log("\n✅ All high-severity threats are mitigated");
+  console.log("<br/>✅ All high-severity threats are mitigated");
 }
 
 analyzeThreatModel("./threat-models/payment-service.json");

@@ -47,22 +47,22 @@ Containers are the dominant deployment unit for modern applications. While conta
 ```mermaid
 graph TD
     subgraph Build["Build Time"]
-        DF["Dockerfile\nMulti-stage · Distroless · Non-root"]
-        SCAN_IMG["Image Scan\nTrivy · Snyk Container"]
-        SBOM["SBOM Generation\nSyft → JSON/SPDX/CycloneDX"]
-        SIGN["Image Signing\nCosign + Sigstore"]
+        DF["Dockerfile<br/>Multi-stage · Distroless · Non-root"]
+        SCAN_IMG["Image Scan<br/>Trivy · Snyk Container"]
+        SBOM["SBOM Generation<br/>Syft → JSON/SPDX/CycloneDX"]
+        SIGN["Image Signing<br/>Cosign + Sigstore"]
     end
 
     subgraph Registry["Container Registry"]
-        REG["OCI Registry\nECR / GCR / GHCR"]
-        ADMIT["Admission Controller\nKyverno / OPA Gatekeeper"]
-        VERIFY["Signature Verification\nCosign verify"]
+        REG["OCI Registry<br/>ECR / GCR / GHCR"]
+        ADMIT["Admission Controller<br/>Kyverno / OPA Gatekeeper"]
+        VERIFY["Signature Verification<br/>Cosign verify"]
     end
 
     subgraph Runtime["Kubernetes Runtime"]
-        POD["Pod\nsecurityContext\nreadOnlyRootFilesystem\nrunAsNonRoot"]
-        NETPOL["NetworkPolicy\nDeny-all + allow-list"]
-        FALCO["Falco Runtime Monitor\neBPF rules → alert"]
+        POD["Pod<br/>securityContext<br/>readOnlyRootFilesystem<br/>runAsNonRoot"]
+        NETPOL["NetworkPolicy<br/>Deny-all + allow-list"]
+        FALCO["Falco Runtime Monitor<br/>eBPF rules → alert"]
     end
 
     DF --> SCAN_IMG --> SBOM --> SIGN --> REG

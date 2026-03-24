@@ -42,17 +42,17 @@ Rate limiting controls how many requests a client can make to an API or service 
 flowchart TD
     Client["Client"]
     LB["API Gateway / Middleware"]
-    Redis[("Redis\n(Rate Limit Counters)")]
+    Redis[("Redis<br/>(Rate Limit Counters)")]
     Service["Backend Service"]
 
     Client -->|"Request"| LB
-    LB -->|"Increment counter\nfor client key"| Redis
+    LB -->|"Increment counter<br/>for client key"| Redis
     Redis -->|"Count ≤ limit"| LB
     LB -->|"Forward request"| Service
     Service -->|"200 OK"| Client
 
     Redis -->|"Count > limit"| LB
-    LB -->|"429 Too Many Requests\n+ Retry-After header"| Client
+    LB -->|"429 Too Many Requests<br/>+ Retry-After header"| Client
 ```
 
 ---

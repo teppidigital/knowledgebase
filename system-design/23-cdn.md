@@ -41,11 +41,11 @@ graph TD
     UserEU["User - Europe"]
     UserAP["User - Asia Pacific"]
 
-    EdgeUS["CDN Edge Node\n(New York PoP)"]
-    EdgeEU["CDN Edge Node\n(Frankfurt PoP)"]
-    EdgeAP["CDN Edge Node\n(Singapore PoP)"]
+    EdgeUS["CDN Edge Node<br/>(New York PoP)"]
+    EdgeEU["CDN Edge Node<br/>(Frankfurt PoP)"]
+    EdgeAP["CDN Edge Node<br/>(Singapore PoP)"]
 
-    Origin["Origin Server\n(your data center / cloud)"]
+    Origin["Origin Server<br/>(your data center / cloud)"]
 
     UserUS -->|"Request"| EdgeUS
     UserEU --> EdgeEU

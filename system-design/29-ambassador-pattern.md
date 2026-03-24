@@ -36,8 +36,8 @@ It is similar to the Sidecar pattern, but while a sidecar is co-located in the s
 ```mermaid
 graph LR
     App["Application / Microservice"]
-    Ambassador["Ambassador Service\n(localhost:8080)"]
-    ExternalSvc["External / Legacy Service\n(third-party API)"]
+    Ambassador["Ambassador Service<br/>(localhost:8080)"]
+    ExternalSvc["External / Legacy Service<br/>(third-party API)"]
 
     subgraph Ambassador Capabilities
         Auth["Auth / API Key Injection"]
@@ -47,13 +47,13 @@ graph LR
         RL["Rate Limiting"]
     end
 
-    App -->|"Simple HTTP call\nlocalhost:8080"| Ambassador
+    App -->|"Simple HTTP call<br/>localhost:8080"| Ambassador
     Ambassador --> Auth
     Ambassador --> Retry
     Ambassador --> CB
     Ambassador --> Log
     Ambassador --> RL
-    Ambassador -->|"Actual HTTPS call\nwith resilience"| ExternalSvc
+    Ambassador -->|"Actual HTTPS call<br/>with resilience"| ExternalSvc
 ```
 
 ---

@@ -58,16 +58,16 @@ flowchart TD
     Developer["Developer"] -->|git push| Repo["Azure Repos / GitHub"]
 
     subgraph Pipeline["Azure Pipeline — YAML"]
-        Stage_CI["Stage: CI\n─\ninstall deps\nlint + type-check\nunit tests\nbuild\ndocker build + push to ACR"]
-        Stage_Dev["Stage: Deploy Dev\n─\nbicep deploy\ncontainer app update\nintegration tests\nsmoke tests"]
-        Stage_Staging["Stage: Deploy Staging\n─\nbicep deploy\ncontainer app update\nload test (k6)\nmanual review gate"]
-        Stage_Prod["Stage: Deploy Prod\n─\nbicep deploy\ncanary 10% → 100%\nmonitor 30 min\nrollback on alert"]
+        Stage_CI["Stage: CI<br/>─<br/>install deps<br/>lint + type-check<br/>unit tests<br/>build<br/>docker build + push to ACR"]
+        Stage_Dev["Stage: Deploy Dev<br/>─<br/>bicep deploy<br/>container app update<br/>integration tests<br/>smoke tests"]
+        Stage_Staging["Stage: Deploy Staging<br/>─<br/>bicep deploy<br/>container app update<br/>load test (k6)<br/>manual review gate"]
+        Stage_Prod["Stage: Deploy Prod<br/>─<br/>bicep deploy<br/>canary 10% → 100%<br/>monitor 30 min<br/>rollback on alert"]
 
         Stage_CI --> Stage_Dev --> Stage_Staging -->|approval required| Stage_Prod
     end
 
-    Stage_CI -->|OIDC token| ServiceConn["Service Connection\n(Workload Identity Federation)"]
-    ServiceConn --> EntraID["Entra ID"] --> Azure["Azure\n(ACR, ACA, Bicep)"]
+    Stage_CI -->|OIDC token| ServiceConn["Service Connection<br/>(Workload Identity Federation)"]
+    ServiceConn --> EntraID["Entra ID"] --> Azure["Azure<br/>(ACR, ACA, Bicep)"]
 
     Repo --> Pipeline
 ```

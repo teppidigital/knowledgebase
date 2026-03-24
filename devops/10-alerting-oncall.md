@@ -76,23 +76,23 @@ Prometheus Alertmanager routes alerts based on labels to different receivers:
 ```mermaid
 flowchart LR
     subgraph Sources
-        A[Prometheus\nalert rules] --> D[Alertmanager]
-        B[Log alert\nLoki / CloudWatch] --> D
-        C[Synthetic monitor\nblackbox exporter] --> D
+        A[Prometheus<br/>alert rules] --> D[Alertmanager]
+        B[Log alert<br/>Loki / CloudWatch] --> D
+        C[Synthetic monitor<br/>blackbox exporter] --> D
     end
 
     subgraph Alertmanager
         D --> E{Route by label}
-        E -->|severity=critical\nteam=payments| F[PagerDuty\nPayments on-call]
+        E -->|severity=critical<br/>team=payments| F[PagerDuty<br/>Payments on-call]
         E -->|severity=warning| G[Slack #alerts]
         E -->|maintenance window| H[Silenced]
     end
 
     subgraph On-Call Response
         F --> I[Engineer paged]
-        I --> J[Acknowledge\n< 5 min]
-        J -->|Resolved| K[Post-mortem\nif P1]
-        J -->|Not acknowledged\n15 min| L[Escalate to\nsecondary]
+        I --> J[Acknowledge<br/>< 5 min]
+        J -->|Resolved| K[Post-mortem<br/>if P1]
+        J -->|Not acknowledged<br/>15 min| L[Escalate to<br/>secondary]
     end
 ```
 

@@ -85,29 +85,29 @@ CVSS metrics: Attack Vector (AV), Attack Complexity (AC), Privileges Required (P
 ```mermaid
 flowchart LR
     subgraph Attack Surface Discovery
-        A[ASM Tool\nCortex Xpanse / Defender EASM]
-        A --> B[Discovered Assets:\nSubdomains, IPs, APIs, S3 buckets]
+        A[ASM Tool<br/>Cortex Xpanse / Defender EASM]
+        A --> B[Discovered Assets:<br/>Subdomains, IPs, APIs, S3 buckets]
         B --> C[Risk Classification]
         C --> D[Prioritised scope for pentest]
     end
 
     subgraph Pentest Lifecycle
-        D --> E[Scoping & RoE\ndocumentation]
-        E --> F[Reconnaissance\nPassive + Active]
-        F --> G[Vulnerability\nDiscovery]
-        G --> H[Exploitation\nProof-of-Concept]
-        H --> I[Post-Exploitation\nLateral movement assessment]
-        I --> J[Report:\nCVSS scoring + remediation steps]
+        D --> E[Scoping & RoE<br/>documentation]
+        E --> F[Reconnaissance<br/>Passive + Active]
+        F --> G[Vulnerability<br/>Discovery]
+        G --> H[Exploitation<br/>Proof-of-Concept]
+        H --> I[Post-Exploitation<br/>Lateral movement assessment]
+        I --> J[Report:<br/>CVSS scoring + remediation steps]
     end
 
     subgraph Remediation
-        J --> K[Engineering\nFix vulnerabilities]
-        K --> L[Retest\nVerify fixes]
-        L --> M[Risk Acceptance\nfor accepted low/info findings]
+        J --> K[Engineering<br/>Fix vulnerabilities]
+        K --> L[Retest<br/>Verify fixes]
+        L --> M[Risk Acceptance<br/>for accepted low/info findings]
     end
 
     subgraph Continuous
-        N[Automated scanning\nnuclei / ZAP CI/CD] -->|Daily| C
+        N[Automated scanning<br/>nuclei / ZAP CI/CD] -->|Daily| C
     end
 ```
 

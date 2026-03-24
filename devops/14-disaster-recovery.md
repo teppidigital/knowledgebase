@@ -62,26 +62,26 @@ DevOps, Disaster Recovery, Business Continuity, Backup, Failover, Velero, Cross-
 ```mermaid
 flowchart LR
     subgraph Primary["Primary Region (Azure North Europe)"]
-        AKS1[AKS Cluster\nActive]
-        PG1[(PostgreSQL\nFlexible Server)]
-        ACR1[Container Registry\nGeo-replicated]
-        SA1[Storage Account\nGRS — geo-redundant]
+        AKS1[AKS Cluster<br/>Active]
+        PG1[(PostgreSQL<br/>Flexible Server)]
+        ACR1[Container Registry<br/>Geo-replicated]
+        SA1[Storage Account<br/>GRS — geo-redundant]
     end
 
     subgraph DR["DR Region (Azure West Europe)"]
-        AKS2[AKS Cluster\nPilot Light]
-        PG2[(PostgreSQL\nReplica — read-only standby)]
-        ACR2[Registry replica\nauto-sync]
-        SA2[Storage\nRA-GRS secondary]
+        AKS2[AKS Cluster<br/>Pilot Light]
+        PG2[(PostgreSQL<br/>Replica — read-only standby)]
+        ACR2[Registry replica<br/>auto-sync]
+        SA2[Storage<br/>RA-GRS secondary]
     end
 
     subgraph Backup
-        V[Velero\nScheduled backup\nevery 1h]
-        BS[(Backup Storage\nLRS + soft-delete)]
+        V[Velero<br/>Scheduled backup<br/>every 1h]
+        BS[(Backup Storage<br/>LRS + soft-delete)]
     end
 
     subgraph Failover["Failover path"]
-        DNS[Azure Traffic Manager\nor Front Door\nhealth-probe-based routing]
+        DNS[Azure Traffic Manager<br/>or Front Door<br/>health-probe-based routing]
     end
 
     AKS1 -->|Continuous replication| PG2
@@ -91,8 +91,8 @@ flowchart LR
     SA1 -->|GRS replication| SA2
     DNS -->|Primary traffic| AKS1
     DNS -->|Failover traffic| AKS2
-    BS -->|Velero restore\nduring DR event| AKS2
-    PG2 -->|Promote to primary\nduring DR event| AKS2
+    BS -->|Velero restore<br/>during DR event| AKS2
+    PG2 -->|Promote to primary<br/>during DR event| AKS2
 ```
 
 ---
@@ -272,7 +272,7 @@ function toPrometheusText(results: RegionHealth[]): string {
     lines.push(`region_health_up{region="${r.region}"} ${r.healthy ? 1 : 0}`);
     lines.push(`region_health_latency_ms{region="${r.region}"} ${r.latencyMs}`);
   }
-  return lines.join('\n') + '\n';
+  return lines.join('<br/>') + '<br/>';
 }
 
 async function checkDRHealth(): Promise<void> {

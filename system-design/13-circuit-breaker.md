@@ -41,10 +41,10 @@ stateDiagram-v2
     [*] --> Closed
 
     Closed --> Closed : Request succeeds
-    Closed --> Open : Failure count exceeds threshold\n(e.g. 5 failures in 30s)
+    Closed --> Open : Failure count exceeds threshold<br/>(e.g. 5 failures in 30s)
 
-    Open --> Open : Request fails fast\n(no actual call made)
-    Open --> HalfOpen : Timeout period elapses\n(e.g. 60 seconds)
+    Open --> Open : Request fails fast<br/>(no actual call made)
+    Open --> HalfOpen : Timeout period elapses<br/>(e.g. 60 seconds)
 
     HalfOpen --> Closed : Probe request succeeds
     HalfOpen --> Open : Probe request fails

@@ -91,26 +91,26 @@ flowchart LR
     end
 
     subgraph Build & Publish
-        E -->|Yes| F[Docker build\nmulti-arch]
-        F --> G[Push to registry\n:sha-abc1234]
-        F --> H[Helm chart package\n+ push to OCI registry]
+        E -->|Yes| F[Docker build<br/>multi-arch]
+        F --> G[Push to registry<br/>:sha-abc1234]
+        F --> H[Helm chart package<br/>+ push to OCI registry]
     end
 
     subgraph Deploy — Staging
-        G & H --> I[Helm upgrade\nstaging cluster]
+        G & H --> I[Helm upgrade<br/>staging cluster]
         I --> J[Integration tests]
         J --> K[E2E / smoke tests]
         K --> L{Pass?}
     end
 
     subgraph Deploy — Production
-        L -->|Yes| M[ArgoCD sync\nproduction — canary 5%]
-        M --> N[Metrics check\nerror rate < 0.1%]
-        N --> O[Full rollout\n100%]
+        L -->|Yes| M[ArgoCD sync<br/>production — canary 5%]
+        M --> N[Metrics check<br/>error rate < 0.1%]
+        N --> O[Full rollout<br/>100%]
     end
 
-    E -->|No| P[Block merge\nnotify author]
-    L -->|No| Q[Block prod\nnotify on-call]
+    E -->|No| P[Block merge<br/>notify author]
+    L -->|No| Q[Block prod<br/>notify on-call]
 ```
 
 ---
@@ -259,12 +259,12 @@ function getCommitsSinceLastTag(): string[] {
     return execSync(`git log ${lastTag}..HEAD --pretty=format:%s`, {
       encoding: "utf8",
     })
-      .split("\n")
+      .split("<br/>")
       .filter(Boolean);
   } catch {
     // No previous tag — return all commits
     return execSync("git log --pretty=format:%s", { encoding: "utf8" })
-      .split("\n")
+      .split("<br/>")
       .filter(Boolean);
   }
 }

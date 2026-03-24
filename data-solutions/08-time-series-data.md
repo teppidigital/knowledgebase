@@ -66,27 +66,27 @@ Raw data (1s resolution)    → keep 7 days
 ```mermaid
 flowchart LR
     subgraph Producers
-        IOT[IoT sensors\nMQTT]
-        APP2[Application metrics\nOTel / Prometheus scrape]
-        DB_STATS[PostgreSQL stats\npg_stat_* tables]
+        IOT[IoT sensors<br/>MQTT]
+        APP2[Application metrics<br/>OTel / Prometheus scrape]
+        DB_STATS[PostgreSQL stats<br/>pg_stat_* tables]
     end
 
     subgraph Ingest
-        PROM[Prometheus\nscrape + remote_write]
-        VM[VictoriaMetrics\nRemoteWrite endpoint]
-        TSDB_W[TimescaleDB\nwrite API]
+        PROM[Prometheus<br/>scrape + remote_write]
+        VM[VictoriaMetrics<br/>RemoteWrite endpoint]
+        TSDB_W[TimescaleDB<br/>write API]
     end
 
     subgraph Storage["TimescaleDB (PostgreSQL + extension)"]
-        HT[Hypertables\nautomatically chunked by time]
-        CA[Continuous Aggregates\npre-computed 5min / 1h]
-        RP[Retention Policy\ndelete chunks > 90 days]
+        HT[Hypertables<br/>automatically chunked by time]
+        CA[Continuous Aggregates<br/>pre-computed 5min / 1h]
+        RP[Retention Policy<br/>delete chunks > 90 days]
     end
 
     subgraph Query
-        GRAF[Grafana\ndashboards]
-        API3[Analytics API\nNode.js]
-        ALERT2[Alertmanager\nalert rules]
+        GRAF[Grafana<br/>dashboards]
+        API3[Analytics API<br/>Node.js]
+        ALERT2[Alertmanager<br/>alert rules]
     end
 
     IOT -->|MQTT → bridge| TSDB_W

@@ -36,15 +36,15 @@ Common queue systems: RabbitMQ, AWS SQS, Redis Lists/Streams, Azure Service Bus.
 
 ```mermaid
 graph LR
-    P1["Producer 1\n(Order Service)"]
-    P2["Producer 2\n(Upload Service)"]
+    P1["Producer 1<br/>(Order Service)"]
+    P2["Producer 2<br/>(Upload Service)"]
 
-    Q["Message Queue\n(RabbitMQ / SQS)"]
-    DLQ["Dead Letter Queue\n(DLQ)"]
+    Q["Message Queue<br/>(RabbitMQ / SQS)"]
+    DLQ["Dead Letter Queue<br/>(DLQ)"]
 
-    C1["Consumer 1\n(Worker)"]
-    C2["Consumer 2\n(Worker)"]
-    C3["Consumer 3\n(Worker)"]
+    C1["Consumer 1<br/>(Worker)"]
+    C2["Consumer 2<br/>(Worker)"]
+    C3["Consumer 3<br/>(Worker)"]
 
     P1 -->|"Enqueue job"| Q
     P2 -->|"Enqueue job"| Q

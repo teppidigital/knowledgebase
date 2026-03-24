@@ -70,28 +70,28 @@ Flink and Kafka Streams achieve exactly-once end-to-end via:
 ```mermaid
 flowchart LR
     subgraph Sources
-        POS[Point-of-sale\nevents]
+        POS[Point-of-sale<br/>events]
         WEB[Web clickstream]
         APP[Mobile app events]
     end
 
     subgraph Kafka
-        T_TXN[topic: transactions\npartitioned by customer_id]
+        T_TXN[topic: transactions<br/>partitioned by customer_id]
         T_CLICK[topic: clickstream]
-        T_ALERT[topic: fraud-alerts\noutput]
+        T_ALERT[topic: fraud-alerts<br/>output]
     end
 
     subgraph Flink["Apache Flink Job Cluster"]
-        SRC[Kafka Source\nevent-time watermarks]
-        ENR[Enrich with\ncustomer profile\nskip to async I/O]
-        WIN[Tumbling 5-min window\nper customer_id]
-        DET[Fraud detection\nstateful ML scorer]
-        SINK[Kafka Sink\ntransactional]
+        SRC[Kafka Source<br/>event-time watermarks]
+        ENR[Enrich with<br/>customer profile<br/>skip to async I/O]
+        WIN[Tumbling 5-min window<br/>per customer_id]
+        DET[Fraud detection<br/>stateful ML scorer]
+        SINK[Kafka Sink<br/>transactional]
     end
 
     subgraph Downstream
-        ES[Elasticsearch\nlive dashboard]
-        ALERT_SVC[Alert service\nPush notification]
+        ES[Elasticsearch<br/>live dashboard]
+        ALERT_SVC[Alert service<br/>Push notification]
     end
 
     POS & WEB & APP --> T_TXN & T_CLICK

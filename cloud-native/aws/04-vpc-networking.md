@@ -69,31 +69,31 @@ Data Subnets       — RDS, ElastiCache, OpenSearch
 ```mermaid
 flowchart TD
     Internet["Internet"] --> IGW["Internet Gateway"]
-    OnPrem["On-Premises\n(Corporate DC)"] --> VGW["Virtual Private\nGateway / DX"]
+    OnPrem["On-Premises<br/>(Corporate DC)"] --> VGW["Virtual Private<br/>Gateway / DX"]
 
     subgraph VPC["VPC — 10.0.0.0/16"]
-        IGW --> PublicRT["Public Route Table\n0.0.0.0/0 → IGW"]
+        IGW --> PublicRT["Public Route Table<br/>0.0.0.0/0 → IGW"]
 
         subgraph AZ_A["AZ us-east-1a"]
-            PubA["Public Subnet\n10.0.0.0/24\n(ALB, NAT-A)"]
-            PrivA["Private Subnet\n10.0.16.0/20\n(ECS/EKS)"]
-            DataA["Data Subnet\n10.0.4.0/24\n(RDS, Redis)"]
+            PubA["Public Subnet<br/>10.0.0.0/24<br/>(ALB, NAT-A)"]
+            PrivA["Private Subnet<br/>10.0.16.0/20<br/>(ECS/EKS)"]
+            DataA["Data Subnet<br/>10.0.4.0/24<br/>(RDS, Redis)"]
             NATA["NAT GW-A"]
         end
 
         subgraph AZ_B["AZ us-east-1b"]
-            PubB["Public Subnet\n10.0.1.0/24\n(ALB, NAT-B)"]
-            PrivB["Private Subnet\n10.0.32.0/20\n(ECS/EKS)"]
-            DataB["Data Subnet\n10.0.5.0/24\n(RDS, Redis)"]
+            PubB["Public Subnet<br/>10.0.1.0/24<br/>(ALB, NAT-B)"]
+            PrivB["Private Subnet<br/>10.0.32.0/20<br/>(ECS/EKS)"]
+            DataB["Data Subnet<br/>10.0.5.0/24<br/>(RDS, Redis)"]
             NATB["NAT GW-B"]
         end
 
-        PrivA & PrivB -->|S3, DynamoDB,\nECR, STS| EP["VPC Endpoints\n(Gateway + Interface)"]
+        PrivA & PrivB -->|S3, DynamoDB,<br/>ECR, STS| EP["VPC Endpoints<br/>(Gateway + Interface)"]
         PrivA --> NATA --> PubA
         PrivB --> NATB --> PubB
         DataA ~~~ DataB
 
-        ALB["Application\nLoad Balancer"]
+        ALB["Application<br/>Load Balancer"]
         PubA & PubB --> ALB --> PrivA & PrivB
     end
 

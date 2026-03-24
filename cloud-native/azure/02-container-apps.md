@@ -63,23 +63,23 @@ Cloud Native, Containers, Azure Container Apps, KEDA, Dapr
 
 ```mermaid
 flowchart TD
-    Internet["Internet"] --> APIM["API Management\n(gateway)"]
+    Internet["Internet"] --> APIM["API Management<br/>(gateway)"]
 
     subgraph ACAEnv["Container Apps Environment (VNet-injected)"]
         subgraph IngressLayer["External Ingress"]
-            API["api-service\n(external ingress)\nRevision A: 90%\nRevision B: 10%"]
+            API["api-service<br/>(external ingress)<br/>Revision A: 90%<br/>Revision B: 10%"]
         end
 
         subgraph InternalServices["Internal Services (no public ingress)"]
-            WORKER["order-worker\n(Service Bus KEDA scaler)\nScale 0–20"]
-            NOTIF["notification-service\n(internal ingress)"]
-            REPORT["report-service\n(Timer trigger)"]
+            WORKER["order-worker<br/>(Service Bus KEDA scaler)<br/>Scale 0–20"]
+            NOTIF["notification-service<br/>(internal ingress)"]
+            REPORT["report-service<br/>(Timer trigger)"]
         end
 
         subgraph Dapr["Dapr Sidecars"]
-            PubSub["Pub/Sub\n(Service Bus)"]
-            State["State Store\n(Cosmos DB)"]
-            SecretStore["Secret Store\n(Key Vault)"]
+            PubSub["Pub/Sub<br/>(Service Bus)"]
+            State["State Store<br/>(Cosmos DB)"]
+            SecretStore["Secret Store<br/>(Key Vault)"]
         end
     end
 

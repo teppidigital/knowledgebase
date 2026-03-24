@@ -37,20 +37,20 @@ Common use cases: integrating with legacy systems, third-party APIs, or differen
 graph LR
     subgraph Your Domain Bounded Context
         DS["Domain Service"]
-        DM["Domain Model\n(Order, Customer, Product)"]
+        DM["Domain Model<br/>(Order, Customer, Product)"]
         DS --> DM
     end
 
-    ACL["Anti-Corruption Layer\n(Translator / Adapter)"]
+    ACL["Anti-Corruption Layer<br/>(Translator / Adapter)"]
 
     subgraph External System Legacy ERP
         ExtAPI["Legacy ERP API"]
-        ExtModel["External Model\n(SalesOrder, Client, SKU)"]
+        ExtModel["External Model<br/>(SalesOrder, Client, SKU)"]
         ExtAPI --> ExtModel
     end
 
     DS <-->|"Domain concepts"| ACL
-    ACL <-->|"External concepts\n(translated)"| ExtAPI
+    ACL <-->|"External concepts<br/>(translated)"| ExtAPI
 ```
 
 ---

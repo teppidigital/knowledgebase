@@ -58,22 +58,22 @@ DevSecOps, Compliance, Governance, Automation, Audit
 ```mermaid
 graph TD
     subgraph Sources["Infrastructure Sources"]
-        AWS["AWS Resources\nEC2, RDS, S3, IAM..."]
-        K8S2["Kubernetes\nPods, RBAC, NetworkPolicies"]
-        OS["OS / Packages\nAMI, Container OS layer"]
+        AWS["AWS Resources<br/>EC2, RDS, S3, IAM..."]
+        K8S2["Kubernetes<br/>Pods, RBAC, NetworkPolicies"]
+        OS["OS / Packages<br/>AMI, Container OS layer"]
     end
 
     subgraph Checks["Compliance Checks"]
-        CIS["CIS Benchmarks\n(Prowler / Kube-bench)"]
-        SCAP2["SCAP / InSpec\n(OS hardening)"]
-        AWSCFG["AWS Config Rules\n(continuous)"]
+        CIS["CIS Benchmarks<br/>(Prowler / Kube-bench)"]
+        SCAP2["SCAP / InSpec<br/>(OS hardening)"]
+        AWSCFG["AWS Config Rules<br/>(continuous)"]
     end
 
     subgraph Reporting["Reporting & Remediation"]
-        DASH["Compliance Dashboard\nSecurityHub / Grafana"]
-        TICKET["Auto-create JIRA ticket\non new violation"]
-        BLOCK3["Block deployment\nif score < threshold"]
-        REPORT2["Audit Report\nSOC2 / PCI evidence"]
+        DASH["Compliance Dashboard<br/>SecurityHub / Grafana"]
+        TICKET["Auto-create JIRA ticket<br/>on new violation"]
+        BLOCK3["Block deployment<br/>if score < threshold"]
+        REPORT2["Audit Report<br/>SOC2 / PCI evidence"]
     end
 
     AWS --> AWSCFG & CIS
@@ -312,7 +312,7 @@ function generateComplianceReport(
     });
 
     if (failed > 0) {
-      console.warn(`\n[${framework}] ${failed} failing controls:`);
+      console.warn(`<br/>[${framework}] ${failed} failing controls:`);
       fControls
         .filter((c) => c.status === "FAIL")
         .forEach((c) => console.warn(`  ❌ ${c.id}: ${c.description}`));
@@ -326,7 +326,7 @@ function generateComplianceReport(
   };
 
   fs.writeFileSync("compliance-report.json", JSON.stringify(report, null, 2));
-  console.log("\nCompliance report written to compliance-report.json");
+  console.log("<br/>Compliance report written to compliance-report.json");
 
   return summaries;
 }

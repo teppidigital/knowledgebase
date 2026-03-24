@@ -86,28 +86,28 @@ SRE targets: spend < 50% of time on toil; remainder on engineering that eliminat
 ```mermaid
 flowchart TD
     subgraph Measurement
-        A[SLI: measured from\nPrometheus metrics] --> B[SLO: target 99.9%\nsuccessful requests]
-        B --> C[Error budget:\n43.2 min / 30 days]
+        A[SLI: measured from<br/>Prometheus metrics] --> B[SLO: target 99.9%<br/>successful requests]
+        B --> C[Error budget:<br/>43.2 min / 30 days]
     end
 
     subgraph Burn Rate Alerts
-        A --> D[Alert: 1h window\n14× burn rate]
-        A --> E[Alert: 6h window\n6× burn rate]
+        A --> D[Alert: 1h window<br/>14× burn rate]
+        A --> E[Alert: 6h window<br/>6× burn rate]
         D -->|P1| F[Page on-call immediately]
         E -->|P2| G[Page if sustained]
     end
 
     subgraph Budget Consumed
-        C -->|>50% consumed| H[Warning: slow\ndeployment review]
-        C -->|100% consumed| I[Deployment freeze\nReliability sprint]
-        I --> J[Post-mortem\nAction items]
+        C -->|>50% consumed| H[Warning: slow<br/>deployment review]
+        C -->|100% consumed| I[Deployment freeze<br/>Reliability sprint]
+        I --> J[Post-mortem<br/>Action items]
         J -->|Budget recovers| B
     end
 
     subgraph Toil Elimination
-        K[Toil identified\nin runbook] --> L[Automate with\noperator / SOAR]
-        L --> M[Toil eliminated\nfrees SRE capacity]
-        M --> N[Engineering improves\nreliability further]
+        K[Toil identified<br/>in runbook] --> L[Automate with<br/>operator / SOAR]
+        L --> M[Toil eliminated<br/>frees SRE capacity]
+        M --> N[Engineering improves<br/>reliability further]
     end
 ```
 

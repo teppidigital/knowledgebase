@@ -69,10 +69,10 @@ Benefits:
 ```mermaid
 flowchart TD
     subgraph AccessPatterns["Access Patterns"]
-        AP1["Get order by ID\nPK=ORDER#id SK=METADATA"]
-        AP2["Get all orders by customer\nGSI1: PK=CUSTOMER#id SK=ORDER#id"]
-        AP3["Get recent orders by status\nGSI2: PK=STATUS#pending SK=CREATED_AT"]
-        AP4["List products in order\nPK=ORDER#id SK=PRODUCT#id"]
+        AP1["Get order by ID<br/>PK=ORDER#id SK=METADATA"]
+        AP2["Get all orders by customer<br/>GSI1: PK=CUSTOMER#id SK=ORDER#id"]
+        AP3["Get recent orders by status<br/>GSI2: PK=STATUS#pending SK=CREATED_AT"]
+        AP4["List products in order<br/>PK=ORDER#id SK=PRODUCT#id"]
     end
 
     subgraph Table["DynamoDB Table: myapp"]

@@ -39,10 +39,10 @@ Two patterns:
 graph TD
     subgraph Client-Side Discovery
         ClientA["Client A"]
-        Registry[("Service Registry\n(Consul / Eureka / etcd)")]
-        Inst1["Order Service :3001\n(healthy ✅)"]
-        Inst2["Order Service :3002\n(healthy ✅)"]
-        Inst3["Order Service :3003\n(unhealthy ❌)"]
+        Registry[("Service Registry<br/>(Consul / Eureka / etcd)")]
+        Inst1["Order Service :3001<br/>(healthy ✅)"]
+        Inst2["Order Service :3002<br/>(healthy ✅)"]
+        Inst3["Order Service :3003<br/>(unhealthy ❌)"]
 
         ClientA -->|"1. Query: where is order-service?"| Registry
         Registry -->|"2. Return: :3001, :3002"| ClientA
@@ -52,7 +52,7 @@ graph TD
 
     subgraph Server-Side Discovery
         ClientB["Client B"]
-        LB["Load Balancer\n(Kubernetes Service / ALB)"]
+        LB["Load Balancer<br/>(Kubernetes Service / ALB)"]
         Svc1["Pod 1 :3001"]
         Svc2["Pod 2 :3002"]
         ClientB -->|"Call: order-service"| LB

@@ -37,12 +37,12 @@ Load balancing operates at **Layer 4** (transport — TCP/UDP) or **Layer 7** (a
 ```mermaid
 graph TD
     Client["Client"]
-    LB["Load Balancer\n(NGINX / AWS ALB)"]
+    LB["Load Balancer<br/>(NGINX / AWS ALB)"]
 
-    S1["Server Instance 1\n(healthy)"]
-    S2["Server Instance 2\n(healthy)"]
-    S3["Server Instance 3\n(healthy)"]
-    S4["Server Instance 4\n(unhealthy ❌)"]
+    S1["Server Instance 1<br/>(healthy)"]
+    S2["Server Instance 2<br/>(healthy)"]
+    S3["Server Instance 3<br/>(healthy)"]
+    S4["Server Instance 4<br/>(unhealthy ❌)"]
 
     HC["Health Check Monitor"]
 

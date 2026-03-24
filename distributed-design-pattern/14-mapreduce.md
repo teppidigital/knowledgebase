@@ -48,15 +48,15 @@ Between Map and Reduce, the framework performs a **Shuffle & Sort** phase, routi
 ```mermaid
 graph LR
     subgraph Input["Input Data (Distributed)"]
-        I1["Split 1\n'apple banana apple'"]
-        I2["Split 2\n'banana cherry apple'"]
-        I3["Split 3\n'cherry cherry banana'"]
+        I1["Split 1<br/>'apple banana apple'"]
+        I2["Split 2<br/>'banana cherry apple'"]
+        I3["Split 3<br/>'cherry cherry banana'"]
     end
 
     subgraph Map["Map Phase (parallel per split)"]
-        M1["Mapper 1\napple→1, banana→1, apple→1"]
-        M2["Mapper 2\nbanana→1, cherry→1, apple→1"]
-        M3["Mapper 3\ncherry→1, cherry→1, banana→1"]
+        M1["Mapper 1<br/>apple→1, banana→1, apple→1"]
+        M2["Mapper 2<br/>banana→1, cherry→1, apple→1"]
+        M3["Mapper 3<br/>cherry→1, cherry→1, banana→1"]
     end
 
     subgraph Shuffle["Shuffle & Sort (by key)"]
@@ -160,7 +160,7 @@ const invertedIndex = engine.run(
   (_word, docIds) => [...new Set(docIds)] // Deduplicate
 );
 
-console.log('\nInverted index for "fox":', invertedIndex.get('fox')); // ['doc1', 'doc2', 'doc3']
+console.log('<br/>Inverted index for "fox":', invertedIndex.get('fox')); // ['doc1', 'doc2', 'doc3']
 
 // --- Example 3: Log Analysis ---
 interface LogEntry {
@@ -186,7 +186,7 @@ const errorsByService = engine.run(
   (service, counts) => ({ service, errorCount: counts.reduce((s, n) => s + n, 0) })
 );
 
-console.log('\nErrors by service:');
+console.log('<br/>Errors by service:');
 errorsByService.forEach((result) => console.log(`  ${result.service}: ${result.errorCount} errors`));
 ```
 

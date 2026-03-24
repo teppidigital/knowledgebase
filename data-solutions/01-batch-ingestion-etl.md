@@ -61,22 +61,22 @@ Data Solutions, ETL, Batch Processing, Apache Spark, dbt, Airflow, Data Warehous
 ```mermaid
 flowchart LR
     subgraph Sources
-        PG[(PostgreSQL\nOperational DB)]
-        S3F[S3 / Blob\nRaw files]
-        API[SaaS API\ne.g., Salesforce]
+        PG[(PostgreSQL<br/>Operational DB)]
+        S3F[S3 / Blob<br/>Raw files]
+        API[SaaS API<br/>e.g., Salesforce]
     end
 
     subgraph Orchestration["Orchestration (Airflow / Prefect)"]
-        EXT[Extract task\nfull or incremental]
-        STAGE[Stage to\nraw layer]
-        DBT[dbt run\nmodels + tests]
-        ALERT[Failure alert\nSlack / PagerDuty]
+        EXT[Extract task<br/>full or incremental]
+        STAGE[Stage to<br/>raw layer]
+        DBT[dbt run<br/>models + tests]
+        ALERT[Failure alert<br/>Slack / PagerDuty]
     end
 
     subgraph Warehouse["Data Warehouse (Snowflake / BigQuery / Redshift)"]
-        RAW[raw schema\nuntransformed]
-        STG[staging schema\ncleaned + typed]
-        MART[mart schema\nbusiness-ready]
+        RAW[raw schema<br/>untransformed]
+        STG[staging schema<br/>cleaned + typed]
+        MART[mart schema<br/>business-ready]
     end
 
     PG -->|pg_dump / CDC| EXT

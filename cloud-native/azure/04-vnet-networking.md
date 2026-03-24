@@ -56,25 +56,25 @@ Cloud Native, Networking, VNet, Hub-Spoke, Private Endpoints, NSG, Azure Firewal
 
 ```mermaid
 flowchart TD
-    Internet["Internet"] --> FrontDoor["Azure Front Door\n(WAF + Global Load Balancer)"]
-    OnPrem["On-Premises\n(ExpressRoute / VPN)"] --> Hub
+    Internet["Internet"] --> FrontDoor["Azure Front Door<br/>(WAF + Global Load Balancer)"]
+    OnPrem["On-Premises<br/>(ExpressRoute / VPN)"] --> Hub
 
     subgraph Hub["Hub VNet 10.0.0.0/16"]
-        GW["VPN / ExpressRoute\nGateway Subnet"]
-        Bastion["Azure Bastion\nSubnet 10.0.1.0/27"]
-        FW["Azure Firewall Premium\n10.0.0.4\nSubnet 10.0.0.0/26"]
-        PDNS["Private DNS Resolver\n10.0.2.0/28"]
+        GW["VPN / ExpressRoute<br/>Gateway Subnet"]
+        Bastion["Azure Bastion<br/>Subnet 10.0.1.0/27"]
+        FW["Azure Firewall Premium<br/>10.0.0.4<br/>Subnet 10.0.0.0/26"]
+        PDNS["Private DNS Resolver<br/>10.0.2.0/28"]
     end
 
     subgraph ProdSpoke["Prod Spoke VNet 10.1.0.0/16"]
-        AppSubnet["App Subnet 10.1.1.0/24\n(AKS / ACA)"]
-        DataSubnet["Data Subnet 10.1.2.0/24\n(Private Endpoints)"]
-        IngressSubnet["Ingress Subnet 10.1.0.0/24\n(App Gateway)"]
+        AppSubnet["App Subnet 10.1.1.0/24<br/>(AKS / ACA)"]
+        DataSubnet["Data Subnet 10.1.2.0/24<br/>(Private Endpoints)"]
+        IngressSubnet["Ingress Subnet 10.1.0.0/24<br/>(App Gateway)"]
 
-        PE_SQL[("SQL Private Endpoint\n10.1.2.4")]
-        PE_KV[("Key Vault Private Endpoint\n10.1.2.5")]
-        PE_SB[("Service Bus Private Endpoint\n10.1.2.6")]
-        PE_ACR[("ACR Private Endpoint\n10.1.2.7")]
+        PE_SQL[("SQL Private Endpoint<br/>10.1.2.4")]
+        PE_KV[("Key Vault Private Endpoint<br/>10.1.2.5")]
+        PE_SB[("Service Bus Private Endpoint<br/>10.1.2.6")]
+        PE_ACR[("ACR Private Endpoint<br/>10.1.2.7")]
     end
 
     FrontDoor --> IngressSubnet

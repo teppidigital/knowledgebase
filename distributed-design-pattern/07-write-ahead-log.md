@@ -103,7 +103,7 @@ export class WriteAheadLog {
       checksum: this.computeChecksum({ lsn: this.lsn, operation, table, key, data }),
     };
 
-    const line = JSON.stringify(entry) + '\n';
+    const line = JSON.stringify(entry) + '<br/>';
 
     // Write + fsync ensures durability before we ACK the client
     await this.writeSynced(line);
@@ -154,7 +154,7 @@ export class WriteAheadLog {
     // Read last line of WAL file to get the current LSN
     try {
       const content = fs.readFileSync(this.walPath, 'utf8');
-      const lines = content.trim().split('\n').filter(Boolean);
+      const lines = content.trim().split('<br/>').filter(Boolean);
       if (lines.length === 0) return 0;
       const last: WALEntry = JSON.parse(lines[lines.length - 1]);
       return last.lsn;

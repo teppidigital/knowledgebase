@@ -77,12 +77,12 @@ Dev pushes code → CI builds image → CI updates config repo (image tag bump)
 flowchart LR
     subgraph Developer workflow
         A[Feature branch] -->|CI passes| B[Merge to main]
-        B -->|CI updates image tag| C[(Config repo\ngit commit)]
+        B -->|CI updates image tag| C[(Config repo<br/>git commit)]
     end
 
     subgraph Config Repository
-        C --> D[staging/api/values.yaml\nimage.tag: sha-abc1234]
-        D -->|PR approved| E[production/api/values.yaml\nimage.tag: sha-abc1234]
+        C --> D[staging/api/values.yaml<br/>image.tag: sha-abc1234]
+        D -->|PR approved| E[production/api/values.yaml<br/>image.tag: sha-abc1234]
     end
 
     subgraph Cluster — Staging
@@ -96,7 +96,7 @@ flowchart LR
     end
 
     subgraph Drift detection
-        J[Someone runs\nkubectl edit directly]
+        J[Someone runs<br/>kubectl edit directly]
         J -->|ArgoCD detects OutOfSync| F
         F -->|Auto-sync reverts| G
     end

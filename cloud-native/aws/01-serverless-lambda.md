@@ -61,19 +61,19 @@ Cloud Native, Serverless, Event-Driven, AWS Lambda
 ```mermaid
 flowchart TD
     subgraph Triggers["Event Sources"]
-        T1["API Gateway\n(HTTP request)"]
-        T2["SQS Queue\n(batch of messages)"]
-        T3["EventBridge\n(scheduled / event rule)"]
-        T4["S3 Event\n(ObjectCreated)"]
-        T5["DynamoDB Stream\n(change capture)"]
+        T1["API Gateway<br/>(HTTP request)"]
+        T2["SQS Queue<br/>(batch of messages)"]
+        T3["EventBridge<br/>(scheduled / event rule)"]
+        T4["S3 Event<br/>(ObjectCreated)"]
+        T5["DynamoDB Stream<br/>(change capture)"]
     end
 
     subgraph LambdaLayer["Lambda Functions"]
-        L1["api-handler\n(Node.js 20)"]
-        L2["order-processor\n(Node.js 20)"]
-        L3["report-generator\n(Python 3.12)"]
-        L4["image-resizer\n(Node.js 20)"]
-        L5["audit-logger\n(Node.js 20)"]
+        L1["api-handler<br/>(Node.js 20)"]
+        L2["order-processor<br/>(Node.js 20)"]
+        L3["report-generator<br/>(Python 3.12)"]
+        L4["image-resizer<br/>(Node.js 20)"]
+        L5["audit-logger<br/>(Node.js 20)"]
     end
 
     subgraph Downstream["Downstream"]

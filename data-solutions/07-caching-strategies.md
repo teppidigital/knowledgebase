@@ -68,9 +68,9 @@ flowchart LR
     end
 
     subgraph CacheLayer["Cache Layer (Redis Cluster)"]
-        R1[(Redis shard 1\nkeys: a-h)]
-        R2[(Redis shard 2\nkeys: i-p)]
-        R3[(Redis shard 3\nkeys: q-z)]
+        R1[(Redis shard 1<br/>keys: a-h)]
+        R2[(Redis shard 2<br/>keys: i-p)]
+        R3[(Redis shard 3<br/>keys: q-z)]
     end
 
     subgraph DB["Primary Store (PostgreSQL)"]
@@ -78,8 +78,8 @@ flowchart LR
     end
 
     subgraph Invalidation
-        CDC2[CDC / Domain events\nKafka topic]
-        INV[Cache invalidator\ndel + tag purge]
+        CDC2[CDC / Domain events<br/>Kafka topic]
+        INV[Cache invalidator<br/>del + tag purge]
     end
 
     APP -->|1. GET product:123| R2

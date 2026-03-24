@@ -61,11 +61,11 @@ Standard TLS: Client verifies server's certificate. mTLS: **both** client and se
 
 ```mermaid
 flowchart TD
-    Internet["Internet"] --> WAF["WAF + DDoS\n(Layer 7)"]
-    WAF --> FW["Firewall\n(stateful, FQDN rules)"]
+    Internet["Internet"] --> WAF["WAF + DDoS<br/>(Layer 7)"]
+    WAF --> FW["Firewall<br/>(stateful, FQDN rules)"]
 
     subgraph VNet["VNet / VPC"]
-        FW --> IngressSubnet["Ingress Subnet\n(Load Balancer / App Gateway)"]
+        FW --> IngressSubnet["Ingress Subnet<br/>(Load Balancer / App Gateway)"]
 
         subgraph K8sCluster["Kubernetes Cluster"]
             subgraph NSFrontend["namespace: frontend"]
@@ -81,11 +81,11 @@ flowchart TD
                 PayPod["payment-pod"]
             end
 
-            NPol["NetworkPolicy:\n• frontend → orders: 8080\n• orders → payments: 8081\n• orders → order-db: 5432\n• deny all else"]
-            SPIRE["SPIRE Server\n(issues SVIDs\nspiffe://myapp/...)"]
+            NPol["NetworkPolicy:<br/>• frontend → orders: 8080<br/>• orders → payments: 8081<br/>• orders → order-db: 5432<br/>• deny all else"]
+            SPIRE["SPIRE Server<br/>(issues SVIDs<br/>spiffe://myapp/...)"]
         end
 
-        PrivateEndpoints["Private Endpoints\n(SQL, Key Vault, Service Bus)"]
+        PrivateEndpoints["Private Endpoints<br/>(SQL, Key Vault, Service Bus)"]
     end
 
     IngressSubnet --> WebPod
@@ -95,7 +95,7 @@ flowchart TD
     OrderPod & PayPod --> PrivateEndpoints
     SPIRE -->|issues certs + rotates| WebPod & OrderPod & PayPod
 
-    EgressFW["Egress Firewall\n(allowlist: npm, Docker Hub,\nAzure endpoints)"]
+    EgressFW["Egress Firewall<br/>(allowlist: npm, Docker Hub,<br/>Azure endpoints)"]
     K8sCluster -->|UDR force-tunnel| EgressFW
 ```
 

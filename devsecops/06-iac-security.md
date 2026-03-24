@@ -54,20 +54,20 @@ Common IaC security misconfigurations include:
 ```mermaid
 graph TD
     subgraph Developer["Developer"]
-        TF["Terraform / K8s YAML\nHCL / Manifests"]
-        IDE2["IDE Plugin\ntfsec / Checkov"]
+        TF["Terraform / K8s YAML<br/>HCL / Manifests"]
+        IDE2["IDE Plugin<br/>tfsec / Checkov"]
     end
 
     subgraph PR["Pull Request"]
-        SCAN["IaC Scanner\nCheckov + tfsec + Trivy"]
+        SCAN["IaC Scanner<br/>Checkov + tfsec + Trivy"]
         COMMENT["Inline PR Comments"]
         SARIF2["SARIF → GitHub Security"]
         GATE2{Security Gate}
     end
 
     subgraph Live["Live Infrastructure"]
-        DRIFT["Drift Scan\nCheckov --repo-id live"]
-        CSPM["CSPM Tool\nPrisma Cloud / Wiz"]
+        DRIFT["Drift Scan<br/>Checkov --repo-id live"]
+        CSPM["CSPM Tool<br/>Prisma Cloud / Wiz"]
     end
 
     TF --> IDE2

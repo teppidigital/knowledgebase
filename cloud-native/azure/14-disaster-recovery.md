@@ -63,22 +63,22 @@ Cloud Native, Resilience, Disaster Recovery, Azure Site Recovery, Geo-Redundancy
 
 ```mermaid
 flowchart TD
-    Users["Users"] --> FrontDoor["Azure Front Door\n(health-probe failover)"]
+    Users["Users"] --> FrontDoor["Azure Front Door<br/>(health-probe failover)"]
 
     subgraph Primary["Primary Region — West Europe"]
-        ACA_Primary["Container Apps\n(api-service)"]
-        SQL_Primary["Azure SQL\n(Read-Write)"]
-        SB_Primary["Service Bus Premium\n(active)"]
-        Cosmos_Primary["Cosmos DB\n(write region)"]
-        Blob_Primary["Storage GZRS\n(primary)"]
+        ACA_Primary["Container Apps<br/>(api-service)"]
+        SQL_Primary["Azure SQL<br/>(Read-Write)"]
+        SB_Primary["Service Bus Premium<br/>(active)"]
+        Cosmos_Primary["Cosmos DB<br/>(write region)"]
+        Blob_Primary["Storage GZRS<br/>(primary)"]
     end
 
     subgraph Secondary["Secondary Region — North Europe"]
-        ACA_Secondary["Container Apps\n(api-service — warm standby,\nscaled down)"]
-        SQL_Secondary["Azure SQL\n(Geo-Replica — Failover Group)"]
-        SB_Secondary["Service Bus\n(Geo-DR alias — metadata only)"]
-        Cosmos_Secondary["Cosmos DB\n(read / write on failover)"]
-        Blob_Secondary["Storage GZRS\n(secondary — manual failover)"]
+        ACA_Secondary["Container Apps<br/>(api-service — warm standby,<br/>scaled down)"]
+        SQL_Secondary["Azure SQL<br/>(Geo-Replica — Failover Group)"]
+        SB_Secondary["Service Bus<br/>(Geo-DR alias — metadata only)"]
+        Cosmos_Secondary["Cosmos DB<br/>(read / write on failover)"]
+        Blob_Secondary["Storage GZRS<br/>(secondary — manual failover)"]
     end
 
     FrontDoor -->|healthy: primary 100%| ACA_Primary

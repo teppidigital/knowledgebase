@@ -62,16 +62,16 @@ graph TD
     end
 
     subgraph Enforcement["Policy Enforcement Points"]
-        CI2["CI Pipeline\n(Conftest / OPA CLI)"]
-        IaC2["IaC Pre-Deploy\n(Terraform Sentinel / OPA)"]
-        K8S["Kubernetes Admission\n(Kyverno / OPA Gatekeeper)"]
-        API2["API Runtime\n(OPA sidecar / library)"]
+        CI2["CI Pipeline<br/>(Conftest / OPA CLI)"]
+        IaC2["IaC Pre-Deploy<br/>(Terraform Sentinel / OPA)"]
+        K8S["Kubernetes Admission<br/>(Kyverno / OPA Gatekeeper)"]
+        API2["API Runtime<br/>(OPA sidecar / library)"]
     end
 
     subgraph Response["Response"]
         WARN2["Warn (non-blocking)"]
         BLOCK2["Block (enforcement)"]
-        AUDIT2["Audit Log\n(Elasticsearch / Datadog)"]
+        AUDIT2["Audit Log<br/>(Elasticsearch / Datadog)"]
     end
 
     PW --> PT --> PR2

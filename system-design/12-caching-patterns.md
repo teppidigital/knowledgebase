@@ -43,7 +43,7 @@ Caching stores the results of expensive computations or frequently accessed data
 flowchart TD
     App["Application"]
     Cache["Cache (Redis)"]
-    DB[("Database\n(PostgreSQL)")]
+    DB[("Database<br/>(PostgreSQL)")]
 
     subgraph Cache-Aside Pattern
         App -->|"1. Read key"| Cache

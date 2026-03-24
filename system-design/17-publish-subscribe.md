@@ -38,13 +38,13 @@ Common Pub/Sub systems: Apache Kafka, Google Pub/Sub, AWS SNS, Redis Pub/Sub, Ra
 
 ```mermaid
 graph TD
-    OrderSvc["Order Service\n(Publisher)"]
-    Topic["Topic: order.placed\n(Kafka / SNS)"]
+    OrderSvc["Order Service<br/>(Publisher)"]
+    Topic["Topic: order.placed<br/>(Kafka / SNS)"]
 
-    PaymentSvc["Payment Service\n(Subscriber)"]
-    InventorySvc["Inventory Service\n(Subscriber)"]
-    NotifSvc["Notification Service\n(Subscriber)"]
-    AnalyticsSvc["Analytics Service\n(Subscriber)"]
+    PaymentSvc["Payment Service<br/>(Subscriber)"]
+    InventorySvc["Inventory Service<br/>(Subscriber)"]
+    NotifSvc["Notification Service<br/>(Subscriber)"]
+    AnalyticsSvc["Analytics Service<br/>(Subscriber)"]
 
     OrderSvc -->|"Publish: OrderPlaced"| Topic
     Topic -->|"Deliver"| PaymentSvc

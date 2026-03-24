@@ -111,6 +111,16 @@ Patterns for integrating large language models into production applications — 
 
 ---
 
+### [API Design & Integration](api-design/README.md)
+
+> 15 patterns · REST, GraphQL, gRPC, AsyncAPI, webhooks, and API lifecycle management
+
+Contract-first API design patterns and integration techniques for building APIs that are reliable, discoverable, versioned, and monetisable — with a focus on developer experience and operational lifecycle.
+
+**Key topics:** REST API Design (OpenAPI 3.1, RFC 7807, ETags), GraphQL Schema Design (DataLoader, Relay pagination), gRPC & Protobuf (streaming, auth interceptor), AsyncAPI & Event-Driven (Kafka, DLQ), API Versioning, Consumer-Driven Contracts (Pact V3), Webhook Design & Reliability (HMAC-SHA256, retry), API Gateway (Kong, AWS API Gateway), SDK Generation (openapi-generator, CI publish), Rate Limiting (token bucket, sliding window, Redis), API Monetisation (API keys, usage plans, Stripe), Hypermedia & HATEOAS (HAL, JSON:API), API Deprecation (RFC 8594, Sunset header), API Mocking (MSW, WireMock, Prism), GraphQL Federation (Apollo Federation v2, Router).
+
+---
+
 ## At a Glance
 
 | Section                                                             | Patterns | Primary Languages           |
@@ -124,7 +134,8 @@ Patterns for integrating large language models into production applications — 
 | [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
 | [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
 | [AI & LLM Integration](ai-llm/README.md)                           | 15       | TypeScript, Python, YAML           |
-| **Total**                                                           | **158**  |                                    |
+| [API Design & Integration](api-design/README.md)                    | 15       | TypeScript, YAML, Protobuf         |
+| **Total**                                                           | **173**  |                                    |
 
 ---
 

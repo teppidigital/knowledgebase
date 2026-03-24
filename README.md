@@ -121,6 +121,16 @@ Contract-first API design patterns and integration techniques for building APIs 
 
 ---
 
+### [Frontend Architecture](frontend/README.md)
+
+> 15 patterns · Component composition, state, performance, security, and delivery for modern React applications
+
+Frontend architecture patterns for building production-grade React applications — covering micro-frontends, state management, accessibility, internationalisation, Progressive Web Apps, and the complete delivery pipeline from bundling to CDN edge delivery.
+
+**Key topics:** Micro-Frontends (Vite Module Federation, host/remote, event bus), State Management (TanStack Query v5, Zustand, React Hook Form + Zod), Performance Optimisation (Core Web Vitals, code splitting, virtual lists, Web Workers, bundle budgets), Design System (Radix UI, Style Dictionary, Storybook), Server-Side Rendering (Next.js App Router, RSC, ISR, streaming Suspense), Progressive Web App (Workbox caching strategies, Push API, VAPID), Frontend Testing (Vitest, Testing Library, MSW, Playwright), OIDC Authentication (PKCE, oidc-client-ts, in-memory tokens), Feature Flags (OpenFeature, LaunchDarkly), Error Handling (ErrorBoundary, Sentry PII scrubbing), i18n & Localisation (i18next ICU, RTL, Intl.*), Accessibility (WCAG 2.1 AA, ARIA, axe-core, focus management), Bundling & Build Tools (Vite + SWC, manualChunks, CI budget), CDN & Edge Delivery (Cloudflare Workers, Next.js Middleware, CloudFront Terraform), Frontend Security (CSP nonces, Trusted Types, open redirect prevention, SBOM + Grype).
+
+---
+
 ## At a Glance
 
 | Section                                                             | Patterns | Primary Languages           |
@@ -135,7 +145,8 @@ Contract-first API design patterns and integration techniques for building APIs 
 | [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
 | [AI & LLM Integration](ai-llm/README.md)                           | 15       | TypeScript, Python, YAML           |
 | [API Design & Integration](api-design/README.md)                    | 15       | TypeScript, YAML, Protobuf         |
-| **Total**                                                           | **173**  |                                    |
+| [Frontend Architecture](frontend/README.md)                         | 15       | TypeScript, YAML, HCL              |
+| **Total**                                                           | **188**  |                                    |
 
 ---
 

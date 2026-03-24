@@ -148,7 +148,8 @@ Frontend architecture patterns for building production-grade React applications 
 | [Frontend Architecture](frontend/README.md)                         | 15       | TypeScript, YAML, HCL              |
 | [Backend Architecture](backend/README.md)                           | 15       | TypeScript, Python, YAML, HCL      |
 | [FinOps — Cloud Cost Discipline](finops/README.md)                  | 15       | Python, HCL, YAML, SQL             |
-| **Total**                                                           | **218**  |                                    |
+| [Observability](observability/README.md)                            | 15       | TypeScript, Python, YAML, HCL      |
+| **Total**                                                           | **233**  |                                    |
 
 ---
 

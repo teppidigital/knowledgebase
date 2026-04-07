@@ -1,6 +1,6 @@
 # Knowledge Portal
 
-A comprehensive engineering knowledge base covering system design, distributed systems, DevOps, DevSecOps, security, and cloud-native patterns on AWS and Azure. Every entry shares a consistent structure — making it fast to compare, evaluate, and apply patterns in real projects.
+A comprehensive engineering knowledge base covering system design, distributed systems, DevOps, DevSecOps, security, and cloud patterns on AWS and Azure. Every entry shares a consistent structure — making it fast to compare, evaluate, and apply patterns in real projects.
 
 ---
 
@@ -71,9 +71,9 @@ Application-level security patterns for building systems that are secure by desi
 
 ---
 
-### [Cloud Native — AWS](cloud-native/aws/README.md)
+### [Cloud Native — AWS](cloud/aws/README.md)
 
-> 15 patterns · AWS-specific cloud-native architecture
+> 15 patterns · AWS-specific cloud architecture
 
 Patterns for building production-grade workloads on AWS using managed services, with Infrastructure-as-Code examples (Terraform/CDK) throughout.
 
@@ -81,9 +81,9 @@ Patterns for building production-grade workloads on AWS using managed services, 
 
 ---
 
-### [Cloud Native — Azure](cloud-native/azure/README.md)
+### [Cloud Native — Azure](cloud/azure/README.md)
 
-> 15 patterns · Azure-specific cloud-native architecture
+> 15 patterns · Azure-specific cloud architecture
 
 Patterns for building production-grade workloads on Azure using managed services, with Bicep and Terraform examples.
 
@@ -140,8 +140,8 @@ Frontend architecture patterns for building production-grade React applications 
 | [DevOps](devops/README.md)                                          | 15       | TypeScript, YAML, HCL, Bash        |
 | [DevSecOps](devsecops/README.md)                                    | 15       | TypeScript, YAML, Bash             |
 | [Security](security/README.md)                                      | 15       | TypeScript, YAML                   |
-| [Cloud Native — AWS](cloud-native/aws/README.md)                    | 15       | TypeScript, HCL, Bash              |
-| [Cloud Native — Azure](cloud-native/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
+| [Cloud Native — AWS](cloud/aws/README.md)                    | 15       | TypeScript, HCL, Bash              |
+| [Cloud Native — Azure](cloud/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
 | [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
 | [AI & LLM Integration](ai-llm/README.md)                           | 15       | TypeScript, Python, YAML           |
 | [API Design & Integration](api-design/README.md)                    | 15       | TypeScript, YAML, Protobuf         |
@@ -175,8 +175,8 @@ Frontend architecture patterns for building production-grade React applications 
 | Application-level security     | [Security](security/README.md)                                                               |
 | Splitting a monolith           | [System Design — Strangler Fig](system-design/README.md)                                     |
 | Handling distributed failures  | [Distributed Patterns — Circuit Breaker, Raft, Quorum](distributed-design-pattern/README.md) |
-| AWS infrastructure             | [Cloud Native — AWS](cloud-native/aws/README.md)                                             |
-| Azure infrastructure           | [Cloud Native — Azure](cloud-native/azure/README.md)                                         |
+| AWS infrastructure             | [Cloud Native — AWS](cloud/aws/README.md)                                             |
+| Azure infrastructure           | [Cloud Native — Azure](cloud/azure/README.md)                                         |
 | Measuring team performance     | [DevOps — DORA Metrics](devops/15-devops-metrics.md)                                         |
 | Zero-downtime schema changes   | [DevOps — Database DevOps](devops/09-database-devops.md)                                     |
 | Incident response              | [DevOps — Alerting & On-Call](devops/10-alerting-oncall.md)                                  |

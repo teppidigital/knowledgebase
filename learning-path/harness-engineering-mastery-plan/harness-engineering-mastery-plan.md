@@ -62,6 +62,8 @@ Internalise the paradigm shift. Understand *why* harness engineering exists, and
 - [ ] Read [ARCHITECTURE.md pattern by matklad](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html) — this is the structural model for your repo knowledge layer.
 - [ ] Read [Parse, don't validate — Alexis King](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/) — one of the core taste invariants you will enforce.
 
+**Deep knowledge:** [harness-phase1-2-knowledge.md](harness-phase1-2-knowledge.md) — paradigm shift table with consequences, annotated AGENTS.md template, ARCHITECTURE.md template.
+
 ### Week 1–2 Deliverable
 
 Write a 1-page personal "Harness Engineering Manifesto" — your own distillation of the five principles you most need to encode into your future harnesses. Keep it in your notes. You'll revise it at Phase 8.
@@ -102,6 +104,8 @@ Design and build the knowledge layer of a real harness: the `AGENTS.md`, `ARCHIT
 - [ ] Write one execution plan for a mid-sized feature task (10–20 steps). Structure it as the agent would consume it — context-first, acceptance criteria explicit, steps granular.
 - [ ] Write one design document using the `docs/design-docs/` template (problem, decision, verification status, core beliefs). Include a "verification" section that a CI check could eventually validate automatically.
 
+**Deep knowledge:** [harness-phase1-2-knowledge.md](harness-phase1-2-knowledge.md) — docs/ folder layout, design doc template, execution plan template, progressive disclosure architecture.
+
 ### Week 3–5 Deliverable
 
 A fully wired `AGENTS.md` + `ARCHITECTURE.md` + at least three `docs/` sub-documents for a real or practice project. Show this to someone unfamiliar with the project — if they can understand the structure in 10 minutes, you pass.
@@ -139,6 +143,8 @@ Design and wire the tooling layer — the infrastructure that makes the running 
 - [ ] Read [`ai-llm/14-function-calling-structured-outputs.md`](../ai-llm/14-function-calling-structured-outputs.md) — how agents invoke tools and consume structured results.
 - [ ] Read [`api-design/01-rest-api-design.md`](../api-design/01-rest-api-design.md) and [`api-design/03-grpc-protobuf.md`](../api-design/03-grpc-protobuf.md) — these inform how you design internal tooling APIs for agent consumption.
 - [ ] Inventory and document the tools available to agents in your harness. For each tool, specify: input schema, output schema, failure modes, retry semantics.
+
+**Deep knowledge:** [harness-phase3-4-knowledge.md](harness-phase3-4-knowledge.md) — full Docker Compose observability stack, LogQL/PromQL/TraceQL query examples, git worktree boot script, CDP wrapper, tool catalogue template.
 
 ### Week 6–8 Deliverable
 
@@ -184,6 +190,8 @@ Learn to codify human taste into mechanical rules — linters, CI checks, and ar
   - Lint errors surfaced as structured JSON that agents can parse.
   - No blocking flaky tests — flake detection and auto-quarantine.
   - Merge gates that are non-blocking for agent-generated PRs that pass all checks.
+
+**Deep knowledge:** [harness-phase3-4-knowledge.md](harness-phase3-4-knowledge.md) — ESLint custom plugin anatomy, dependency-cruiser config, ArchUnit test, GitHub Actions CI pipeline template.
 
 ### Week 9–11 Deliverable
 
@@ -231,6 +239,8 @@ Build and operate multi-stage self-review loops where agents review their own wo
 - [ ] Document these escalation criteria in your `AGENTS.md` so agents know when to stop and surface a question rather than guess.
 - [ ] Study [`ai-llm/09-guardrails-content-safety.md`](../ai-llm/09-guardrails-content-safety.md) — guardrails apply to agent behaviours as well as content.
 
+**Deep knowledge:** [harness-phase5-7-knowledge.md](harness-phase5-7-knowledge.md) — pre-pr-check.sh full implementation, agent review rubric template, escalation criteria taxonomy.
+
 ### Week 12–14 Deliverable
 
 A working `bin/pre-pr-check.sh` tool, a structured agent review rubric document, and an escalation criteria section added to your `AGENTS.md`. Run a full end-to-end exercise: task → agent executes → self-review → agent review → PR with evidence.
@@ -273,6 +283,8 @@ Design and operate the continuous background processes that keep the codebase le
   - Detects stale documentation (untouched files where linked code has changed).
   - Opens a PR with updated documentation, prompting a human to review the substance.
 - [ ] Apply this to your own knowledge portal in this workspace — practice on real content.
+
+**Deep knowledge:** [harness-phase5-7-knowledge.md](harness-phase5-7-knowledge.md) — QUALITY_SCORE.md full schema, Golden Principles document template, background cleanup agent task definition, doc freshness lint script.
 
 ### Week 15–17 Deliverable
 
@@ -323,6 +335,8 @@ Operate the complete harness end-to-end: design a feature, write a prompt, obser
 | Feedback loops | Human reviews all | Agent pre-check | Agent-to-agent + selective human |
 | Entropy mgmt | None | Manual cleanup | Continuous background agents |
 | Delivery speed | ~10 PRs/week | ~50 PRs/week | ~100+ PRs/week |
+
+**Deep knowledge:** [harness-phase5-7-knowledge.md](harness-phase5-7-knowledge.md) — gap analysis framework + template, harness maturity scorecard with measurement column, key delivery metrics definitions.
 
 ### Week 18–20 Deliverable
 

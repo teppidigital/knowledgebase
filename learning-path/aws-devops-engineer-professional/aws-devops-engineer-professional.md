@@ -117,6 +117,7 @@ The most AWS-toolchain-specific domain. Covers the full CI/CD pipeline on AWS: s
 - [`devops/01-cicd-pipeline-design.md`](../devops/01-cicd-pipeline-design.md) — full read
 - [`devops/12-artifact-release-management.md`](../devops/12-artifact-release-management.md) — full read
 - [`devsecops/14-security-cicd-pipeline.md`](../devsecops/14-security-cicd-pipeline.md)
+- **Deep knowledge:** [`dop-c02-phase1-knowledge.md`](dop-c02-phase1-knowledge.md) — CodeBuild buildspec, CodeArtifact, ECR scanning, CodeCommit, pipeline patterns
 
 **Hands-on lab:** Build a CodeBuild project that:
 1. Builds a Docker image
@@ -142,6 +143,7 @@ The most AWS-toolchain-specific domain. Covers the full CI/CD pipeline on AWS: s
 - [`devops/04-deployment-strategies.md`](../devops/04-deployment-strategies.md) — full read; map every strategy to a CodeDeploy mode
 - [`devops/05-feature-flags.md`](../devops/05-feature-flags.md) — AppConfig as a feature flag store
 - [`devops/02-gitops.md`](../devops/02-gitops.md)
+- **Deep knowledge:** [`dop-c02-phase1-knowledge.md`](dop-c02-phase1-knowledge.md) — CodeDeploy lifecycle hooks, CodePipeline, Beanstalk, AppConfig, EC2 Image Builder, DORA metrics
 
 **Hands-on lab:** Build a CodePipeline that:
 1. Triggers on CodeCommit push to `main`
@@ -166,6 +168,7 @@ The most AWS-toolchain-specific domain. Covers the full CI/CD pipeline on AWS: s
 **Knowledge portal cross-reference:**
 - [`devops/15-devops-metrics.md`](../devops/15-devops-metrics.md) — DORA metrics; these are exam scenarios
 - [`devops/05-feature-flags.md`](../devops/05-feature-flags.md)
+- **Deep knowledge:** [`dop-c02-phase1-knowledge.md`](dop-c02-phase1-knowledge.md) — CloudWatch Synthetics canaries, Step Functions WaitForTaskToken in CI/CD, DORA metrics AWS mapping
 
 **Phase 1 Deliverable:** A fully documented pipeline design (draw.io, Mermaid, or written) for a microservices release. Include: source trigger, build, unit test gate, integration test gate, manual approval, blue/green deploy to ECS, and automatic rollback conditions. Justify every decision.
 
@@ -207,6 +210,7 @@ Deep AWS-native IaC. This domain is almost entirely CloudFormation + Systems Man
 - [`devops/03-infrastructure-as-code.md`](../devops/03-infrastructure-as-code.md) — full read
 - [`devsecops/06-iac-security.md`](../devsecops/06-iac-security.md) — CloudFormation Guard, cfn-nag
 - [`devsecops/10-policy-as-code.md`](../devsecops/10-policy-as-code.md)
+- **Deep knowledge:** [`dop-c02-phase2-knowledge.md`](dop-c02-phase2-knowledge.md) — CloudFormation full anatomy, intrinsic functions, StackSets, Custom Resources, cfn-init/cfn-signal, CDK
 
 **Hands-on lab:** Write a CloudFormation template that:
 1. Uses nested stacks (VPC stack, ECS stack, RDS stack)
@@ -234,6 +238,7 @@ Deep AWS-native IaC. This domain is almost entirely CloudFormation + Systems Man
 **Knowledge portal cross-reference:**
 - [`devops/13-configuration-management.md`](../devops/13-configuration-management.md) — full read
 - [`devsecops/05-secret-management.md`](../devsecops/05-secret-management.md) — Parameter Store vs Secrets Manager decision
+- **Deep knowledge:** [`dop-c02-phase2-knowledge.md`](dop-c02-phase2-knowledge.md) — SSM Session Manager, Run Command, Patch Manager, Automation documents, State Manager, Parameter Store, OpsCenter
 
 **Phase 2 Deliverable:** Design a "Day 2 operations" playbook using SSM Automation that: detects an instance with patch compliance < 100%, opens an OpsItem, applies missing patches via Patch Manager in a maintenance window, and closes the OpsItem. Document as an SSM Automation runbook outline.
 
@@ -272,6 +277,7 @@ Significant overlap with SAP-C02 Domain 2. Focus here on the *automation* of res
 - [`cloud/aws/02-ecs-fargate.md`](../cloud/aws/02-ecs-fargate.md) — auto scaling section
 - [`cloud/aws/03-eks-kubernetes.md`](../cloud/aws/03-eks-kubernetes.md) — Karpenter section
 - [`production-hardening/`](../production-hardening/)
+- **Deep knowledge:** [`dop-c02-phase3-4-knowledge.md`](dop-c02-phase3-4-knowledge.md) — EC2 Auto Scaling policies, lifecycle hooks, warm pools, Instance Refresh, ECS Auto Scaling, self-healing patterns
 
 ### Week 8 — High Availability and Disaster Recovery Automation
 
@@ -292,6 +298,7 @@ Significant overlap with SAP-C02 Domain 2. Focus here on the *automation* of res
 - [`cloud/aws/14-disaster-recovery.md`](../cloud/aws/14-disaster-recovery.md) — full read
 - [`devops/14-disaster-recovery.md`](../devops/14-disaster-recovery.md) — full read
 - [`devops/08-chaos-engineering.md`](../devops/08-chaos-engineering.md) — Fault Injection Service (FIS)
+- **Deep knowledge:** [`dop-c02-phase3-4-knowledge.md`](dop-c02-phase3-4-knowledge.md) — Route 53 health checks, AWS Backup, DRS, SQS resilience, pipeline-driven DR testing
 
 **Phase 3 Deliverable:** Design a self-healing architecture for a three-tier web application: a CloudWatch Alarm on 5xx rate triggers an SSM Automation runbook that (1) checks ALB targets, (2) replaces unhealthy instances via Auto Scaling, (3) runs a synthetic canary to validate recovery, and (4) notifies via SNS. Document the event flow end-to-end.
 
@@ -333,6 +340,7 @@ This domain is heavily operational. Expect scenarios requiring you to choose the
 - [`observability/03-metrics-prometheus.md`](../observability/03-metrics-prometheus.md)
 - [`observability/04-structured-logging.md`](../observability/04-structured-logging.md)
 - [`observability/06-alerting-slo-burn-rate.md`](../observability/06-alerting-slo-burn-rate.md)
+- **Deep knowledge:** [`dop-c02-phase3-4-knowledge.md`](dop-c02-phase3-4-knowledge.md) — CloudWatch Metrics/Alarms/Logs/Insights/Synthetics, EMF, Contributor Insights, Evidently, Metric Streams
 
 **Hands-on lab:** Build a CloudWatch-based observability stack for a Lambda function:
 1. Use EMF to emit custom business metrics from Lambda code
@@ -361,6 +369,7 @@ This domain is heavily operational. Expect scenarios requiring you to choose the
 - [`observability/12-log-correlation-tracing.md`](../observability/12-log-correlation-tracing.md)
 - [`observability/13-otel-collector-pipeline.md`](../observability/13-otel-collector-pipeline.md)
 - [`devops/06-observability-opentelemetry.md`](../devops/06-observability-opentelemetry.md)
+- **Deep knowledge:** [`dop-c02-phase3-4-knowledge.md`](dop-c02-phase3-4-knowledge.md) — CloudTrail Lake, Config rules/conformance packs, X-Ray, ADOT, centralised log aggregation multi-account pattern
 
 **Phase 4 Deliverable:** Design a centralised observability architecture for a 5-account AWS Organisation:
 - Logs: per-account CloudWatch → subscription filter → cross-account Kinesis Firehose → S3 in a dedicated logging account
@@ -406,6 +415,7 @@ This domain is about automated response to operational events. The key pattern i
 - [`devops/10-alerting-oncall.md`](../devops/10-alerting-oncall.md) — full read
 - [`observability/06-alerting-slo-burn-rate.md`](../observability/06-alerting-slo-burn-rate.md)
 - [`devops/07-sre-slos.md`](../devops/07-sre-slos.md) — full read
+- **Deep knowledge:** [`dop-c02-phase5-6-knowledge.md`](dop-c02-phase5-6-knowledge.md) — EventBridge buses/rules/Pipes/Scheduler, AWS Health auto-replacement, Step Functions remediation, OpsCenter integration
 
 **Hands-on lab:** Build an automated remediation pipeline:
 1. Config Rule detects Security Group with `0.0.0.0/0` ingress on port 22
@@ -431,6 +441,7 @@ This domain is about automated response to operational events. The key pattern i
 - [`devops/08-chaos-engineering.md`](../devops/08-chaos-engineering.md) — full read
 - [`devops/07-sre-slos.md`](../devops/07-sre-slos.md) — full read
 - [`observability/05-sli-slo-error-budgets.md`](../observability/05-sli-slo-error-budgets.md) — full read
+- **Deep knowledge:** [`dop-c02-phase5-6-knowledge.md`](dop-c02-phase5-6-knowledge.md) — FIS experiment templates/actions/stop conditions, chaos engineering process, SLI/SLO/error budget, burn rate alarm pattern
 
 **Phase 5 Deliverable:** Design a full incident lifecycle for a production availability event:
 - Detection: which CloudWatch metrics and alarms trip first
@@ -475,6 +486,7 @@ Shares significant overlap with SAP-C02 Domain 3. DOP-C02 focuses on *automating
 - [`devsecops/07-container-security.md`](../devsecops/07-container-security.md)
 - [`devsecops/08-supply-chain-sbom.md`](../devsecops/08-supply-chain-sbom.md)
 - [`devsecops/14-security-cicd-pipeline.md`](../devsecops/14-security-cicd-pipeline.md) — full read
+- **Deep knowledge:** [`dop-c02-phase5-6-knowledge.md`](dop-c02-phase5-6-knowledge.md) — Secrets Manager rotation steps, KMS key policies/kms:ViaService, pipeline SAST/SCA/ECR gates, GuardDuty pipeline integration
 
 ### Week 14 — Compliance Automation and Policy Enforcement
 
@@ -495,6 +507,7 @@ Shares significant overlap with SAP-C02 Domain 3. DOP-C02 focuses on *automating
 - [`devsecops/10-policy-as-code.md`](../devsecops/10-policy-as-code.md) — full read
 - [`devsecops/06-iac-security.md`](../devsecops/06-iac-security.md) — CFN Guard section
 - [`devsecops/01-shift-left-security.md`](../devsecops/01-shift-left-security.md)
+- **Deep knowledge:** [`dop-c02-phase5-6-knowledge.md`](dop-c02-phase5-6-knowledge.md) — Config rules/conformance packs, cfn-guard syntax, Security Hub CSPM/custom actions, Audit Manager, SCP JSON examples, IAM Access Analyzer pipeline integration
 
 **Phase 6 Deliverable:** Design a "Security as Code" pipeline that enforces compliance on every CloudFormation deployment:
 1. `cfn-guard` validates template against organisational policies (CodeBuild stage)

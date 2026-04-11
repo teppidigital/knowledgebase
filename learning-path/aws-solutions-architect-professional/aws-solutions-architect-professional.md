@@ -101,6 +101,7 @@ This domain is where most candidates lose points. It requires deep understanding
 - [`cloud/aws/12-multi-account-landing-zone.md`](../cloud/aws/12-multi-account-landing-zone.md) — read in full
 - [`cloud/aws/05-iam-least-privilege.md`](../cloud/aws/05-iam-least-privilege.md) — SCPs and permission boundaries section
 - [`devsecops/01-shift-left-security.md`](../devsecops/01-shift-left-security.md) — governance principles
+- **[`learning-path/sap-c02-phase1-knowledge.md`](./sap-c02-phase1-knowledge.md) — Week 2 deep knowledge (SCPs, Control Tower, Config, CloudTrail)**
 
 **Practice scenario:** Design a 15-account AWS organisation for a financial services firm. Define the OU structure, write 3 meaningful SCPs, and describe how you would enforce tagging compliance across all accounts.
 
@@ -121,6 +122,8 @@ This domain is where most candidates lose points. It requires deep understanding
 
 **Knowledge portal cross-reference:**
 - [`cloud/aws/04-vpc-networking.md`](../cloud/aws/04-vpc-networking.md) — full read, focus on Transit Gateway section
+- [`cloud/aws/17-hybrid-connectivity.md`](../cloud/aws/17-hybrid-connectivity.md) — Direct Connect, TGW, VPN deep dive *(new)*
+- **[`learning-path/sap-c02-phase1-knowledge.md`](./sap-c02-phase1-knowledge.md) — Week 3 deep knowledge (DX VIFs, TGW routing, BGP, PrivateLink)**
 
 **Practice scenario:** Design hybrid connectivity for an enterprise with 3 on-premises datacentres (EU, US, APAC), requiring < 10 ms latency to nearest AWS region, HA for network paths, and private DNS resolution between on-premises and AWS.
 
@@ -141,6 +144,8 @@ This domain is where most candidates lose points. It requires deep understanding
 **Knowledge portal cross-reference:**
 - [`cloud/aws/05-iam-least-privilege.md`](../cloud/aws/05-iam-least-privilege.md) — ABAC and IRSA sections
 - [`security/`](../security/) — identity architecture patterns
+- [`cloud/aws/18-identity-federation.md`](../cloud/aws/18-identity-federation.md) — SAML, OIDC, Cognito, RAM deep dive *(new)*
+- **[`learning-path/sap-c02-phase1-knowledge.md`](./sap-c02-phase1-knowledge.md) — Week 4 deep knowledge (IAM Identity Center, STS, ExternalId, IRSA, Cognito)**
 
 **Phase 1 Deliverable:** Architecture diagram for a fully federated multi-account AWS environment: external IdP → IAM Identity Center → permission sets → cross-account roles → resource access. Written as a 1-page design doc.
 
@@ -177,6 +182,7 @@ The heaviest domain. Covers the full breadth of AWS architectural decision-makin
 - [`cloud/aws/14-disaster-recovery.md`](../cloud/aws/14-disaster-recovery.md) — full read
 - [`cloud/aws/13-cloudfront-cdn.md`](../cloud/aws/13-cloudfront-cdn.md) — Global Accelerator comparison section
 - [`production-hardening/`](../production-hardening/) — resilience patterns
+- **[`learning-path/sap-c02-phase2-knowledge.md`](./sap-c02-phase2-knowledge.md) — Week 5 deep knowledge (DR tiers, Route 53 policies, Aurora Global, DynamoDB Global Tables)**
 
 **Practice scenario:** Design a multi-region active-passive architecture for a fintech application requiring RPO < 15 minutes and RTO < 30 minutes. Cost must be < 40% of a full active-active deployment.
 
@@ -203,6 +209,7 @@ The heaviest domain. Covers the full breadth of AWS architectural decision-makin
 - [`cloud/aws/09-sqs-sns-eventbridge.md`](../cloud/aws/09-sqs-sns-eventbridge.md) — full read
 - [`distributed-design-pattern/`](../distributed-design-pattern/) — SAGA, event sourcing, CQRS
 - [`api-design/04-asyncapi-event-driven.md`](../api-design/04-asyncapi-event-driven.md)
+- **[`learning-path/sap-c02-phase2-knowledge.md`](./sap-c02-phase2-knowledge.md) — Week 6 deep knowledge (Lambda concurrency, Step Functions, SQS FIFO, Kinesis, SAGA)**
 
 ### Week 7 — Data Architecture and Storage
 
@@ -227,6 +234,7 @@ The heaviest domain. Covers the full breadth of AWS architectural decision-makin
 - [`data-solutions/04-data-lakehouse.md`](../data-solutions/04-data-lakehouse.md)
 - [`data-solutions/05-data-modelling-warehouse.md`](../data-solutions/05-data-modelling-warehouse.md)
 - [`data-solutions/07-caching-strategies.md`](../data-solutions/07-caching-strategies.md)
+- **[`learning-path/sap-c02-phase2-knowledge.md`](./sap-c02-phase2-knowledge.md) — Week 7 deep knowledge (Aurora Serverless, DynamoDB partitions, ElastiCache, Redshift, data lake)**
 
 **Phase 2 Deliverable:** Design a complete data architecture for a SaaS analytics platform: OLTP layer (DynamoDB), analytical layer (Redshift + S3 data lake), real-time stream processing (Kinesis), and caching (ElastiCache). Include justification for every service choice.
 
@@ -264,6 +272,7 @@ This domain is about taking existing workloads and improving them across four ax
 - [`cloud/aws/13-cloudfront-cdn.md`](../cloud/aws/13-cloudfront-cdn.md) — caching and performance
 - [`cloud/aws/11-observability-cloudwatch.md`](../cloud/aws/11-observability-cloudwatch.md) — metrics-driven scaling
 - [`data-solutions/07-caching-strategies.md`](../data-solutions/07-caching-strategies.md)
+- **[`learning-path/sap-c02-phase3-knowledge.md`](./sap-c02-phase3-knowledge.md) — Week 8 deep knowledge (CloudFront Functions, Auto Scaling policies, warm pools, Kinesis resharding)**
 
 ### Week 9 — Security Posture Improvement
 
@@ -286,6 +295,7 @@ This domain is about taking existing workloads and improving them across four ax
 - [`devsecops/`](../devsecops/) — all documents relevant here; prioritise `05-secret-management.md`, `07-container-security.md`
 - [`security/`](../security/)
 - [`cloud/aws/05-iam-least-privilege.md`](../cloud/aws/05-iam-least-privilege.md)
+- **[`learning-path/sap-c02-phase3-knowledge.md`](./sap-c02-phase3-knowledge.md) — Week 9 deep knowledge (KMS envelope encryption, Secrets Manager rotation, GuardDuty, WAF, Shield Advanced, Network Firewall)**
 
 ### Week 10 — Cost Optimisation and Operational Excellence
 
@@ -308,6 +318,7 @@ This domain is about taking existing workloads and improving them across four ax
 - [`cloud/aws/15-cost-optimisation.md`](../cloud/aws/15-cost-optimisation.md) — full read
 - [`cloud/aws/16-well-architected-framework.md`](../cloud/aws/16-well-architected-framework.md) — full read
 - [`finops/`](../finops/)
+- **[`learning-path/sap-c02-phase3-knowledge.md`](./sap-c02-phase3-knowledge.md) — Week 10 deep knowledge (Savings Plans vs RIs, Spot strategies, Systems Manager, Well-Architected pillars)**
 
 **Phase 3 Deliverable:** Conduct a mock Well-Architected Review on a system you know (or a fictional one). Score it across all five pillars, identify the top 3 high-risk findings, and write an improvement plan for each — specifying the AWS service change, estimated cost delta, and expected reliability improvement.
 
@@ -344,6 +355,8 @@ The most scenario-based domain. AWS migration questions have a "right framework"
 
 **Knowledge portal cross-reference:**
 - [`devops/04-deployment-strategies.md`](../devops/04-deployment-strategies.md) — lift-shift, blue/green, canary during migration
+- [`cloud/aws/19-migration-tools.md`](../cloud/aws/19-migration-tools.md) — MGN, DMS/SCT, DataSync, Snow Family deep dive *(new)*
+- **[`learning-path/sap-c02-phase4-knowledge.md`](./sap-c02-phase4-knowledge.md) — Week 11 deep knowledge (7 Rs, MGN architecture, DMS CDC, DataSync vs Snowball, Transfer Family)**
 
 ### Week 12 — Application Modernisation Patterns
 
@@ -365,6 +378,7 @@ The most scenario-based domain. AWS migration questions have a "right framework"
 - [`cloud/aws/03-eks-kubernetes.md`](../cloud/aws/03-eks-kubernetes.md)
 - [`cloud/aws/02-ecs-fargate.md`](../cloud/aws/02-ecs-fargate.md)
 - [`api-design/05-api-versioning.md`](../api-design/05-api-versioning.md) — managing API changes during modernisation
+- **[`learning-path/sap-c02-phase4-knowledge.md`](./sap-c02-phase4-knowledge.md) — Week 12 deep knowledge (Strangler Fig, container adoption path, serverless refactoring, DB modernisation, read replica promotion)**
 
 **Phase 4 Deliverable:** Design a migration plan for a monolithic Java application running on a 3-tier architecture in an on-premises datacentre. The plan must cover: discovery, database migration (Oracle → Aurora), application replatforming (Tomcat → ECS Fargate), network migration (on-premises → VPC), and a rollback strategy.
 

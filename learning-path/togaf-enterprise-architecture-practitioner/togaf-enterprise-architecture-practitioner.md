@@ -173,6 +173,9 @@ You can navigate to any ADM phase in the TOGAF Standard in under 30 seconds. You
 - [ ] **Integrated Information Infrastructure Reference Model (III-RM):** a Foundation Architecture for boundaryless information flow
 - [ ] **Technical Reference Model (TRM):** a Foundation Architecture providing a standard taxonomy of technology components and their interfaces
 
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase1-knowledge.md`](togaf-phase1-knowledge.md) — BDAT domains with examples, ABB vs SBB decision table, views vs viewpoints, deliverable/artifact/building block disambiguation, Architecture Principles full structure, Enterprise Continuum, TRM, TOGAF definitions
+
 **Phase 1 Deliverable:** Without looking at notes, draw the TOGAF Standard structure, the four architecture domains, and the Enterprise Continuum. Label every component. This is the map you will navigate for the next 13 weeks.
 
 **Phase 1 Validation Questions:**
@@ -313,6 +316,9 @@ For every phase, know: **Objectives → Inputs → Steps → Outputs** (delivera
 - [ ] Requirements feed into each phase and are updated as architecture progresses
 - [ ] Architecture Requirements Specification: the formal output documenting quantitative requirements for each architecture domain
 
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase2-knowledge.md`](togaf-phase2-knowledge.md) — full phase-by-phase breakdown (objectives/inputs/steps/outputs), Statement of Architecture Work contents, Architecture Contract contents, Transition Architecture concept, phase-to-deliverable master table, ADM iteration patterns, Phase H change classification, decision trees
+
 **Phase 2 Deliverable:** Create a one-page ADM phase cheat sheet: for every phase, write 3 bullet points (objectives, key inputs, key outputs). Do this from memory first, then validate against the Standard. Keep this as your exam reference tab.
 
 **Phase 2 Validation Questions:**
@@ -375,6 +381,9 @@ For every phase, know: **Objectives → Inputs → Steps → Outputs** (delivera
 - [ ] **The Governance Log:** records Architecture Contracts, dispensations (approved deviations), and compliance reviews — essential for audit and control
 - [ ] **Standards Library vs Reference Library:** Standards = adopted by this organisation; Reference = external materials consulted
 
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase3-knowledge.md`](togaf-phase3-knowledge.md) — catalog/matrix/diagram classification, Content Metamodel entity layers, Architecture Definition Document anatomy, deliverable-to-phase master table, Architecture Repository six components, Architecture Landscape levels
+
 **Phase 3 Deliverable:** Map every artifact from the Content Metamodel to the ADM phase where it is produced. Then map every section of the Architecture Repository to the phase where it is updated. This two-way mapping is a highly effective study method and directly answers many Part 1 questions.
 
 **Phase 3 Validation Questions:**
@@ -428,6 +437,9 @@ Part 2 scenarios always involve: a given organisational context, a set of stakeh
   - Monitoring and reporting
   - Business control
 - [ ] **Partition the ADM:** adapting the ADM to run at multiple levels simultaneously (enterprise-wide and segment-level cycles running in parallel with handshakes)
+
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase3-knowledge.md`](togaf-phase3-knowledge.md) — Business Scenario technique, Gap Analysis matrix format, Stakeholder management power/interest grid, Capability-Based Planning, Business Transformation Readiness Assessment, Migration Planning techniques, Risk management, interoperability types, Viewpoint selection table
 
 **Phase 4 Deliverable:** Work through three published TOGAF Part 2 sample scenarios in full. For each:
 1. Identify which ADM phase the scenario is in.
@@ -489,6 +501,9 @@ Part 2 scenarios always involve: a given organisational context, a set of stakeh
   6. Implement architecture tools
 - [ ] **Architecture Partitioning:** how to scope the EA practice so large organisations can run multiple simultaneous ADM iterations (by geography, division, capability)
 
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase4-knowledge.md`](togaf-phase4-knowledge.md) — governance levels (Corporate/Technology/IT/Architecture), four governance processes, Architecture Board composition and responsibilities, Architecture Contract full contents, compliance spectrum (six levels), dispensation lifecycle, Governance Log contents
+
 **Phase 5 Deliverable:** Write a one-page Architecture Governance Charter for a fictional organisation: define the Architecture Board membership and remit, the compliance process, the dispensation process, and the escalation path. Reference specific TOGAF concepts throughout.
 
 **Phase 5 Validation Questions:**
@@ -542,6 +557,9 @@ For each of the following prompt types, write a structured TOGAF answer (2–3 s
 - [ ] "A project's implementation has deviated significantly from the approved architecture. What should happen?" → Phase G compliance and dispensation
 - [ ] "The board has approved a major merger. How does this affect the current architecture cycle?" → Phase H change classification, new ADM cycle trigger
 - [ ] "The organisation wants to move from a Baseline Architecture to a Target Architecture but the change is too large for a single programme." → Transition Architectures in Phase E
+
+**Knowledge portal cross-reference:**
+- **Deep knowledge:** [`togaf-phase4-knowledge.md`](togaf-phase4-knowledge.md) — gradient scoring strategy, all 8 scenario pattern types with worked examples, what the "best answer" always looks like, Architecture Capability Framework, maturity models, Skills Framework roles, architecture partitioning
 
 ### Week 13 — Full Scenario Practice Sets
 

@@ -277,3 +277,9 @@ async function deleteUserMemories(userId: string): Promise<void> {
 - [04 — AI Agents & Tool Use](./04-ai-agents-tool-use.md) — agents that accumulate knowledge across runs
 - [18 — Multi-Agent Orchestration](./18-multi-agent-orchestration.md) — shared memory across specialised agents in a crew
 - [05 — Vector Databases](./05-vector-databases.md) — storage backend for semantic memory retrieval
+
+---
+
+## References
+
+- [The Evolution from RAG to Agentic RAG to Agent Memory](https://www.leoniemonigatti.com/blog/from-rag-to-agent-memory.html)

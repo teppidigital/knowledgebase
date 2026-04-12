@@ -42,19 +42,19 @@ Without metrics, architecture quality is judged subjectively (usually at the mom
 ```mermaid
 flowchart LR
     subgraph Source Data
-        CI[CI/CD Pipeline\nFitness function results\nBuild frequency]
-        SONAR[SonarQube\nCoupling, complexity,\ndebt ratio]
-        PROM[Prometheus\nLatency, error rate,\navailability]
-        DEPREG[Debt Register\nDebt count, risk, age]
-        CD[Deployment Tracker\nDeploy frequency, MTTR]
+        CI[CI/CD Pipeline<br/>Fitness function results<br/>Build frequency]
+        SONAR[SonarQube<br/>Coupling, complexity,<br/>debt ratio]
+        PROM[Prometheus<br/>Latency, error rate,<br/>availability]
+        DEPREG[Debt Register<br/>Debt count, risk, age]
+        CD[Deployment Tracker<br/>Deploy frequency, MTTR]
     end
 
     subgraph Architecture Health Dashboard
-        DORA[DORA Metrics\nDeployment freq / MTTR /\nChange fail rate / Lead time]
-        STRUCT[Structural Metrics\nCoupling / Complexity /\nCoverage]
-        DEBT[Debt Metrics\nDebt count / Trend /\nPaydown rate]
-        FF_DASH[Fitness Function\nPass rates / Trend]
-        OPS[Operational\nAvailability / p99 /\nSLO burn rate]
+        DORA[DORA Metrics<br/>Deployment freq / MTTR /<br/>Change fail rate / Lead time]
+        STRUCT[Structural Metrics<br/>Coupling / Complexity /<br/>Coverage]
+        DEBT[Debt Metrics<br/>Debt count / Trend /<br/>Paydown rate]
+        FF_DASH[Fitness Function<br/>Pass rates / Trend]
+        OPS[Operational<br/>Availability / p99 /<br/>SLO burn rate]
     end
 
     CI --> FF_DASH & DORA

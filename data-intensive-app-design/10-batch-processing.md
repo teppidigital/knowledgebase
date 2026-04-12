@@ -82,14 +82,14 @@ Hadoop MapReduce materialises intermediate results to HDFS after every step. Spa
 ```mermaid
 flowchart LR
     subgraph MapReduce Pipeline
-        Input[(HDFS Input\nPartition 1..N)]
-        M1[Mapper 1\nurl_count]
-        M2[Mapper 2\nurl_count]
-        M3[Mapper N\nurl_count]
-        Shuffle[Shuffle & Sort\nby URL]
-        R1[Reducer 1\nsum urls A-M]
-        R2[Reducer 2\nsum urls N-Z]
-        Output[(HDFS Output\nurl → count)]
+        Input[(HDFS Input<br/>Partition 1..N)]
+        M1[Mapper 1<br/>url_count]
+        M2[Mapper 2<br/>url_count]
+        M3[Mapper N<br/>url_count]
+        Shuffle[Shuffle & Sort<br/>by URL]
+        R1[Reducer 1<br/>sum urls A-M]
+        R2[Reducer 2<br/>sum urls N-Z]
+        Output[(HDFS Output<br/>url → count)]
 
         Input --> M1
         Input --> M2

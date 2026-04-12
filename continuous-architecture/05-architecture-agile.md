@@ -43,17 +43,17 @@ Continuous architecture integrates architecture work into the delivery cadence �
 flowchart LR
     subgraph Programme Increment / Quarter
         direction TB
-        IP[IP Sprint\nArchitecture planning\nDebt paydown\nFitness function review]
-        S1[Sprint 1\nEnablers + Features]
-        S2[Sprint 2\nEnablers + Features]
-        S3[Sprint 3\nEnablers + Features]
-        SN[Sprint N\n...]
+        IP[IP Sprint<br/>Architecture planning<br/>Debt paydown<br/>Fitness function review]
+        S1[Sprint 1<br/>Enablers + Features]
+        S2[Sprint 2<br/>Enablers + Features]
+        S3[Sprint 3<br/>Enablers + Features]
+        SN[Sprint N<br/>...]
         IP --> S1 --> S2 --> S3 --> SN
     end
 
-    RUNWAY[Architecture Runway\nPre-built foundation for next 2–3 sprints]
-    ADR[Architecture Decisions\nADRs captured inline]
-    FF[Fitness Functions\nRun in every CI build]
+    RUNWAY[Architecture Runway<br/>Pre-built foundation for next 2–3 sprints]
+    ADR[Architecture Decisions<br/>ADRs captured inline]
+    FF[Fitness Functions<br/>Run in every CI build]
 
     RUNWAY --> S1
     S1 --> ADR

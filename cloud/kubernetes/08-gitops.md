@@ -47,20 +47,20 @@ GitOps is an operational model where Git is the single source of truth for decla
 
 ```mermaid
 flowchart TD
-    Dev["Developer\ngit push feature branch"]
-    PR["Pull Request\nto main"]
-    Git["Git Repository\n(desired state)"]
-    CI["CI Pipeline\nbuild + push image\nupdate image tag in Git"]
+    Dev["Developer<br/>git push feature branch"]
+    PR["Pull Request<br/>to main"]
+    Git["Git Repository<br/>(desired state)"]
+    CI["CI Pipeline<br/>build + push image<br/>update image tag in Git"]
     Dev --> PR --> CI --> Git
 
     subgraph Cluster["Kubernetes Cluster"]
-        ARGO["ArgoCD / FluxCD\nController"]
+        ARGO["ArgoCD / FluxCD<br/>Controller"]
         APP["Application Pods"]
         ARGO -->|apply diff| APP
     end
 
-    Git -->|poll every 3 min\nor webhook| ARGO
-    ARGO -->|status\n+ health| Git
+    Git -->|poll every 3 min<br/>or webhook| ARGO
+    ARGO -->|status<br/>+ health| Git
 ```
 
 ---

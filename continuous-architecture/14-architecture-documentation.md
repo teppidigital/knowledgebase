@@ -47,13 +47,13 @@ What is *not* documented: implementation detail available in the code; decisions
 ```mermaid
 flowchart TD
     subgraph Documentation Portfolio
-        P[Principles\nArch constraints\nQA priorities]
-        ADR[ADR Log\nOne per decision]
-        C4_1[C4 Level 1\nSystem Context]
-        C4_2[C4 Level 2\nContainer Diagram]
-        SEQ[Sequence Diagrams\nComplex flows only]
-        RB[Runbooks\nOperational procedures]
-        API[API Docs\nOpenAPI / AsyncAPI\nAuto-generated]
+        P[Principles<br/>Arch constraints<br/>QA priorities]
+        ADR[ADR Log<br/>One per decision]
+        C4_1[C4 Level 1<br/>System Context]
+        C4_2[C4 Level 2<br/>Container Diagram]
+        SEQ[Sequence Diagrams<br/>Complex flows only]
+        RB[Runbooks<br/>Operational procedures]
+        API[API Docs<br/>OpenAPI / AsyncAPI<br/>Auto-generated]
     end
 
     P -- governs --> C4_1
@@ -102,18 +102,18 @@ Excludes: authentication (owned by Identity team), fraud scoring (owned by ML te
 
 ```mermaid
 graph TB
-    User([End User\n Web / Mobile]) --> API[payment-api\nNode.js / Express\nPort 443]
-    Merchant([Merchant]) --> DASH[merchant-dashboard\nNext.js\nPort 443]
+    User([End User<br/> Web / Mobile]) --> API[payment-api<br/>Node.js / Express<br/>Port 443]
+    Merchant([Merchant]) --> DASH[merchant-dashboard<br/>Next.js<br/>Port 443]
     DASH --> API
-    API --> PROC[payment-processor\nNode.js\nKafka consumer]
-    API --> DB[(payment-db\nPostgres 15\nRDS Multi-AZ)]
-    API --> OUTBOX[outbox-worker\nNode.js\nScheduled]
-    OUTBOX --> MQ[Kafka\nConfluent Cloud]
-    PROC --> PSP[Stripe / Adyen\nExternal PSP]
+    API --> PROC[payment-processor<br/>Node.js<br/>Kafka consumer]
+    API --> DB[(payment-db<br/>Postgres 15<br/>RDS Multi-AZ)]
+    API --> OUTBOX[outbox-worker<br/>Node.js<br/>Scheduled]
+    OUTBOX --> MQ[Kafka<br/>Confluent Cloud]
+    PROC --> PSP[Stripe / Adyen<br/>External PSP]
     PROC --> DB
-    MQ --> NOTIFY[notification-service\nSeparate boundary]
-    API --> FRAUD[fraud-detection\ngRPC\nSeparate boundary]
-    API --> CACHE[(Redis\nElastiCache\nSession + rate limit)]
+    MQ --> NOTIFY[notification-service<br/>Separate boundary]
+    API --> FRAUD[fraud-detection<br/>gRPC<br/>Separate boundary]
+    API --> CACHE[(Redis<br/>ElastiCache<br/>Session + rate limit)]
 ```
 
 ### Architecture principles document template

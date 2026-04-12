@@ -48,15 +48,15 @@ flowchart LR
     end
 
     subgraph Expand-Contract
-        PHASE1[Phase 1: Expand\nAdd new column/field\nWrite to both]
-        PHASE2[Phase 2: Migrate\nBackfill old data\nSwitch reads to new]
-        PHASE3[Phase 3: Contract\nRemove old column/field]
+        PHASE1[Phase 1: Expand<br/>Add new column/field<br/>Write to both]
+        PHASE2[Phase 2: Migrate<br/>Backfill old data<br/>Switch reads to new]
+        PHASE3[Phase 3: Contract<br/>Remove old column/field]
         PHASE1 --> PHASE2 --> PHASE3
     end
 
     subgraph Anti-Corruption Layer
         DOMAIN[New Domain Model]
-        ACL[Anti-Corruption Layer\nTranslator / Adapter]
+        ACL[Anti-Corruption Layer<br/>Translator / Adapter]
         LEGACY_M[Legacy Domain Model]
         DOMAIN --> ACL --> LEGACY_M
     end

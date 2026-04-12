@@ -61,7 +61,7 @@ stateDiagram-v2
     Rejected --> [*]
     Superseded --> [*]
 
-    note right of Accepted : ADR is immutable.\nOnly a new ADR can change it.
+    note right of Accepted : ADR is immutable.<br/>Only a new ADR can change it.
 ```
 
 ## Code Sample

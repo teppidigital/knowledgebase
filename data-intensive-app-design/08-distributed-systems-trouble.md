@@ -85,10 +85,10 @@ sequenceDiagram
     Node B-->>Client: Success
 
     Note over Node A: Node A was fine and processed the request too!
-    Note over Client,Node B: Result: request processed TWICE\nRequires idempotency!
+    Note over Client,Node B: Result: request processed TWICE<br/>Requires idempotency!
 
     rect rgb(255,200,200)
-        Note over Node A: Later: Node A wakes from GC pause\nBelieves it is still leader\nAttempts write... SPLIT BRAIN
+        Note over Node A: Later: Node A wakes from GC pause<br/>Believes it is still leader<br/>Attempts write... SPLIT BRAIN
     end
 ```
 

@@ -77,21 +77,21 @@ Task states support:
 ```mermaid
 flowchart TD
     subgraph Trigger
-        API["API Gateway\n(POST /orders)"]
-        Sched["EventBridge\nScheduler"]
+        API["API Gateway<br/>(POST /orders)"]
+        Sched["EventBridge<br/>Scheduler"]
     end
 
     subgraph SM["Order Fulfilment State Machine (Standard)"]
-        Validate["Validate Order\n(Lambda)"]
-        Reserve["Reserve Inventory\n(DynamoDB SDK)"]
-        Choice1{Inventory\navailable?}
-        Charge["Charge Payment\n(Lambda)"]
-        Choice2{Payment\nsucceeded?}
-        Notify["Notify Customer\n(SNS SDK)"]
-        Ship["Queue Shipment\n(SQS SDK)"]
-        Cancel["Cancel Reservation\n(DynamoDB SDK)"]
-        RefundNotify["Notify Failure\n(SNS SDK)"]
-        WaitApproval["Wait for Manual\nApproval (task token)"]
+        Validate["Validate Order<br/>(Lambda)"]
+        Reserve["Reserve Inventory<br/>(DynamoDB SDK)"]
+        Choice1{Inventory<br/>available?}
+        Charge["Charge Payment<br/>(Lambda)"]
+        Choice2{Payment<br/>succeeded?}
+        Notify["Notify Customer<br/>(SNS SDK)"]
+        Ship["Queue Shipment<br/>(SQS SDK)"]
+        Cancel["Cancel Reservation<br/>(DynamoDB SDK)"]
+        RefundNotify["Notify Failure<br/>(SNS SDK)"]
+        WaitApproval["Wait for Manual<br/>Approval (task token)"]
         Succeed(["Succeed"])
         Fail(["Fail"])
     end

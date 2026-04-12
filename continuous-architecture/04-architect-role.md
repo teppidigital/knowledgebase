@@ -42,14 +42,14 @@ The new model is the **architect as enabler**: someone who creates the condition
 ```mermaid
 flowchart TD
     subgraph Architect Activities
-        S[Strategic\nLong-term architecture\nCapability planning\nTechnology radar]
-        T[Tactical\nCross-team decisions\nADR authorship\nRFC review]
-        O[Operational\nPairing with teams\nCode and design review\nIncident architecture review]
+        S[Strategic<br/>Long-term architecture<br/>Capability planning<br/>Technology radar]
+        T[Tactical<br/>Cross-team decisions<br/>ADR authorship<br/>RFC review]
+        O[Operational<br/>Pairing with teams<br/>Code and design review<br/>Incident architecture review]
     end
 
-    GUILD[Architecture Guild\nCommunity of Practice]
-    FF[Fitness Functions\nAutomated Guardrails]
-    TEAMS[Stream-aligned Teams\nOwn their architecture decisions]
+    GUILD[Architecture Guild<br/>Community of Practice]
+    FF[Fitness Functions<br/>Automated Guardrails]
+    TEAMS[Stream-aligned Teams<br/>Own their architecture decisions]
 
     S --> T --> O
     O --> TEAMS

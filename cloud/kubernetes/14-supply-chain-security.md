@@ -52,19 +52,19 @@ Software supply-chain attacks inject malicious code between source and deploymen
 
 ```mermaid
 flowchart LR
-    CODE["Source Code\n(Git)"]
-    CI["CI Pipeline\n(GitHub Actions)"]
-    BUILD["OCI Image\nbuild + push"]
-    SIGN["cosign sign\n(keyless OIDC)"]
-    SBOM["syft → SBOM\nattached to image"]
-    SCAN["grype SBOM\n(CVE gate)"]
-    REG["OCI Registry\nimage + signature + SBOM"]
-    ADM["OPA Gatekeeper\nAdmission Webhook"]
+    CODE["Source Code<br/>(Git)"]
+    CI["CI Pipeline<br/>(GitHub Actions)"]
+    BUILD["OCI Image<br/>build + push"]
+    SIGN["cosign sign<br/>(keyless OIDC)"]
+    SBOM["syft → SBOM<br/>attached to image"]
+    SCAN["grype SBOM<br/>(CVE gate)"]
+    REG["OCI Registry<br/>image + signature + SBOM"]
+    ADM["OPA Gatekeeper<br/>Admission Webhook"]
     CLUSTER["Kubernetes Cluster"]
 
     CODE --> CI --> BUILD --> SIGN --> SBOM --> SCAN --> REG
     REG -->|kubectl apply| ADM
-    ADM -->|cosign verify\nsignature OK?| REG
+    ADM -->|cosign verify<br/>signature OK?| REG
     ADM -->|allowed| CLUSTER
 ```
 

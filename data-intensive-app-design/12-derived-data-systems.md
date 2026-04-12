@@ -95,27 +95,27 @@ The event log (Kafka) is the glue: changes propagate from the system of record t
 ```mermaid
 flowchart TD
     subgraph System of Record
-        PG[(PostgreSQL\nOrders DB)]
-        Debezium[Debezium CDC\ncaptures WAL changes]
+        PG[(PostgreSQL<br/>Orders DB)]
+        Debezium[Debezium CDC<br/>captures WAL changes]
         PG --> Debezium
     end
 
     subgraph Event Log
-        Kafka[(Kafka\norder-events topic\nretained indefinitely)]
+        Kafka[(Kafka<br/>order-events topic<br/>retained indefinitely)]
         Debezium --> Kafka
     end
 
     subgraph Derived Systems
-        ES[Elasticsearch\nfull-text search]
-        Redis[Redis\ncache latest order status]
-        OH[OLAP / ClickHouse\nanalytics reports]
-        ML[Feature Store\nML training data]
+        ES[Elasticsearch<br/>full-text search]
+        Redis[Redis<br/>cache latest order status]
+        OH[OLAP / ClickHouse<br/>analytics reports]
+        ML[Feature Store<br/>ML training data]
     end
 
     subgraph Consumers
-        SC1[Stream processor\norchestrator 1]
-        SC2[Stream processor\norchestrator 2]
-        SC3[Batch job\nnightly]
+        SC1[Stream processor<br/>orchestrator 1]
+        SC2[Stream processor<br/>orchestrator 2]
+        SC3[Batch job<br/>nightly]
         SC4[ML pipeline]
     end
 

@@ -88,19 +88,19 @@ flowchart TD
         R1[Row1: ord-1 | EU | 150 | COMPLETED | 2024-01-01]
         R2[Row2: ord-2 | US | 200 | PENDING | 2024-01-02]
         R3[Row3: ord-3 | EU | 300 | COMPLETED | 2024-01-02]
-        QUERY1["SELECT region, SUM(amount) WHERE status='COMPLETED'\nMust read ALL columns of ALL rows"]
+        QUERY1["SELECT region, SUM(amount) WHERE status='COMPLETED'<br/>Must read ALL columns of ALL rows"]
     end
 
     subgraph Column Store — ClickHouse / BigQuery
         Col1["region: [EU, US, EU, ...]"]
         Col2["amount: [150, 200, 300, ...]"]
-        Col3["status: [COMP, PEND, COMP, ...]\n→ bitmap: [1, 0, 1, ...]"]
-        QUERY2["SELECT region, SUM(amount) WHERE status='COMPLETED'\nRead ONLY 3 columns; skip status=PENDING rows entirely"]
+        Col3["status: [COMP, PEND, COMP, ...]<br/>→ bitmap: [1, 0, 1, ...]"]
+        QUERY2["SELECT region, SUM(amount) WHERE status='COMPLETED'<br/>Read ONLY 3 columns; skip status=PENDING rows entirely"]
     end
 
     subgraph Compression
-        RAW["status column raw: COMPLETED PENDING COMPLETED COMPLETED PENDING\n(50 bytes)"]
-        DICT["Dictionary: {C=0, P=1}\nData: [0,1,0,0,1]\nBit-packed: 5 bits total\n(10x compression)"]
+        RAW["status column raw: COMPLETED PENDING COMPLETED COMPLETED PENDING<br/>(50 bytes)"]
+        DICT["Dictionary: {C=0, P=1}<br/>Data: [0,1,0,0,1]<br/>Bit-packed: 5 bits total<br/>(10x compression)"]
         RAW --> DICT
     end
 ```

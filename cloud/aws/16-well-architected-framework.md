@@ -137,10 +137,10 @@ graph LR
     B --> C[Change Management]
     C --> D[Failure Management]
     
-    A1[Service Quotas\nNetwork topology\nAccount structure] --> A
-    B1[Service-oriented design\nDistributed system best practices] --> B
-    C1[Monitoring\nDeployment automation\nRollback capability] --> C
-    D1[Backups\nDisaster recovery\nChaos engineering] --> D
+    A1[Service Quotas<br/>Network topology<br/>Account structure] --> A
+    B1[Service-oriented design<br/>Distributed system best practices] --> B
+    C1[Monitoring<br/>Deployment automation<br/>Rollback capability] --> C
+    D1[Backups<br/>Disaster recovery<br/>Chaos engineering] --> D
 ```
 
 ### Availability Targets
@@ -186,12 +186,12 @@ graph LR
 
 ```mermaid
 flowchart TD
-    Q1{Stateless\ncompute?} -- Yes --> S1[Lambda or Fargate]
-    Q1 -- No --> Q2{Long-running\nor GPU?}
+    Q1{Stateless<br/>compute?} -- Yes --> S1[Lambda or Fargate]
+    Q1 -- No --> Q2{Long-running<br/>or GPU?}
     Q2 -- Yes --> S2[EC2 with right instance family]
     Q2 -- No --> S3[ECS / EKS on Fargate]
 
-    Q3{Read-heavy\nworkload?} -- Yes --> C1[Add ElastiCache\nor DAX]
+    Q3{Read-heavy<br/>workload?} -- Yes --> C1[Add ElastiCache<br/>or DAX]
     Q3 -- No --> Q4{Relational?}
     Q4 -- Yes --> D1[Aurora Serverless v2]
     Q4 -- No --> D2[DynamoDB]
@@ -230,11 +230,11 @@ flowchart TD
 
 ```mermaid
 graph TD
-    A[Cost Optimisation] --> B[Right-sizing\nCompute Optimizer\nTrusted Advisor]
-    A --> C[Pricing Models\nSavings Plans\nReserved Instances\nSpot Instances]
-    A --> D[Architecture\nServerless\nEvent-driven\nScheduled scale-down]
-    A --> E[Waste Elimination\nIdle resources\nOrphaned snapshots\nOld EBS volumes]
-    A --> F[Data Transfer\nCloudFront\nS3 Transfer Acceleration\nVPC endpoints]
+    A[Cost Optimisation] --> B[Right-sizing<br/>Compute Optimizer<br/>Trusted Advisor]
+    A --> C[Pricing Models<br/>Savings Plans<br/>Reserved Instances<br/>Spot Instances]
+    A --> D[Architecture<br/>Serverless<br/>Event-driven<br/>Scheduled scale-down]
+    A --> E[Waste Elimination<br/>Idle resources<br/>Orphaned snapshots<br/>Old EBS volumes]
+    A --> F[Data Transfer<br/>CloudFront<br/>S3 Transfer Acceleration<br/>VPC endpoints]
 ```
 
 ### Pricing Model Cheat Sheet
@@ -301,11 +301,11 @@ A **Well-Architected Review (WAR)** is a structured conversation with an AWS Sol
 
 ```mermaid
 flowchart LR
-    A[Define Workload] --> B[Answer Questions\nper Pillar]
-    B --> C[Identify HRIs\nHigh Risk Issues]
+    A[Define Workload] --> B[Answer Questions<br/>per Pillar]
+    B --> C[Identify HRIs<br/>High Risk Issues]
     C --> D[Create Improvement Plan]
     D --> E[Implement Improvements]
-    E --> F[Re-review\nContinuous Loop]
+    E --> F[Re-review<br/>Continuous Loop]
     F --> B
 ```
 

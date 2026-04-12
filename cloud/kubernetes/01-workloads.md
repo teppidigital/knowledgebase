@@ -59,22 +59,22 @@ Kubernetes workload resources describe *how* to run containers. Choosing the rig
 ```mermaid
 flowchart TD
     subgraph Workloads["Workload Resources"]
-        DEP["Deployment\n(stateless)"]
-        STS["StatefulSet\n(stateful + ordered)"]
-        DS["DaemonSet\n(per-node)"]
-        JOB["Job\n(one-off batch)"]
-        CJ["CronJob\n→ manages Jobs"]
+        DEP["Deployment<br/>(stateless)"]
+        STS["StatefulSet<br/>(stateful + ordered)"]
+        DS["DaemonSet<br/>(per-node)"]
+        JOB["Job<br/>(one-off batch)"]
+        CJ["CronJob<br/>→ manages Jobs"]
     end
 
-    DEP -->|manages| RS["ReplicaSet\n(N replicas)"]
+    DEP -->|manages| RS["ReplicaSet<br/>(N replicas)"]
     RS  -->|creates| P1["Pod A"] & P2["Pod B"] & P3["Pod C"]
 
-    STS -->|creates ordered| S0["pod-0\n+ PVC-0"] & S1["pod-1\n+ PVC-1"]
+    STS -->|creates ordered| S0["pod-0<br/>+ PVC-0"] & S1["pod-1<br/>+ PVC-1"]
 
-    DS  -->|one per node| D1["Node 1\nAgent Pod"] & D2["Node 2\nAgent Pod"]
+    DS  -->|one per node| D1["Node 1<br/>Agent Pod"] & D2["Node 2<br/>Agent Pod"]
 
     CJ  -->|triggers| JOB
-    JOB -->|creates| BP["Batch Pod\n(retry on failure)"]
+    JOB -->|creates| BP["Batch Pod<br/>(retry on failure)"]
 ```
 
 ---

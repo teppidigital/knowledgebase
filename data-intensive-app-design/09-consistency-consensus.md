@@ -88,18 +88,18 @@ Raft is a consensus algorithm designed for understandability. It elects a **lead
 ```mermaid
 flowchart TD
     subgraph Raft — Leader Election
-        S1[Server 1\nFollower]
-        S2[Server 2\nCandidate → Leader]
-        S3[Server 3\nFollower]
-        S4[Server 4\nFollower]
-        S5[Server 5\nFollower]
+        S1[Server 1<br/>Follower]
+        S2[Server 2<br/>Candidate → Leader]
+        S3[Server 3<br/>Follower]
+        S4[Server 4<br/>Follower]
+        S5[Server 5<br/>Follower]
 
         S2 -- RequestVote --> S1
         S2 -- RequestVote --> S3
         S1 -- Vote granted --> S2
         S3 -- Vote granted --> S2
-        S2 -- Now leader\nAppendEntries heartbeat --> S1
-        S2 -- Now leader\nAppendEntries heartbeat --> S3
+        S2 -- Now leader<br/>AppendEntries heartbeat --> S1
+        S2 -- Now leader<br/>AppendEntries heartbeat --> S3
     end
 
     subgraph Raft — Log Replication
@@ -108,11 +108,11 @@ flowchart TD
         F2[Follower 2]
         F3[Follower 3]
         Client2[Client] --> L
-        L -- AppendEntries\nentry cmd=SET x=5 --> F1
-        L -- AppendEntries\nentry cmd=SET x=5 --> F2
+        L -- AppendEntries<br/>entry cmd=SET x=5 --> F1
+        L -- AppendEntries<br/>entry cmd=SET x=5 --> F2
         F1 -- ACK --> L
         F2 -- ACK --> L
-        L -- Commit\nmajority=2 of 3 --> OK[Command committed\nRespond to client]
+        L -- Commit<br/>majority=2 of 3 --> OK[Command committed<br/>Respond to client]
     end
 ```
 

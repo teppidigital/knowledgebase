@@ -42,19 +42,19 @@ Continuous architecture governance is *lightweight by design*: it shifts account
 ```mermaid
 flowchart TD
     subgraph Automated Layer — Always on
-        FF[Fitness Functions\nin CI/CD pipeline]
-        LINT[Static Analysis\nSonarQube / depcruiser]
-        SECSC[Security Scanning\nCVE / SAST / DAST]
+        FF[Fitness Functions<br/>in CI/CD pipeline]
+        LINT[Static Analysis<br/>SonarQube / depcruiser]
+        SECSC[Security Scanning<br/>CVE / SAST / DAST]
     end
 
     subgraph Lightweight Review Layer
-        ADR[ADR Review\nAsync — 48h window\nArchitect + relevant team leads]
-        GUILD[Architecture Guild\nWeekly forum\nCross-team patterns + decisions]
-        RADAR[Technology Radar\nQuarterly update]
+        ADR[ADR Review<br/>Async — 48h window<br/>Architect + relevant team leads]
+        GUILD[Architecture Guild<br/>Weekly forum<br/>Cross-team patterns + decisions]
+        RADAR[Technology Radar<br/>Quarterly update]
     end
 
     subgraph Formal Review — High-stakes only
-        ARB[Architecture Review\nCross-org impact\nRegulatory / compliance\nMajor platform decisions]
+        ARB[Architecture Review<br/>Cross-org impact<br/>Regulatory / compliance<br/>Major platform decisions]
     end
 
     FF --> GUILD

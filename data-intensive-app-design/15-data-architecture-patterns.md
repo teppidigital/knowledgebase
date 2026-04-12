@@ -89,17 +89,17 @@ Data Mesh is an organisational and architectural pattern where **domain teams ow
 ```mermaid
 flowchart TD
     subgraph CQRS + Event Sourcing
-        CMD[Command\nCreateOrder\nShipOrder]
-        AGG[Order Aggregate\nApply events\nEnforce invariants]
-        ES[(Event Store\nAppend-only\norder-events)]
+        CMD[Command<br/>CreateOrder<br/>ShipOrder]
+        AGG[Order Aggregate<br/>Apply events<br/>Enforce invariants]
+        ES[(Event Store<br/>Append-only<br/>order-events)]
         CMD --> AGG --> ES
     end
 
     subgraph Projections — derived read models
-        P1[OrderListProjection\n→ PostgreSQL read DB]
-        P2[OrderSearchProjection\n→ Elasticsearch]
-        P3[AnalyticsProjection\n→ ClickHouse OLAP]
-        P4[AuditProjection\n→ S3 Parquet]
+        P1[OrderListProjection<br/>→ PostgreSQL read DB]
+        P2[OrderSearchProjection<br/>→ Elasticsearch]
+        P3[AnalyticsProjection<br/>→ ClickHouse OLAP]
+        P4[AuditProjection<br/>→ S3 Parquet]
 
         ES --> P1
         ES --> P2
@@ -108,9 +108,9 @@ flowchart TD
     end
 
     subgraph Query Side
-        Q1[List orders API\nPostgreSQL read]
-        Q2[Search API\nElasticsearch]
-        Q3[Analytics dashboard\nSQL on ClickHouse]
+        Q1[List orders API<br/>PostgreSQL read]
+        Q2[Search API<br/>Elasticsearch]
+        Q3[Analytics dashboard<br/>SQL on ClickHouse]
     end
 
     P1 --> Q1

@@ -51,16 +51,16 @@ Both are required for safe rolling deployments and independent service upgrades.
 ```mermaid
 flowchart TD
     subgraph Schema Evolution — Protobuf Rules
-        ADD[Add new field\nOptional with new tag\n✅ Backward + Forward compatible]
-        REM[Remove field?\nMust keep tag reserved\nOld code ignores; new code uses default]
-        CHANGE[Change field type?\nOnly safe type promotions\ne.g. int32 → int64]
-        RENAME[Rename field?\nTag number unchanged = safe\nTag changed = breaking]
+        ADD[Add new field<br/>Optional with new tag<br/>✅ Backward + Forward compatible]
+        REM[Remove field?<br/>Must keep tag reserved<br/>Old code ignores; new code uses default]
+        CHANGE[Change field type?<br/>Only safe type promotions<br/>e.g. int32 → int64]
+        RENAME[Rename field?<br/>Tag number unchanged = safe<br/>Tag changed = breaking]
     end
 
     subgraph Avro Schema Resolution
-        WRITER[Writer schema\nat write time]
-        READER[Reader schema\nat read time]
-        COMPAT[Schema registry resolves\nwriter → reader\nField matching by name]
+        WRITER[Writer schema<br/>at write time]
+        READER[Reader schema<br/>at read time]
+        COMPAT[Schema registry resolves<br/>writer → reader<br/>Field matching by name]
         WRITER --> COMPAT
         READER --> COMPAT
     end

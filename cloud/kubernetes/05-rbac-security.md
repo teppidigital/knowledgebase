@@ -58,13 +58,13 @@ Modes: `enforce` (reject), `audit` (log), `warn` (warn but allow).
 ```mermaid
 flowchart TD
     USER["kubectl / CI pipeline"] -->|AuthN: OIDC token| APISERVER["kube-apiserver"]
-    APISERVER -->|AuthZ: RBAC check| RBAC["Role/ClusterRole\nRoleBinding"]
-    APISERVER -->|Admission| GATE["OPA Gatekeeper\n(ValidatingWebhook)"]
-    GATE -->|Policy: allowed?| ETCD["etcd\n(stored)"]
+    APISERVER -->|AuthZ: RBAC check| RBAC["Role/ClusterRole<br/>RoleBinding"]
+    APISERVER -->|Admission| GATE["OPA Gatekeeper<br/>(ValidatingWebhook)"]
+    GATE -->|Policy: allowed?| ETCD["etcd<br/>(stored)"]
 
     subgraph Workload["Workload"]
         POD["Pod"] -->|ServiceAccount token| SA["ServiceAccount"]
-        SA -->|IRSA / Workload Identity| CLOUD_IAM["Cloud IAM Role\n(AWS / Azure / GCP)"]
+        SA -->|IRSA / Workload Identity| CLOUD_IAM["Cloud IAM Role<br/>(AWS / Azure / GCP)"]
     end
 ```
 

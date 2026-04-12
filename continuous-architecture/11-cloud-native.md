@@ -56,22 +56,22 @@ Cloud-native design is a direct expression of Principles 4 (small, replaceable c
 
 ```mermaid
 flowchart TD
-    CLIENT[Client\nWeb / Mobile / 3rd party] --> GW[API Gateway\nAuth + Rate limit\n+ WAF]
-    GW --> SA1[Orders Service\nK8s Deployment\n3 replicas]
-    GW --> SA2[Payments Service\nK8s Deployment\n3 replicas]
-    GW --> SA3[Notifications Service\nK8s Deployment\n2 replicas]
+    CLIENT[Client<br/>Web / Mobile / 3rd party] --> GW[API Gateway<br/>Auth + Rate limit<br/>+ WAF]
+    GW --> SA1[Orders Service<br/>K8s Deployment<br/>3 replicas]
+    GW --> SA2[Payments Service<br/>K8s Deployment<br/>3 replicas]
+    GW --> SA3[Notifications Service<br/>K8s Deployment<br/>2 replicas]
 
-    SA1 -- event --> MQ[Message Broker\nKafka / SQS]
+    SA1 -- event --> MQ[Message Broker<br/>Kafka / SQS]
     MQ --> SA3
 
-    SA1 --> DB1[(Orders DB\nRDS / Aurora\nMulti-AZ)]
-    SA2 --> DB2[(Payments DB\nRDS / Aurora\nMulti-AZ)]
-    SA2 --> CACHE[(Redis\nElastiCache\nSession + rate limit)]
+    SA1 --> DB1[(Orders DB<br/>RDS / Aurora<br/>Multi-AZ)]
+    SA2 --> DB2[(Payments DB<br/>RDS / Aurora<br/>Multi-AZ)]
+    SA2 --> CACHE[(Redis<br/>ElastiCache<br/>Session + rate limit)]
 
     subgraph Platform
-        OBS[Observability Stack\nPrometheus + Grafana + Tempo]
-        SEC[Secrets Manager\nVault / AWS SM]
-        CD[GitOps\nArgoCD]
+        OBS[Observability Stack<br/>Prometheus + Grafana + Tempo]
+        SEC[Secrets Manager<br/>Vault / AWS SM]
+        CD[GitOps<br/>ArgoCD]
     end
 
     SA1 & SA2 & SA3 --> OBS

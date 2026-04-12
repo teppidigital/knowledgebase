@@ -58,15 +58,15 @@ Cohesion is the degree to which elements within a module belong together. High c
 ```mermaid
 flowchart LR
     subgraph Domain Layer — High Cohesion
-        ORDER[Order Domain\nOrderAggregate\nOrderRepository port]
-        PAYMENT[Payment Domain\nPaymentAggregate\nPaymentRepository port]
-        INVENTORY[Inventory Domain\nInventoryAggregate\nInventoryRepository port]
+        ORDER[Order Domain<br/>OrderAggregate<br/>OrderRepository port]
+        PAYMENT[Payment Domain<br/>PaymentAggregate<br/>PaymentRepository port]
+        INVENTORY[Inventory Domain<br/>InventoryAggregate<br/>InventoryRepository port]
     end
 
     subgraph Infrastructure Layer — Adapters
-        DB_O[(Orders DB\nPostgres)]
-        DB_P[(Payments DB\nPostgres)]
-        MQ[Message Broker\nKafka]
+        DB_O[(Orders DB<br/>Postgres)]
+        DB_P[(Payments DB<br/>Postgres)]
+        MQ[Message Broker<br/>Kafka]
     end
 
     ORDER -- events --> MQ

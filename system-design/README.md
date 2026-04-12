@@ -138,11 +138,11 @@ flowchart TD
     Start --> Deploy{Deployment risk?}
     Start --> Architecture{Architecture design?}
 
-    Scale     --> LB["10 Load Balancing\n11 Database Sharding\n12 Caching Patterns\n22 Read Replicas\n23 CDN"]
-    Reliability --> CB["13 Circuit Breaker\n15 Bulkhead\n24 Retry\n30 DLQ\n34 Health Check"]
-    Data      --> DM["04 CQRS\n05 Event Sourcing\n16 Outbox\n28 CDC\n31 DB per Service"]
-    Deploy    --> DP["19 Blue-Green\n20 Canary\n25 Feature Flags"]
-    Architecture --> AR["01 Microservices\n03 Event-Driven\n06 Saga\n07 API Gateway\n09 BFF\n26 Service Mesh"]
+    Scale     --> LB["10 Load Balancing<br/>11 Database Sharding<br/>12 Caching Patterns<br/>22 Read Replicas<br/>23 CDN"]
+    Reliability --> CB["13 Circuit Breaker<br/>15 Bulkhead<br/>24 Retry<br/>30 DLQ<br/>34 Health Check"]
+    Data      --> DM["04 CQRS<br/>05 Event Sourcing<br/>16 Outbox<br/>28 CDC<br/>31 DB per Service"]
+    Deploy    --> DP["19 Blue-Green<br/>20 Canary<br/>25 Feature Flags"]
+    Architecture --> AR["01 Microservices<br/>03 Event-Driven<br/>06 Saga<br/>07 API Gateway<br/>09 BFF<br/>26 Service Mesh"]
 ```
 
 ### Quick-pick reference

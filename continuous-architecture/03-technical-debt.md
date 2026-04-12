@@ -40,15 +40,15 @@ Technical debt is any design or implementation shortcut taken today that increas
 
 ```mermaid
 flowchart LR
-    D[Design Shortcut\nTaken] --> DB[(Debt Register\nClassified + Measured)]
-    DB --> CARRY[Carrying Cost\nPer Sprint]
-    CARRY --> TRIAGE{Triage\nEach Quarter}
-    TRIAGE -- Pay down now --> REFACTOR[Refactor / Rewrite\nStory in Backlog]
+    D[Design Shortcut<br/>Taken] --> DB[(Debt Register<br/>Classified + Measured)]
+    DB --> CARRY[Carrying Cost<br/>Per Sprint]
+    CARRY --> TRIAGE{Triage<br/>Each Quarter}
+    TRIAGE -- Pay down now --> REFACTOR[Refactor / Rewrite<br/>Story in Backlog]
     TRIAGE -- Accept + track --> DB
-    TRIAGE -- Eliminate --> DECOM[Decommission\nor Delete]
+    TRIAGE -- Eliminate --> DECOM[Decommission<br/>or Delete]
 
-    REFACTOR --> REDUCE[Reduced\nCarrying Cost]
-    REDUCE --> VELOCITY[Improved\nTeam Velocity]
+    REFACTOR --> REDUCE[Reduced<br/>Carrying Cost]
+    REDUCE --> VELOCITY[Improved<br/>Team Velocity]
 ```
 
 ## Code Sample

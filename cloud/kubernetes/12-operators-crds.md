@@ -55,11 +55,11 @@ The **Operator pattern** encodes operational knowledge (install, upgrade, backup
 
 ```mermaid
 flowchart TD
-    USER["User\nkubectl apply -f db-cluster.yaml"]
+    USER["User<br/>kubectl apply -f db-cluster.yaml"]
     API["Kubernetes API Server"]
-    ETCD["etcd\nCR stored here"]
-    CTRL["Operator Controller\n(Deployment in cluster)"]
-    PODS["Managed Resources\nPods, Services, PVCs"]
+    ETCD["etcd<br/>CR stored here"]
+    CTRL["Operator Controller<br/>(Deployment in cluster)"]
+    PODS["Managed Resources<br/>Pods, Services, PVCs"]
 
     USER -->|POST CR| API
     API --> ETCD

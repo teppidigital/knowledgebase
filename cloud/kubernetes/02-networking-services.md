@@ -59,13 +59,13 @@ flowchart TD
     end
 
     subgraph Cluster["Kubernetes Cluster"]
-        LB["LoadBalancer Service\n(Cloud LB / L4)"]
-        ING["Ingress Controller\n(Nginx / Traefik)"]
+        LB["LoadBalancer Service<br/>(Cloud LB / L4)"]
+        ING["Ingress Controller<br/>(Nginx / Traefik)"]
 
         subgraph NS1["namespace: production"]
-            SVC_A["Service: api-svc\n(ClusterIP)"]
-            SVC_B["Service: orders-svc\n(ClusterIP)"]
-            SVC_C["Service: pg-headless\n(Headless)"]
+            SVC_A["Service: api-svc<br/>(ClusterIP)"]
+            SVC_B["Service: orders-svc<br/>(ClusterIP)"]
+            SVC_C["Service: pg-headless<br/>(Headless)"]
 
             POD_A1["api pod 1"]
             POD_A2["api pod 2"]

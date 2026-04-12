@@ -48,18 +48,18 @@ Fitness functions replace manual architecture reviews for properties that can be
 ```mermaid
 flowchart LR
     subgraph CI Pipeline
-        PR[Pull Request] --> LINT[Linting &\nStatic Analysis]
+        PR[Pull Request] --> LINT[Linting &<br/>Static Analysis]
         LINT --> UNIT[Unit Tests]
-        UNIT --> FF_STATIC[Static Fitness Functions\ndependency-cruiser\nArchUnit / custom]
+        UNIT --> FF_STATIC[Static Fitness Functions<br/>dependency-cruiser<br/>ArchUnit / custom]
         FF_STATIC --> INT[Integration Tests]
-        INT --> FF_DYN[Dynamic Fitness Functions\nk6 load test\nOWASP ZAP]
+        INT --> FF_DYN[Dynamic Fitness Functions<br/>k6 load test<br/>OWASP ZAP]
         FF_DYN --> MERGE[Merge to main]
     end
 
     subgraph Production / Continual
-        SYNTH[Synthetic Monitoring\nUptime checks]
-        SLO[SLO Burn Rate\nAlerts]
-        FF_TEMP[Temporal Fitness Functions\nDependency freshness\nCert expiry]
+        SYNTH[Synthetic Monitoring<br/>Uptime checks]
+        SLO[SLO Burn Rate<br/>Alerts]
+        FF_TEMP[Temporal Fitness Functions<br/>Dependency freshness<br/>Cert expiry]
     end
 
     MERGE --> DEPLOY[Deploy] --> SYNTH & SLO & FF_TEMP

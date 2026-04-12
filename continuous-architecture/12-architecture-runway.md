@@ -48,19 +48,19 @@ In SAFe (Scaled Agile Framework), the runway is explicitly managed as a measure.
 ```mermaid
 flowchart LR
     subgraph Now
-        FT[Feature Teams\nSprints 1-2]
+        FT[Feature Teams<br/>Sprints 1-2]
     end
 
     subgraph Runway — 2-3 Sprints ahead
-        E1[Enabler: Kafka cluster\nSprint 3]
-        E2[Enabler: API gateway\nauth middleware\nSprint 3]
-        E3[Enabler: Secret\nmanagement for\nnew domains\nSprint 4]
+        E1[Enabler: Kafka cluster<br/>Sprint 3]
+        E2[Enabler: API gateway<br/>auth middleware<br/>Sprint 3]
+        E3[Enabler: Secret<br/>management for<br/>new domains<br/>Sprint 4]
     end
 
     subgraph IP / Platform Cadence
-        IP[IP Iteration\nor Platform Sprint]
-        ADR[Architecture Decisions\nADRs for runway]
-        TRIAGE[Runway Triage\nWhat's needed in next PI?]
+        IP[IP Iteration<br/>or Platform Sprint]
+        ADR[Architecture Decisions<br/>ADRs for runway]
+        TRIAGE[Runway Triage<br/>What's needed in next PI?]
     end
 
     FT -- "blocked without" --> Runway

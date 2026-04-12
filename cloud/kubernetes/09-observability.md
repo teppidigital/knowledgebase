@@ -46,13 +46,13 @@ Kubernetes observability rests on three pillars: **metrics** (time-series number
 
 ```mermaid
 flowchart LR
-    APP["Application Pod\n(OTLP SDK)"]
-    OTELCOL["OpenTelemetry Collector\n(DaemonSet)"]
-    PROM["Prometheus\n(metrics)"]
-    LOKI["Loki\n(logs)"]
-    TEMPO["Tempo\n(traces)"]
-    GRAFANA["Grafana\n(dashboards)"]
-    AM["Alertmanager\n(alerts → Slack/PagerDuty)"]
+    APP["Application Pod<br/>(OTLP SDK)"]
+    OTELCOL["OpenTelemetry Collector<br/>(DaemonSet)"]
+    PROM["Prometheus<br/>(metrics)"]
+    LOKI["Loki<br/>(logs)"]
+    TEMPO["Tempo<br/>(traces)"]
+    GRAFANA["Grafana<br/>(dashboards)"]
+    AM["Alertmanager<br/>(alerts → Slack/PagerDuty)"]
 
     APP -->|OTLP grpc 4317| OTELCOL
     OTELCOL -->|remote_write| PROM

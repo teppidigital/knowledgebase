@@ -51,11 +51,11 @@ flowchart LR
     end
 
     subgraph Cluster["Kubernetes Cluster"]
-        ESO["External Secrets\nOperator"]
+        ESO["External Secrets<br/>Operator"]
         ES["ExternalSecret CR"]
-        SEC["Secret\n(synced)"]
+        SEC["Secret<br/>(synced)"]
         POD["Pod"]
-        CM["ConfigMap\n(app config)"]
+        CM["ConfigMap<br/>(app config)"]
     end
 
     AWS_SM & VAULT -->|ESO reads| ESO

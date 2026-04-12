@@ -141,21 +141,21 @@ This is a constraint, not a recommendation. You cannot design your way around it
 
 ```mermaid
 flowchart TD
-    P1[Principle 1\nProducts not Projects]
-    P2[Principle 2\nQuality Attributes First]
-    P3[Principle 3\nDelay Decisions]
-    P4[Principle 4\nPower of Small]
-    P5[Principle 5\nBuild-Test-Deploy-Run]
-    P6[Principle 6\nModel the Org]
+    P1[Principle 1<br/>Products not Projects]
+    P2[Principle 2<br/>Quality Attributes First]
+    P3[Principle 3<br/>Delay Decisions]
+    P4[Principle 4<br/>Power of Small]
+    P5[Principle 5<br/>Build-Test-Deploy-Run]
+    P6[Principle 6<br/>Model the Org]
 
-    P2 --> QA[Quality Attribute\nUtility Tree]
-    P3 --> LRM[Last Responsible\nMoment Decision]
-    P4 --> MOD[Modular\nBoundaries]
-    P5 --> FF[Fitness Functions\n& Pipelines]
-    P6 --> TT[Team Topology\nDesign]
-    P1 --> PROD[Product Roadmap\n& Lifecycle Ownership]
+    P2 --> QA[Quality Attribute<br/>Utility Tree]
+    P3 --> LRM[Last Responsible<br/>Moment Decision]
+    P4 --> MOD[Modular<br/>Boundaries]
+    P5 --> FF[Fitness Functions<br/>& Pipelines]
+    P6 --> TT[Team Topology<br/>Design]
+    P1 --> PROD[Product Roadmap<br/>& Lifecycle Ownership]
 
-    QA --> ARCH[Architecture Decisions\nADRs]
+    QA --> ARCH[Architecture Decisions<br/>ADRs]
     LRM --> ARCH
     MOD --> ARCH
     FF --> ARCH

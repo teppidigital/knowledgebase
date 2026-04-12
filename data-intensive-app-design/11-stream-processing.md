@@ -79,26 +79,26 @@ There are two fundamentally different approaches to stream transport:
 ```mermaid
 flowchart LR
     subgraph Kafka Streams — Stateful Pipeline
-        Source[(Kafka Topic\norder-events)]
+        Source[(Kafka Topic<br/>order-events)]
         Filter[filter: status=COMPLETED]
-        Enrich[stream-table join\ncustomer profile]
-        Window[tumbling window\n1 hour]
-        Agg[aggregate\nsum revenue per region]
-        Sink[(Kafka Topic\nregion-revenue)]
+        Enrich[stream-table join<br/>customer profile]
+        Window[tumbling window<br/>1 hour]
+        Agg[aggregate<br/>sum revenue per region]
+        Sink[(Kafka Topic<br/>region-revenue)]
 
         Source --> Filter --> Enrich --> Window --> Agg --> Sink
     end
 
     subgraph State Stores
-        KTable[(Customer KTable\ncompacted topic)]
-        LocalState[(RocksDB\nwindow state)]
+        KTable[(Customer KTable<br/>compacted topic)]
+        LocalState[(RocksDB<br/>window state)]
     end
 
     Enrich -.->|lookup| KTable
     Window -.->|store| LocalState
 
     subgraph Fault Tolerance
-        Checkpoint[(Checkpoint\nevery 30s)]
+        Checkpoint[(Checkpoint<br/>every 30s)]
         LocalState -.->|snapshot| Checkpoint
     end
 ```

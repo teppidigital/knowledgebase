@@ -46,14 +46,14 @@ Packaging, GitOps, Kubernetes
 ```mermaid
 flowchart LR
     subgraph Helm["Helm Pipeline"]
-        CHART["Chart\n(templates/ + values.yaml)"]
+        CHART["Chart<br/>(templates/ + values.yaml)"]
         VALS["values-prod.yaml"]
         CHART & VALS -->|helm template| MANIFEST["Rendered YAML"]
     end
 
     subgraph Kustomize["Kustomize Pipeline"]
-        BASE["base/\n(deployment, service)"]
-        OVERLAY["overlays/prod/\n(replica count, image tag, resources)"]
+        BASE["base/<br/>(deployment, service)"]
+        OVERLAY["overlays/prod/<br/>(replica count, image tag, resources)"]
         BASE --> OVERLAY
         OVERLAY -->|kubectl apply -k| K8S["Kubernetes API"]
     end

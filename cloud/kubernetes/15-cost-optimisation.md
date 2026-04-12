@@ -44,13 +44,13 @@ Kubernetes cost optimisation focuses on three levers: **right-sizing** (use only
 
 ```mermaid
 flowchart TD
-    GOLDILOCKS["Goldilocks\n(VPA in Recommendation mode)"]
-    VPA["VPA Recommender\nanalyses actual usage"]
-    DEV["Developer\nupdates requests in values.yaml"]
-    KARPENTER["Karpenter\nNodePool: spot + OD"]
-    NODES["Node Fleet\nmix of Spot + On-Demand"]
-    PODS["Pods\n(well-sized requests)"]
-    KUBECOST["Kubecost\ncost allocation dashboard"]
+    GOLDILOCKS["Goldilocks<br/>(VPA in Recommendation mode)"]
+    VPA["VPA Recommender<br/>analyses actual usage"]
+    DEV["Developer<br/>updates requests in values.yaml"]
+    KARPENTER["Karpenter<br/>NodePool: spot + OD"]
+    NODES["Node Fleet<br/>mix of Spot + On-Demand"]
+    PODS["Pods<br/>(well-sized requests)"]
+    KUBECOST["Kubecost<br/>cost allocation dashboard"]
 
     PODS -->|actual CPU/mem metrics| VPA
     VPA --> GOLDILOCKS

@@ -74,18 +74,18 @@ Most software cost is maintenance, not initial development. Three design princip
 
 ```mermaid
 flowchart TD
-    LOAD[Load Parameters\nRPS / Read-write ratio /\nFan-out / Active users]
-    PERF[Performance Baseline\np50 / p95 / p99 latency\nThroughput]
+    LOAD[Load Parameters<br/>RPS / Read-write ratio /<br/>Fan-out / Active users]
+    PERF[Performance Baseline<br/>p50 / p95 / p99 latency<br/>Throughput]
     SCALE{Scaling Decision}
-    V[Vertical scale\nMore CPU/RAM]
-    H[Horizontal scale\nMore instances]
+    V[Vertical scale<br/>More CPU/RAM]
+    H[Horizontal scale<br/>More instances]
 
     LOAD --> PERF --> SCALE
     SCALE -- Stateless services --> H
     SCALE -- Stateful bottleneck --> V
-    H --> STAT[Stateless app servers\nLoad balanced]
-    H --> PART[Partitioned storage\nSharded DBs]
-    V --> LIMIT[Vertical limit\nThen must shard]
+    H --> STAT[Stateless app servers<br/>Load balanced]
+    H --> PART[Partitioned storage<br/>Sharded DBs]
+    V --> LIMIT[Vertical limit<br/>Then must shard]
 ```
 
 ## Code Sample

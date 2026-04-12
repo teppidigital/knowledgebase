@@ -64,18 +64,18 @@ flowchart TD
     end
 
     subgraph PodScaling["Pod Scaling"]
-        HPA["HPA\n(CPU/Memory)"]
-        KEDA["KEDA ScaledObject\n(Queue / Prometheus)"]
+        HPA["HPA<br/>(CPU/Memory)"]
+        KEDA["KEDA ScaledObject<br/>(Queue / Prometheus)"]
     end
 
     subgraph NodeScaling["Node Scaling"]
-        KARP["Karpenter\n(watches Pending pods)"]
-        CAP["NodePool\n(Spot + On-Demand)"]
+        KARP["Karpenter<br/>(watches Pending pods)"]
+        CAP["NodePool<br/>(Spot + On-Demand)"]
     end
 
     CPU & MEM --> HPA
     QUEUE & PROM --> KEDA
-    HPA & KEDA -->|"Pod count ↑\nPending pods"| KARP
+    HPA & KEDA -->|"Pod count ↑<br/>Pending pods"| KARP
     KARP -->|"Provision node"| CAP
 ```
 

@@ -80,20 +80,20 @@ flowchart TD
 
     subgraph Shield["Shield Standard (free, automatic)"]
        direction LR
-       L34["L3/L4 flood\nprotection"]
+       L34["L3/L4 flood<br/>protection"]
     end
 
     subgraph CF["CloudFront Distribution"]
-        WebACL["WAF Web ACL\n(at edge)"]
-        Rules["1. IP Reputation (Block)\n2. Geo-block (Block)\n3. Rate limit (Block)\n4. KnownBadInputs (Block)\n5. CommonRuleSet (Block)\n6. SQLi rules (Block)\n7. Custom allow-list (Allow)\n8. Default: Allow"]
+        WebACL["WAF Web ACL<br/>(at edge)"]
+        Rules["1. IP Reputation (Block)<br/>2. Geo-block (Block)<br/>3. Rate limit (Block)<br/>4. KnownBadInputs (Block)<br/>5. CommonRuleSet (Block)<br/>6. SQLi rules (Block)<br/>7. Custom allow-list (Allow)<br/>8. Default: Allow"]
     end
 
     subgraph Origin["Origin (ALB)"]
-        ALBWebACL["WAF Web ACL\n(at ALB — deeper inspection)"]
-        App["Application\n(ECS / EKS)"]
+        ALBWebACL["WAF Web ACL<br/>(at ALB — deeper inspection)"]
+        App["Application<br/>(ECS / EKS)"]
     end
 
-    Audit["WAF Logs\n(Kinesis Firehose → S3)\nAthena queries"]
+    Audit["WAF Logs<br/>(Kinesis Firehose → S3)<br/>Athena queries"]
 
     Internet --> Shield
     Shield --> CF

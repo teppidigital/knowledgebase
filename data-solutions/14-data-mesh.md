@@ -76,24 +76,24 @@ dataContract:
 flowchart TB
     subgraph Platform["Self-Serve Data Platform (Platform Team)"]
         INFRA[Storage: Iceberg on S3]
-        PIPE[Pipeline SDK:\nSpark / Flink templates]
-        CAT[Data Catalogue:\nDataHub / OpenMetadata]
-        GOVERN[Governance:\nPII policy, schema registry]
-        OBS[Observability:\nfreshness + quality scores]
+        PIPE[Pipeline SDK:<br/>Spark / Flink templates]
+        CAT[Data Catalogue:<br/>DataHub / OpenMetadata]
+        GOVERN[Governance:<br/>PII policy, schema registry]
+        OBS[Observability:<br/>freshness + quality scores]
     end
 
     subgraph PaymentsDomain["Payments Domain"]
-        PDP[Data Product:\ncompleted-payments-v2]
-        PCON[Data Contract:\nschema + SLO + owner]
+        PDP[Data Product:<br/>completed-payments-v2]
+        PCON[Data Contract:<br/>schema + SLO + owner]
     end
 
     subgraph CustomersDomain["Customers Domain"]
-        CDP[Data Product:\ncustomer-profiles-v1]
+        CDP[Data Product:<br/>customer-profiles-v1]
         CCON[Data Contract]
     end
 
     subgraph RiskDomain["Risk Domain"]
-        RDP[Data Product:\nfraud-signals-v3]
+        RDP[Data Product:<br/>fraud-signals-v3]
     end
 
     subgraph Consumers4["Consumers"]

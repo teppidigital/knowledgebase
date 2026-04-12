@@ -84,18 +84,18 @@ Rate limiting?                           → Redis + Lua atomic increment
 ```mermaid
 flowchart TD
     subgraph Clients
-        API["API Service\n(Lambda / ECS)"]
+        API["API Service<br/>(Lambda / ECS)"]
     end
 
     subgraph Cache["ElastiCache Redis Cluster (cluster mode)"]
         direction LR
-        Shard1["Shard 1\nPrimary + Replica"]
-        Shard2["Shard 2\nPrimary + Replica"]
-        Shard3["Shard 3\nPrimary + Replica"]
+        Shard1["Shard 1<br/>Primary + Replica"]
+        Shard2["Shard 2<br/>Primary + Replica"]
+        Shard3["Shard 3<br/>Primary + Replica"]
     end
 
     subgraph DB["Data Layer"]
-        RDS["RDS Aurora\n(source of truth)"]
+        RDS["RDS Aurora<br/>(source of truth)"]
         DDB["DynamoDB"]
     end
 
@@ -105,7 +105,7 @@ flowchart TD
     RDS -->|"3. return data"| API
     API -->|"4. SET user:{id} EX 300"| Cache
 
-    API -->|"Write path:\nSET + DB write"| RDS
+    API -->|"Write path:<br/>SET + DB write"| RDS
     API -->|"Invalidate: DEL user:{id}"| Cache
 ```
 

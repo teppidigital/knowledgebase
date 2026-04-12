@@ -59,17 +59,17 @@ Isolation is the most nuanced property. Full isolation (serializability) has a s
 ```mermaid
 flowchart TD
     subgraph Isolation Anomaly Timeline
-        T1[Transaction 1\nReads X=100\nDecides to write X=150]
-        T2[Transaction 2\nReads X=100\nDecides to write X=120]
+        T1[Transaction 1<br/>Reads X=100<br/>Decides to write X=150]
+        T2[Transaction 2<br/>Reads X=100<br/>Decides to write X=120]
         T1 -- commits X=150 -->DB[(Database)]
         T2 -- commits X=120 -->DB
-        DB -- LOST UPDATE: final value X=120\nT1's write is lost -->RESULT[Wrong state]
+        DB -- LOST UPDATE: final value X=120<br/>T1's write is lost -->RESULT[Wrong state]
     end
 
     subgraph Serializable Snapshot Isolation — SSI
-        R1[T1 Reads snapshot\nat start time]
+        R1[T1 Reads snapshot<br/>at start time]
         W1[T1 Writes]
-        CHECK{At commit:\nDid any read premise change?}
+        CHECK{At commit:<br/>Did any read premise change?}
         R1 --> W1 --> CHECK
         CHECK -- Yes → Abort + retry --> R1
         CHECK -- No → Commit --> OK[Safe commit]

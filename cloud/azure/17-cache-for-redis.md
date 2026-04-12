@@ -82,14 +82,14 @@ Rate limiting per IP/user?              → Redis atomic INCR + TTL
 ```mermaid
 flowchart TD
     subgraph Clients
-        ACA["Container App\n/ Azure Function"]
+        ACA["Container App<br/>/ Azure Function"]
         AKS["AKS Pod"]
     end
 
     subgraph Cache["Azure Cache for Redis (Premium)"]
         direction LR
-        Primary["Primary\n(AZ1)"]
-        Replica["Replica\n(AZ2)"]
+        Primary["Primary<br/>(AZ1)"]
+        Replica["Replica<br/>(AZ2)"]
         Primary <-->|"Async replication"| Replica
     end
 
@@ -98,14 +98,14 @@ flowchart TD
         Cosmos["Cosmos DB"]
     end
 
-    ACA -->|"GET user:{id}\n(read-replica endpoint)"| Replica
-    AKS -->|"SET / GET\n(primary endpoint)"| Primary
+    ACA -->|"GET user:{id}<br/>(read-replica endpoint)"| Replica
+    AKS -->|"SET / GET<br/>(primary endpoint)"| Primary
 
     Replica -->|"Cache MISS → query"| SQL
     SQL -->|"Return row"| ACA
     ACA -->|"SET user:{id} EX 300"| Primary
 
-    ACA -->|"Write path:\nSET + DB write"| SQL
+    ACA -->|"Write path:<br/>SET + DB write"| SQL
     ACA -->|"Invalidate: DEL user:{id}"| Primary
 ```
 

@@ -56,15 +56,15 @@ The distinction matters: functional requirements change frequently (new features
 
 ```mermaid
 flowchart TD
-    BG[Business Goals\n& Constraints] --> QAW[Quality Attribute\nWorkshop]
-    QAW --> UT[Utility Tree\nPrioritised QAs]
-    UT --> SC[QA Scenarios\nSource-Stimulus-Response-Measure]
-    SC --> AD[Architecture Decisions\nADRs]
-    AD --> FF[Fitness Functions\nAutomated QA Verification]
-    FF --> DASH[Architecture Health\nDashboard]
+    BG[Business Goals<br/>& Constraints] --> QAW[Quality Attribute<br/>Workshop]
+    QAW --> UT[Utility Tree<br/>Prioritised QAs]
+    UT --> SC[QA Scenarios<br/>Source-Stimulus-Response-Measure]
+    SC --> AD[Architecture Decisions<br/>ADRs]
+    AD --> FF[Fitness Functions<br/>Automated QA Verification]
+    FF --> DASH[Architecture Health<br/>Dashboard]
 
-    SC --> CON[QA Conflict\nAnalysis]
-    CON --> PRI[Priority Matrix\nHigh-Medium-Low]
+    SC --> CON[QA Conflict<br/>Analysis]
+    CON --> PRI[Priority Matrix<br/>High-Medium-Low]
     PRI --> AD
 ```
 

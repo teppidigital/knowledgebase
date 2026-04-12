@@ -80,16 +80,16 @@ Document databases reduce impedance mismatch for self-contained tree-shaped data
 
 ```mermaid
 flowchart TD
-    DATA[Your Data] --> Q1{Many-to-many\nrelationships?}
-    Q1 -- Yes --> Q2{Primarily\ngraph traversal?}
-    Q1 -- No --> Q3{Tree-shaped?\nDocument-like?}
-    Q2 -- Yes --> GRAPH[Graph Database\nNeo4j / Neptune]
-    Q2 -- No --> REL[Relational DB\nPostgres / MySQL]
-    Q3 -- Yes --> DOC[Document DB\nMongoDB / DynamoDB]
+    DATA[Your Data] --> Q1{Many-to-many<br/>relationships?}
+    Q1 -- Yes --> Q2{Primarily<br/>graph traversal?}
+    Q1 -- No --> Q3{Tree-shaped?<br/>Document-like?}
+    Q2 -- Yes --> GRAPH[Graph Database<br/>Neo4j / Neptune]
+    Q2 -- No --> REL[Relational DB<br/>Postgres / MySQL]
+    Q3 -- Yes --> DOC[Document DB<br/>MongoDB / DynamoDB]
     Q3 -- No --> REL
-    REL --> SQL[SQL\nDeclarative queries\nAd-hoc friendly]
-    DOC --> NOSQL[JSON APIs\nSchema-on-read\nLocality]
-    GRAPH --> CYP[Cypher / Gremlin\nTraversal queries]
+    REL --> SQL[SQL<br/>Declarative queries<br/>Ad-hoc friendly]
+    DOC --> NOSQL[JSON APIs<br/>Schema-on-read<br/>Locality]
+    GRAPH --> CYP[Cypher / Gremlin<br/>Traversal queries]
 ```
 
 ## Code Sample

@@ -72,31 +72,31 @@ AWS Secrets Manager provides centralised, auditable secret storage with automati
 flowchart TD
     subgraph App["Application (ECS / Lambda / EKS)"]
         Code["Service Code"]
-        Cache["SDK Secret Cache\n(5-min TTL)"]
+        Cache["SDK Secret Cache<br/>(5-min TTL)"]
     end
 
     subgraph SecMgr["Secrets Manager (us-east-1)"]
-        Secret["db/prod/postgres\nAWSCURRENT → v3\nAWSPREVIOUS → v2"]
+        Secret["db/prod/postgres<br/>AWSCURRENT → v3<br/>AWSPREVIOUS → v2"]
         Replica["Replica: eu-west-1"]
     end
 
     subgraph Rotation
-        RotLambda["Rotation Lambda\n(managed by AWS for RDS)"]
-        DB["RDS Aurora\nPostgreSQL"]
+        RotLambda["Rotation Lambda<br/>(managed by AWS for RDS)"]
+        DB["RDS Aurora<br/>PostgreSQL"]
     end
 
     subgraph Audit
-        CT["CloudTrail\nGetSecretValue events"]
+        CT["CloudTrail<br/>GetSecretValue events"]
     end
 
-    Code -->|"GetSecretValue\n(cached)"| Cache
+    Code -->|"GetSecretValue<br/>(cached)"| Cache
     Cache -->|"Cache miss / TTL expired"| Secret
     Secret -->|"Return AWSCURRENT"| Cache
     Cache --> Code
 
     Secret -->|"Replicate"| Replica
 
-    RotLambda -->|"createSecret → setSecret\n→ testSecret → finishSecret"| DB
+    RotLambda -->|"createSecret → setSecret<br/>→ testSecret → finishSecret"| DB
     RotLambda --> Secret
 
     Secret -->|"API call"| CT

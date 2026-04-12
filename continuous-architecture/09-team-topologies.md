@@ -48,21 +48,21 @@ This is not a recommendation — it is an empirical observation. If you want a m
 ```mermaid
 flowchart TB
     subgraph Stream-Aligned Teams
-        SA1[Payments Team\nOwns payment-service\npayment-api]
-        SA2[Orders Team\nOwns order-service\norder-ui]
-        SA3[Notifications Team\nOwns notification-service]
+        SA1[Payments Team<br/>Owns payment-service<br/>payment-api]
+        SA2[Orders Team<br/>Owns order-service<br/>order-ui]
+        SA3[Notifications Team<br/>Owns notification-service]
     end
 
     subgraph Platform Team
-        PT[Platform Team\nOwns: K8s cluster\nCI/CD templates\nObservability stack\nSecrets management]
+        PT[Platform Team<br/>Owns: K8s cluster<br/>CI/CD templates<br/>Observability stack<br/>Secrets management]
     end
 
     subgraph Enabling Team
-        ET[Reliability Enabling Team\nBuilds SLO practice\nChaos engineering capability\nThen hands off]
+        ET[Reliability Enabling Team<br/>Builds SLO practice<br/>Chaos engineering capability<br/>Then hands off]
     end
 
     subgraph Complicated Subsystem Team
-        CS[ML Fraud Detection Team\nFraud scoring model service\nConsumed via gRPC API]
+        CS[ML Fraud Detection Team<br/>Fraud scoring model service<br/>Consumed via gRPC API]
     end
 
     PT -- X-as-a-Service --> SA1 & SA2 & SA3

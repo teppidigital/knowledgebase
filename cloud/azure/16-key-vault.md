@@ -82,35 +82,35 @@ Old version DISABLED (configurable) → eventually DELETED
 ```mermaid
 flowchart TD
     subgraph Identity["Caller Identities"]
-        App["Application\n(Managed Identity)"]
-        Pipeline["Azure DevOps\n(Service Connection / WIF)"]
-        Admin["Human Admin\n(Entra ID + PIM)"]
+        App["Application<br/>(Managed Identity)"]
+        Pipeline["Azure DevOps<br/>(Service Connection / WIF)"]
+        Admin["Human Admin<br/>(Entra ID + PIM)"]
     end
 
     subgraph KV["Azure Key Vault (Premium)"]
-        Secrets["Secrets\ndb-password\napi-key\noauth-token"]
-        Keys["Keys (HSM)\nCMK for SQL\nsigning-key"]
-        Certs["Certificates\n*.contoso.com\napi.contoso.com"]
-        RBAC["Azure RBAC\ndata-plane roles"]
+        Secrets["Secrets<br/>db-password<br/>api-key<br/>oauth-token"]
+        Keys["Keys (HSM)<br/>CMK for SQL<br/>signing-key"]
+        Certs["Certificates<br/>*.contoso.com<br/>api.contoso.com"]
+        RBAC["Azure RBAC<br/>data-plane roles"]
     end
 
     subgraph Consumers["Secret Consumers"]
-        SQL["Azure SQL\n(CMK)"]
-        Storage["Storage\n(CMK)"]
-        AKS["AKS Pods\n(Secrets Store CSI)"]
-        ACA["Container Apps\n(secret reference)"]
-        Fn["Azure Functions\n(KV reference @Microsoft.KeyVault)"]
+        SQL["Azure SQL<br/>(CMK)"]
+        Storage["Storage<br/>(CMK)"]
+        AKS["AKS Pods<br/>(Secrets Store CSI)"]
+        ACA["Container Apps<br/>(secret reference)"]
+        Fn["Azure Functions<br/>(KV reference @Microsoft.KeyVault)"]
     end
 
     subgraph Audit["Audit & Rotation"]
-        Monitor["Azure Monitor\nAudit Logs"]
-        EG["Event Grid\nSecretNearExpiry"]
-        RotFn["Rotation Function\nAuto-rotate on expiry event"]
+        Monitor["Azure Monitor<br/>Audit Logs"]
+        EG["Event Grid<br/>SecretNearExpiry"]
+        RotFn["Rotation Function<br/>Auto-rotate on expiry event"]
     end
 
-    App -->|"GetSecret\n(RBAC: KV Secrets User)"| RBAC
-    Admin -->|"SetSecret / Manage\n(RBAC: KV Secrets Officer)"| RBAC
-    Pipeline -->|"GetSecret / Deploy\n(WIF)"| RBAC
+    App -->|"GetSecret<br/>(RBAC: KV Secrets User)"| RBAC
+    Admin -->|"SetSecret / Manage<br/>(RBAC: KV Secrets Officer)"| RBAC
+    Pipeline -->|"GetSecret / Deploy<br/>(WIF)"| RBAC
     RBAC --> Secrets & Keys & Certs
 
     Keys --> SQL & Storage

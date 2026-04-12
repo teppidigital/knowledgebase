@@ -64,30 +64,30 @@ Data Solutions, Real-time Analytics, Reverse ETL, Operational Analytics, Embedde
 ```mermaid
 flowchart LR
     subgraph Events2["Event Sources"]
-        K2[Kafka\nuser + transaction events]
-        CDC4[CDC\noperational DB changes]
+        K2[Kafka<br/>user + transaction events]
+        CDC4[CDC<br/>operational DB changes]
     end
 
     subgraph RTA["Real-time Analytics Stack"]
-        FLINK2[Flink\nstreaming aggregation]
-        CH2[ClickHouse\nOLAP engine]
-        REDIS2[Redis\nlive counters + pub/sub]
+        FLINK2[Flink<br/>streaming aggregation]
+        CH2[ClickHouse<br/>OLAP engine]
+        REDIS2[Redis<br/>live counters + pub/sub]
     end
 
     subgraph DW2["Data Warehouse"]
-        SNOW[Snowflake / BigQuery\nbatch enrichment]
-        MART2[Customer segments\nLTV + churn scores]
+        SNOW[Snowflake / BigQuery<br/>batch enrichment]
+        MART2[Customer segments<br/>LTV + churn scores]
     end
 
     subgraph ProductAPI["Product APIs"]
-        DASH_API[Merchant dashboard API\nreal-time revenue]
-        LIVE_API[Live activity API\nSSE / WebSocket]
+        DASH_API[Merchant dashboard API<br/>real-time revenue]
+        LIVE_API[Live activity API<br/>SSE / WebSocket]
     end
 
     subgraph RevETL["Reverse ETL (Census / Hightouch)"]
-        CRM2[Salesforce\ncustomer LTV sync]
-        MKT2[HubSpot\nautomation triggers]
-        ADS2[Google Ads\nlookalike audiences]
+        CRM2[Salesforce<br/>customer LTV sync]
+        MKT2[HubSpot<br/>automation triggers]
+        ADS2[Google Ads<br/>lookalike audiences]
     end
 
     K2 & CDC4 --> FLINK2 --> CH2 & REDIS2
@@ -174,7 +174,7 @@ app.get("/api/merchants/:merchantId/live", (req: Request, res: Response) => {
   // Send initial state from Redis counter
   redis.get(`merchant:${merchantId}:tx_count_today`).then((count) => {
     res.write(
-      `data: ${JSON.stringify({ txCount: parseInt(count ?? "0", 10) })}\n\n`,
+      `data: ${JSON.stringify({ txCount: parseInt(count ?? "0", 10) })}<br/><br/>`,
     );
   });
 
@@ -182,7 +182,7 @@ app.get("/api/merchants/:merchantId/live", (req: Request, res: Response) => {
   const subscriber = redis.duplicate();
   subscriber.connect().then(() => {
     subscriber.subscribe(`merchant:${merchantId}:events`, (message) => {
-      res.write(`data: ${message}\n\n`);
+      res.write(`data: ${message}<br/><br/>`);
     });
   });
 

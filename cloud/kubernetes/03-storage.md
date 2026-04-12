@@ -67,14 +67,14 @@ flowchart TD
     subgraph K8s["Kubernetes"]
         POD["Pod"] -->|mounts| PVC["PersistentVolumeClaim"]
         PVC -->|bound to| PV["PersistentVolume"]
-        SC["StorageClass\n(ebs.csi.aws.com)"] -->|dynamically provisions| PV
+        SC["StorageClass<br/>(ebs.csi.aws.com)"] -->|dynamically provisions| PV
 
         SNAP["VolumeSnapshot"] -.->|point-in-time copy| PV
         PVC2["Restored PVC"] -.->|created from| SNAP
     end
 
     subgraph Cloud["Cloud Provider"]
-        EBS["AWS EBS Volume\n(gp3, 100 GiB)"]
+        EBS["AWS EBS Volume<br/>(gp3, 100 GiB)"]
     end
 
     PV --> EBS

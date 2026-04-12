@@ -54,13 +54,13 @@ flowchart TD
     CLUSTER["Physical Cluster"]
 
     subgraph NS_A["Namespace: tenant-a"]
-        QUOTA_A["ResourceQuota\nLimitRange"]
+        QUOTA_A["ResourceQuota<br/>LimitRange"]
         PODS_A["tenant-a Pods"]
-        NP_A["NetworkPolicy\n(deny inter-tenant)"]
+        NP_A["NetworkPolicy<br/>(deny inter-tenant)"]
     end
 
     subgraph NS_B["Namespace: tenant-b (vCluster)"]
-        VCLUSTER["vCluster pod\n(k3s control plane)"]
+        VCLUSTER["vCluster pod<br/>(k3s control plane)"]
         PODS_B["tenant-b virtual Pods"]
     end
 

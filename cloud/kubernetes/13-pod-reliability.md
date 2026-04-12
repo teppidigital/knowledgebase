@@ -44,21 +44,21 @@ High-availability on Kubernetes requires protecting pods from both planned disru
 
 ```mermaid
 flowchart TD
-    DRAIN["Node drain\n(kubectl drain)"]
-    PDB["PodDisruptionBudget\nminAvailable: 3"]
+    DRAIN["Node drain<br/>(kubectl drain)"]
+    PDB["PodDisruptionBudget<br/>minAvailable: 3"]
     CHECK{Eviction allowed?}
-    EVICT["Kubectl sends\nDELETE to pod"]
-    PRESTOP["preStop hook executes\n(graceful shutdown)"]
-    GRACE["terminationGracePeriodSeconds\n(30s default)"]
-    TERM["SIGTERM → app\ndrains connections"]
-    GONE["Pod removed from\nEndpoints slice"]
+    EVICT["Kubectl sends<br/>DELETE to pod"]
+    PRESTOP["preStop hook executes<br/>(graceful shutdown)"]
+    GRACE["terminationGracePeriodSeconds<br/>(30s default)"]
+    TERM["SIGTERM → app<br/>drains connections"]
+    GONE["Pod removed from<br/>Endpoints slice"]
 
     DRAIN --> PDB
     PDB --> CHECK
     CHECK -->|Yes — enough pods up| EVICT
     CHECK -->|No — would breach budget| DRAIN
     EVICT --> PRESTOP --> TERM --> GRACE
-    GONE -.->|kube-proxy removes\nbefore pod exits| EVICT
+    GONE -.->|kube-proxy removes<br/>before pod exits| EVICT
 ```
 
 ---

@@ -68,24 +68,24 @@ Orchestrator code is replayed on every event. Durable Functions replays the enti
 ```mermaid
 flowchart TD
     subgraph Trigger["Client Functions"]
-        HTTP["HTTP Trigger\n(POST /orders)"]
-        SB["Service Bus Trigger\n(on order message)"]
+        HTTP["HTTP Trigger<br/>(POST /orders)"]
+        SB["Service Bus Trigger<br/>(on order message)"]
     end
 
     subgraph Orchestrator["Orchestrator Function: orderFulfilment"]
-        Step1["callActivity:\nvalidateOrder"]
-        Step2["callActivity:\nreserveInventory"]
-        Fan["Task.all([\n  callActivity(charge),\n  callActivity(notify)\n])"]
-        Wait["waitForExternalEvent:\napproval (timeout 3 days)"]
-        Timer["createTimer:\nreminder after 1 day"]
-        Continue["continueAsNew\n(eternal pattern)"]
+        Step1["callActivity:<br/>validateOrder"]
+        Step2["callActivity:<br/>reserveInventory"]
+        Fan["Task.all([<br/>  callActivity(charge),<br/>  callActivity(notify)<br/>])"]
+        Wait["waitForExternalEvent:<br/>approval (timeout 3 days)"]
+        Timer["createTimer:<br/>reminder after 1 day"]
+        Continue["continueAsNew<br/>(eternal pattern)"]
     end
 
     subgraph Activities["Activity Functions"]
-        A1["validateOrder\n(Zod parse + DB check)"]
-        A2["reserveInventory\n(DynamoDB / Cosmos)"]
-        A3["chargePayment\n(Stripe API)"]
-        A4["notifyCustomer\n(Service Bus publish)"]
+        A1["validateOrder<br/>(Zod parse + DB check)"]
+        A2["reserveInventory<br/>(DynamoDB / Cosmos)"]
+        A3["chargePayment<br/>(Stripe API)"]
+        A4["notifyCustomer<br/>(Service Bus publish)"]
     end
 
     subgraph Entity["Durable Entity: orderCounter"]

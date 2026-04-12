@@ -89,14 +89,14 @@ Structure:
 ```mermaid
 flowchart TD
     subgraph LSM-Tree Write Path
-        W1[Write request] --> MT[Memtable\nIn-memory sorted tree\nRed-Black / AVL]
-        MT -- threshold reached --> SST[SSTable flush\nImmutable sorted file on disk]
-        SST -- background --> COMP[Compaction\nMerge + remove old versions\nLeveled or Tiered]
+        W1[Write request] --> MT[Memtable<br/>In-memory sorted tree<br/>Red-Black / AVL]
+        MT -- threshold reached --> SST[SSTable flush<br/>Immutable sorted file on disk]
+        SST -- background --> COMP[Compaction<br/>Merge + remove old versions<br/>Leveled or Tiered]
     end
 
     subgraph B-Tree Write Path
-        W2[Write request] --> WAL2[Write-Ahead Log\nSequential append]
-        WAL2 --> PAGE[B-Tree Page\nRandom I/O\nIn-place update]
+        W2[Write request] --> WAL2[Write-Ahead Log<br/>Sequential append]
+        WAL2 --> PAGE[B-Tree Page<br/>Random I/O<br/>In-place update]
     end
 
     subgraph Read Path Comparison

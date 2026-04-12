@@ -52,19 +52,19 @@ A service mesh adds cross-cutting concerns (mTLS, traffic management, observabil
 flowchart LR
     subgraph PodA["Pod A"]
         APP_A["App Container"]
-        PROXY_A["Envoy Sidecar\n(15001)"]
+        PROXY_A["Envoy Sidecar<br/>(15001)"]
         APP_A <-->|iptables redirect| PROXY_A
     end
 
     subgraph PodB["Pod B"]
         APP_B["App Container"]
-        PROXY_B["Envoy Sidecar\n(15001)"]
+        PROXY_B["Envoy Sidecar<br/>(15001)"]
         APP_B <-->|iptables redirect| PROXY_B
     end
 
     PROXY_A <-->|mTLS (SPIFFE certs)| PROXY_B
 
-    ISTIOD["istiod\n(Control Plane)\ncert management\nxDS config push"]
+    ISTIOD["istiod<br/>(Control Plane)<br/>cert management<br/>xDS config push"]
     ISTIOD -->|xDS| PROXY_A
     ISTIOD -->|xDS| PROXY_B
 ```

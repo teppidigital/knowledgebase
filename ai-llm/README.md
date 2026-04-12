@@ -1,6 +1,6 @@
 # AI & LLM Integration Patterns
 
-A comprehensive catalogue of 15 production-ready patterns for building reliable, cost-efficient, and safe LLM-powered systems.
+A comprehensive catalogue of 24 production-ready patterns for building reliable, cost-efficient, and safe LLM-powered systems.
 
 ## Patterns
 
@@ -22,6 +22,14 @@ A comprehensive catalogue of 15 production-ready patterns for building reliable,
 | 14 | [Function Calling & Structured Outputs](./14-function-calling-structured-outputs.md) | Integration Patterns | Zod, json_schema, parallel tools |
 | 15 | [AI-Assisted Code Generation](./15-ai-code-generation-pipelines.md) | Developer Productivity | ts-morph, GitHub Actions, CI evals |
 | 16 | [Harness Engineering](./16-harness-engineering.md) | Agent-First Development | AGENTS.md, architecture linters, self-review loop |
+| 17 | [Model Context Protocol (MCP)](./17-model-context-protocol.md) | Agent Infrastructure | MCP SDK, stdio/SSE transport, tools, resources |
+| 18 | [Multi-Agent Orchestration](./18-multi-agent-orchestration.md) | Agentic Systems | LangGraph, CrewAI, Mastra, supervisor/worker |
+| 19 | [Reasoning Models & Inference-Time Compute](./19-reasoning-models.md) | Advanced AI Patterns | o1, o3, o4-mini, DeepSeek-R1, Claude thinking |
+| 20 | [AI Memory Systems](./20-ai-memory-systems.md) | Agentic Systems | mem0, Zep, LangMem, episodic/semantic memory |
+| 21 | [GraphRAG & Knowledge Graphs](./21-graphrag-knowledge-graphs.md) | Knowledge Grounding | Microsoft GraphRAG, Neo4j, entity extraction |
+| 22 | [Local & Edge LLM Deployment](./22-local-edge-llm.md) | Infrastructure | Ollama, vLLM, llama.cpp, GGUF quantisation |
+| 23 | [LLM Red Teaming & Adversarial Testing](./23-llm-red-teaming.md) | Safety & Compliance | PyRIT, Garak, prompt injection, jailbreak |
+| 24 | [Synthetic Data Generation](./24-synthetic-data-generation.md) | Data Engineering for AI | Distilabel, Faker, knowledge distillation |
 
 ---
 
@@ -57,6 +65,26 @@ A comprehensive catalogue of 15 production-ready patterns for building reliable,
 
 ### Architecture Decisions
 - **Fine-tuning vs RAG** — Decision matrix, trade-offs, hybrid approach, MLflow tracking
+
+### Agent Infrastructure
+- **Model Context Protocol** — Plug-and-play tool connectivity standard; MCP servers, clients, resources
+- **Multi-Agent Orchestration** — Supervisor/worker graphs, parallel fan-out, LangGraph, CrewAI, Mastra
+
+### Advanced AI Patterns
+- **Reasoning Models** — Inference-time compute (o1/o3/o4-mini, DeepSeek-R1); effort tuning, cost routing
+- **AI Memory Systems** — Cross-session episodic and semantic memory; mem0, Zep, LangGraph checkpointer
+
+### Knowledge Grounding (extended)
+- **GraphRAG** — Entity/relationship extraction, graph traversal, multi-hop reasoning, Neo4j
+
+### Self-Hosted Infrastructure
+- **Local & Edge LLM** — Ollama, vLLM, llama.cpp, GGUF quantisation; on-prem / air-gapped deployment
+
+### Safety & Compliance (extended)
+- **LLM Red Teaming** — Adversarial attack simulation, PyRIT, Garak, indirect injection testing
+
+### Data Engineering for AI (extended)
+- **Synthetic Data Generation** — Fine-tune dataset generation, knowledge distillation, Distilabel, Faker
 
 ### Advanced AI Patterns
 - **Multimodal** — Document extraction, audio analysis, image + text pipelines

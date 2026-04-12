@@ -21,6 +21,7 @@ A comprehensive catalogue of 15 production-ready patterns for building reliable,
 | 13 | [LLM Evaluation & Evals](./13-llm-evaluation.md) | Quality Engineering | RAGAS, PromptFoo, LLM-as-judge |
 | 14 | [Function Calling & Structured Outputs](./14-function-calling-structured-outputs.md) | Integration Patterns | Zod, json_schema, parallel tools |
 | 15 | [AI-Assisted Code Generation](./15-ai-code-generation-pipelines.md) | Developer Productivity | ts-morph, GitHub Actions, CI evals |
+| 16 | [Harness Engineering](./16-harness-engineering.md) | Agent-First Development | AGENTS.md, architecture linters, self-review loop |
 
 ---
 
@@ -69,6 +70,9 @@ A comprehensive catalogue of 15 production-ready patterns for building reliable,
 ### Developer Productivity
 - **AI Code Generation** — Test scaffolding, AI code review, GitHub Actions integration
 
+### Agent-First Development
+- **Harness Engineering** — Repo as system of record, architecture enforcement, self-review loops, entropy management
+
 ---
 
 ## Decision Guide
@@ -84,7 +88,8 @@ What is your primary challenge?
 ├── "Multiple LLM providers needed"     → 02-llm-gateway
 ├── "I need to process documents/images"→ 11-multimodal + 01-rag
 ├── "Quality is degrading"              → 08-ai-observability + 13-llm-evaluation
-└── "PII / compliance concerns"         → 09-guardrails + 06-embedding-pipelines
+├── "PII / compliance concerns"         → 09-guardrails + 06-embedding-pipelines
+└── "I want to scale with AI agents"   → 16-harness-engineering + 04-ai-agents
 ```
 
 ### RAG vs Fine-tune Quick Guide

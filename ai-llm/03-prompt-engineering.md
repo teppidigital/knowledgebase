@@ -16,6 +16,7 @@ Prompt engineering is the practice of structuring inputs to LLMs to achieve reli
 | **Few-shot** | 2–8 input/output examples in prompt | Format adherence, tone matching |
 | **Chain-of-Thought (CoT)** | "Think step by step" instruction | Multi-step reasoning, maths |
 | **Self-consistency** | Sample multiple CoT paths, majority vote | High-accuracy tasks |
+| **Extended thinking** | Model-internal reasoning (Claude 3.7, o3) — not shown in output | Hard reasoning; code; maths — pay thinking tokens separately |
 | **ReAct** | Interleaved Reasoning + Acting (tool calls) | Agents with external tools |
 | **Tree of Thoughts** | Explore multiple reasoning branches | Complex planning |
 | **Meta-prompting** | LLM writes its own prompt | Dynamic task generation |

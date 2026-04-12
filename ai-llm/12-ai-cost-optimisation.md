@@ -21,16 +21,19 @@ LLM API costs scale non-linearly with usage: token count, model tier, and reques
 | **RAG context tuning** | 15–30% (fewer chunks) | Medium |
 | **Fine-tuning smaller model** | 60–90% at scale | High |
 
-### Model Cost Comparison (Per 1M Tokens, March 2026)
+### Model Cost Comparison (Per 1M Tokens, April 2026)
 
 | Model | Input | Output | Use Case |
-|-------|-------|--------|---------|
+|-------|-------|--------|----------|
 | GPT-4o | $2.50 | $10.00 | Complex reasoning, vision |
 | GPT-4o-mini | $0.15 | $0.60 | Simple tasks, high volume |
+| o3-mini | $1.10 | $4.40 | Multi-step reasoning, maths, code |
+| Claude 3.7 Sonnet | $3.00 | $15.00 | Complex analysis; supports extended thinking |
 | Claude 3.5 Haiku | $0.80 | $4.00 | Balanced speed/cost |
-| Claude 3.5 Sonnet | $3.00 | $15.00 | Complex analysis |
-| Gemini 1.5 Flash | $0.075 | $0.30 | Ultra-cheap, high volume |
+| Gemini 2.0 Flash | $0.10 | $0.40 | Ultra-cheap, high volume |
 | Mistral Small (local) | $0 | $0 | Max savings, fixed infra cost |
+
+> Reasoning models (o3-mini, Claude 3.7 extended thinking) bill thinking tokens separately — budget accordingly.
 
 ## Pros
 

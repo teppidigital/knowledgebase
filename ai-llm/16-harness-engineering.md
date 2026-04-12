@@ -1,13 +1,12 @@
 # Harness Engineering
 
 ## Category
-AI Engineering, Agent-First Development, Coding Agents, Software Development Methodology
 
----
+AI / LLM Integration — Agent-First Development
 
-## What Is It?
+## Context
 
-**Harness engineering** is the discipline of building and maintaining the environment, tooling, scaffolding, and feedback loops that allow AI coding agents to do reliable, high-quality software development work at scale.
+Harness engineering is the discipline of building and maintaining the environment, tooling, scaffolding, and feedback loops that allow AI coding agents to do reliable, high-quality software development work at scale.
 
 The term comes from OpenAI's experiment (published February 2026) where a team of **3–7 engineers** built a million-line production codebase in ~5 months using **Codex agents exclusively** — with zero manually written code. The "harness" is everything that enables agents to execute: the repo structure, knowledge base, linting rules, observability wiring, CI/CD, and agent guidance.
 
@@ -15,11 +14,7 @@ The term comes from OpenAI's experiment (published February 2026) where a team o
 
 The primary job of a harness engineer is **not** to write code, but to design the conditions under which agents can write good code autonomously.
 
----
-
-## Why It Matters
-
-Traditional engineering is bottlenecked by how fast humans can write and review code. Harness engineering shifts the constraint:
+### Traditional vs Harness Engineering
 
 | Traditional Engineering | Harness Engineering |
 |------------------------|---------------------|
@@ -29,72 +24,26 @@ Traditional engineering is bottlenecked by how fast humans can write and review 
 | ~10 PRs/engineer/week | ~3.5 PRs/engineer/day (25× improvement) |
 | Documentation is secondary | Documentation is a first-class system input |
 | Taste enforced via PR review | Taste enforced via linters and CI rules |
+| Debug implementation details | Debug agent failure modes |
+| Onboard new engineers | Onboard the agent via docs and tooling |
 
----
+### The Five Pillars
 
-## The Agent-First Development Loop
+| Pillar | Principle | Key Mechanism |
+|--------|-----------|--------------|
+| **1 — Repo as System of Record** | If the agent cannot see it in-context, it does not exist | `AGENTS.md` as map; `docs/` as encyclopedia |
+| **2 — Agent Legibility** | Optimise the codebase for the agent's ability to reason | Ephemeral local app per git worktree; telemetry accessible to agent |
+| **3 — Architecture Enforcement** | Enforce invariants, not implementations | Layered domain linters; taste rules with remediation hints in error messages |
+| **4 — Feedback Loops** | When the agent fails, fix the harness, not the prompt | Self-review loop; agent-to-agent review before human review |
+| **5 — Entropy Management** | Pay technical debt continuously, not in sprints | Background cleanup agents; `QUALITY_SCORE.md` updated automatically |
 
-```mermaid
-flowchart TD
-    H[Human: define goal<br/>or acceptance criteria] --> P[Prompt Codex<br/>with task]
-    P --> A[Agent: reads AGENTS.md<br/>and docs/ context]
-    A --> C[Agent: writes code,<br/>tests, docs]
-    C --> V[Agent: self-validates<br/>locally - linters, tests, UI]
-    V --> R[Agent: opens PR<br/>and self-reviews]
-    R --> F{Feedback?}
-    F -- Agent reviewer<br/>finds issues --> A
-    F -- Human reviewer<br/>add comments --> A
-    F -- All checks pass --> M[Agent squashes<br/>and merges]
-    M --> G[Continuous entropy<br/>cleanup agents run]
-    G --> H
-```
+### Pillar 1 — Repository as System of Record
 
----
-
-## Key Concept: The Harness
-
-The **harness** is the complete environment the agent runs in. It includes:
-
-```mermaid
-mindmap
-  root((The Harness))
-    Repository Knowledge
-      AGENTS.md - table of contents
-      ARCHITECTURE.md
-      docs/ - system of record
-      Execution plans
-    Tooling
-      gh CLI
-      Local scripts
-      ChromeDevTools MCP
-      Observability stack
-    Enforcement
-      Custom linters
-      CI checks
-      Architecture tests
-      Doc-gardening agents
-    Feedback Loops
-      Self-review loop
-      Agent-to-agent review
-      Ephemeral local app per worktree
-      LogQL and PromQL queries
-```
-
-Without a well-designed harness, agents produce inconsistent, low-quality output. The harness is what converts a capable model into a reliable engineering teammate.
-
----
-
-## Pillar 1 — Repository as System of Record
-
-> *If the agent can't see it in-context, it doesn't exist.*
-
-Everything the agent needs to make good decisions must live in the repository as **versioned, structured artifacts**. Knowledge in Slack, Google Docs, or people's heads is invisible to the agent.
-
-### What Goes in the Repo
+Everything the agent needs to make good decisions must live in the repository as versioned, structured artifacts. Knowledge in Slack, Google Docs, or people's heads is invisible to the agent.
 
 | Artifact | Purpose |
 |----------|---------|
-| `AGENTS.md` | Short (≈100 lines) table of contents; entry point for all agent context |
+| `AGENTS.md` | Short (~100 lines) table of contents; entry point for all agent context |
 | `ARCHITECTURE.md` | Top-level map of domains, package layering, dependency rules |
 | `docs/design-docs/` | Design decisions with verification status and core beliefs |
 | `docs/exec-plans/` | Active, completed, and tech-debt plans — versioned |
@@ -103,85 +52,19 @@ Everything the agent needs to make good decisions must live in the repository as
 | `QUALITY_SCORE.md` | Per-domain quality grades; updated by background agents |
 | `SECURITY.md`, `RELIABILITY.md` | Enforced non-functional standards |
 
-### The "Map, Not Manual" Principle
+**Map, not manual.** `AGENTS.md` is the table of contents, not the encyclopedia. It rots if it tries to be both. Agents follow pointers to deeper context as needed — progressive disclosure.
 
-**Wrong:** One giant `AGENTS.md` with every rule.
+### Pillar 3 — Architecture Enforcement
 
-**Problems with the monolithic approach:**
-- Context is a scarce resource — large files crowd out task-relevant code.
-- Too much guidance becomes non-guidance; agents pattern-match locally instead of navigating.
-- It rots instantly; humans stop maintaining a single massive file.
-- Hard to verify freshness or cross-link mechanically.
+Layered domain architecture with mechanically enforced dependency directions:
 
-**Right:** `AGENTS.md` is the map. `docs/` is the encyclopedia. Agents start with the entry point and follow pointers to deeper context as needed — **progressive disclosure**.
-
----
-
-## Pillar 2 — Agent Legibility
-
-> *Optimise the codebase for the agent's ability to reason about it, not for human aesthetics.*
-
-The codebase should be as understandable to the agent as it would be to a well-onboarded new engineer:
-
-- **Favour "boring" technology** — stable APIs, well-represented in training data, composable.
-- **Internalise dependencies** — sometimes reimplementing a small utility beats wrapping a black-box library the agent cannot reason about.
-- **Expose everything the agent needs** — logs, metrics, UI state, test output — all accessible to the agent, not just humans.
-
-### Making the Application Legible to Agents
-
-```mermaid
-graph TD
-    A[Agent receives task prompt] --> B[Boot app per git worktree<br/>one isolated instance per change]
-    B --> C[Chrome DevTools Protocol<br/>DOM snapshots, screenshots, navigation]
-    B --> D[Local ephemeral<br/>observability stack]
-    D --> D1[Logs via LogQL]
-    D --> D2[Metrics via PromQL]
-    D --> D3[Traces via TraceQL]
-    C --> E[Agent reproduces bug<br/>validates fix<br/>replays UI journey]
-    D1 & D2 & D3 --> F[Agent reasons about<br/>performance and correctness]
-    E & F --> G[Agent opens PR<br/>with evidence]
+```
+Types → Config → Repo → Service → Runtime → UI
+                                 ↑
+             Providers (cross-cutting: auth, telemetry, feature flags)
 ```
 
-Prompts like *"ensure service startup under 800 ms"* or *"no span in these four critical user journeys exceeds 2 s"* become tractable because agents can query real telemetry.
-
----
-
-## Pillar 3 — Architecture Enforcement
-
-> *Enforce invariants, not implementations. Constraints are multipliers, not constraints.*
-
-In a human team, strict architecture rules can feel pedantic. With agents, they are prerequisites — the structure is what allows speed without drift.
-
-### Layered Domain Architecture
-
-Each business domain follows a fixed layer ordering with mechanically enforced dependency directions:
-
-```mermaid
-graph LR
-    Types --> Config --> Repo --> Service --> Runtime --> UI
-    Providers --> Service
-
-    subgraph Cross-cutting
-        Providers
-    end
-
-    subgraph Domain: e.g. App Settings
-        Types
-        Config
-        Repo
-        Service
-        Runtime
-        UI
-    end
-
-    Utils -.->|feeds into| Providers
-```
-
-- Code may only depend **forward** through the layers.
-- Cross-cutting concerns (auth, telemetry, feature flags, connectors) enter **only** via `Providers`.
-- Violations are caught by custom linters (themselves Codex-generated).
-
-### Taste Invariants — What Gets Mechanically Enforced
+Code may only depend **forward** through the layers. Violations are caught by custom linters whose error messages carry remediation instructions the agent can read and act on directly.
 
 | Rule | Enforcement |
 |------|------------|
@@ -189,181 +72,296 @@ graph LR
 | Structured logging (no `console.log`) | Custom lint |
 | File size limits | CI check |
 | Naming conventions for schemas and types | Linter |
-| Platform-specific reliability requirements | Structural tests |
+| Platform reliability requirements | Structural tests |
 | Human-readable error messages with remediation hints | Lint error messages |
 
-**Key insight:** Lint error messages are written to inject remediation instructions into agent context — the agent reads the error and knows exactly how to fix it.
-
----
-
-## Pillar 4 — Feedback Loops and Self-Validation
-
-> *The fix is almost never "try harder." Ask: what capability is missing?*
-
-When the agent fails, human engineers don't retry the same prompt. They identify what is absent — a tool, a guardrail, a piece of documentation — and feed it back into the repository, **always via Codex itself**.
-
-### The Self-Review Loop (Ralph Wiggum Loop)
-
-```mermaid
-flowchart LR
-    A[Agent writes change] --> B[Review own changes locally]
-    B --> C[Request agent reviews<br/>locally + in cloud]
-    C --> D{All agent<br/>reviewers satisfied?}
-    D -- No --> E[Respond to feedback<br/>iterate]
-    E --> C
-    D -- Yes --> F[Open PR]
-    F --> G[Human may review<br/>not required]
-    G --> H[Agent squashes<br/>and merges]
-```
-
-Over time, nearly all review effort is pushed to **agent-to-agent** review. Humans audit outcomes, not every change.
-
-### Merge Philosophy
-
-In a high-throughput agent system, conventional blocking merge gates become counterproductive:
-
-- PRs are **short-lived**; small and frequent.
-- Test flakes: addressed with follow-up rather than blocking indefinitely.
-- Corrections are cheap; waiting is expensive.
-
----
-
-## Pillar 5 — Entropy Management (Garbage Collection)
-
-> *Technical debt is a high-interest loan. Pay it continuously in small increments.*
-
-Agent-generated codebases naturally drift. Agents replicate existing patterns — including uneven or suboptimal ones. Without active management, this compounds.
-
-### Golden Principles
-
-Opinionated, mechanical rules that keep the codebase legible for future agent runs:
-
-- Prefer **shared utility packages** over hand-rolled helpers (centralise invariants).
-- Never probe data "YOLO-style" — always validate at the boundary or use typed SDKs.
-- No guessing shapes; if the agent can't verify it statically, it doesn't build on it.
-
-### Continuous Cleanup Process
-
-```mermaid
-graph TD
-    A[Background Codex tasks<br/>run on regular cadence] --> B[Scan for deviations<br/>from golden principles]
-    B --> C[Update quality grades<br/>in QUALITY_SCORE.md]
-    C --> D[Open targeted<br/>refactoring PRs]
-    D --> E[Auto-mergeable<br/>in under 1 minute]
-    E --> F[Human taste encoded once<br/>enforced on every line forever]
-```
-
-This replaces the manual "slop cleanup Fridays" that don't scale.
-
----
-
-## What Changes for the Engineer
-
-| Old Engineering World | Harness Engineering World |
-|----------------------|--------------------------|
-| Write code line-by-line | Design the conditions for good code |
-| Debug implementation details | Debug agent failure modes |
-| Review every PR | Review outcomes and architectural decisions |
-| Document after building | Documentation is a primary system input |
-| Enforce patterns via code review | Enforce patterns via linters and CI |
-| Onboard new engineers | Onboard the agent via docs and tooling |
-| Friday cleanup sprints | Continuous background cleanup agents |
-
-**What humans do:**
-- Prioritise work; translate user feedback into acceptance criteria.
-- Identify what capability is missing when the agent struggles.
-- Encode human taste once into tooling, docs, or linting rules.
-- Validate outcomes; escalate when genuine judgment is required.
-
----
-
-## What Agents Produce
-
-In a full harness engineering setup, agents are responsible for **everything** in the repository:
-
-- Product code and tests
-- CI configuration and release tooling
-- Internal developer tools and scripts
-- Documentation and design history
-- Evaluation harnesses
-- Review comments and inline responses
-- Production dashboard definitions
-- Repository management scripts
-
----
-
-## Full Autonomous Feature Delivery
-
-Once the harness matures, agents can end-to-end drive a feature from a single prompt:
-
-```mermaid
-flowchart TD
-    P[Single human prompt:<br/>new feature or bug report] --> A[Validate current codebase state]
-    A --> B[Reproduce the bug<br/>or validate baseline]
-    B --> C[Record video demonstrating failure]
-    C --> D[Implement fix or feature]
-    D --> E[Validate by driving the app<br/>via Chrome DevTools]
-    E --> F[Record second video<br/>demonstrating resolution]
-    F --> G[Open pull request]
-    G --> H[Respond to agent and human feedback]
-    H --> I[Detect and remediate<br/>build failures]
-    I --> J{Human judgment<br/>required?}
-    J -- Yes --> K[Escalate to human]
-    J -- No --> L[Squash and merge]
-```
-
----
-
-## Common Failure Modes and Fixes
+### Common Failure Modes
 
 | Failure Mode | Root Cause | Fix |
 |-------------|-----------|-----|
 | Agent produces inconsistent output | Underspecified environment | Add tools, docs, and linting rules |
-| Codebase drifts architecturally | No mechanical enforcement | Add custom linter with remediation hints in error messages |
+| Codebase drifts architecturally | No mechanical enforcement | Add custom linter with remediation hints |
 | Agent "forgets" conventions | Context overflow from monolithic AGENTS.md | Split into progressive, indexed docs |
-| Agent makes incorrect assumptions about library behaviour | Library too complex/opaque | Reimplement the necessary subset in-repo |
-| Stale documentation | No verification mechanism | Add CI linters that check doc freshness; run doc-gardening agents |
-| Human review becomes bottleneck | All PRs gated on human approval | Build agent reviewer pipeline; humans review selectively |
+| Agent makes wrong assumptions about a library | Library too opaque | Re-implement the necessary subset in-repo |
+| Stale documentation | No verification mechanism | Add CI linters checking doc freshness |
+| Human review becomes bottleneck | All PRs gated on human approval | Build agent reviewer pipeline |
 | "AI slop" accumulates | No entropy management process | Encode golden principles + run background cleanup agents |
 
----
+## Pros
 
-## Key Principles Summary
+- 25× throughput improvement over traditional engineering in demonstrated real-world use
+- Human effort shifts to highest-value work: priorities, acceptance criteria, taste encoding
+- Every rule mechanically enforced — reliability exceeds PR-review-only enforcement
+- Any capability added to the harness benefits all future agent runs immediately
+- Background entropy agents prevent technical debt from degrading agent output quality over time
+
+## Cons
+
+- Initial harness investment is high — takes weeks before agents are productive
+- All knowledge must be externalised to the repo; tribal knowledge renders agents blind
+- Custom linting infrastructure requires ongoing maintenance as the codebase evolves
+- Teams must accept that humans review outcomes, not every change — cultural shift required
+- Agent failure modes are unfamiliar: context overflow, stale docs, missing tools vs logic bugs
+
+## Design Diagram
+
+```mermaid
+flowchart TD
+    H[Human: define goal\nor acceptance criteria] --> P[Prompt Codex\nwith task]
+    P --> A[Agent: reads AGENTS.md\nand docs/ context]
+    A --> C[Agent: writes code,\ntests, docs]
+    C --> V[Agent: self-validates\nlocally — linters, tests, UI]
+    V --> R[Agent: opens PR\nand self-reviews]
+    R --> F{Feedback?}
+    F -- Agent reviewer\nfinds issues --> A
+    F -- Human reviewer\nadds comments --> A
+    F -- All checks pass --> M[Agent squashes\nand merges]
+    M --> G[Continuous entropy\ncleanup agents run]
+    G --> H
+
+    subgraph The Harness
+        AGENTS[AGENTS.md — map]
+        DOCS[docs/ — encyclopedia]
+        LINTERS[Custom linters\nwith remediation hints]
+        OBS[Ephemeral observability\nLogQL / PromQL / TraceQL]
+        CI[CI/CD enforcement]
+    end
+
+    A -.->|reads| AGENTS
+    A -.->|reads| DOCS
+    V -.->|runs| LINTERS
+    V -.->|queries| OBS
+    M -.->|gated by| CI
+```
+
+## Code Sample
+
+### TypeScript — Architecture fitness function: enforce layer dependency rules
+
+```typescript
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Encode the layered domain architecture as a CI fitness function.
+// Error messages include remediation instructions that agents can read and act on.
+
+type Layer = 'types' | 'config' | 'repo' | 'service' | 'runtime' | 'ui' | 'providers';
+
+const LAYER_ORDER: Layer[] = ['types', 'config', 'repo', 'service', 'runtime', 'ui'];
+const CROSS_CUTTING: Layer[] = ['providers'];
+
+function inferLayer(filePath: string): Layer | null {
+  const parts = filePath.split('/');
+  for (const layer of [...LAYER_ORDER, ...CROSS_CUTTING]) {
+    if (parts.includes(layer)) return layer as Layer;
+  }
+  return null;
+}
+
+function isAllowedImport(from: Layer, to: Layer): boolean {
+  if (CROSS_CUTTING.includes(to)) return true;   // cross-cutting always importable
+  if (CROSS_CUTTING.includes(from)) return true; // providers may import anything
+  return LAYER_ORDER.indexOf(to) <= LAYER_ORDER.indexOf(from); // only import same or earlier
+}
+
+interface ArchViolation {
+  file: string;
+  importedFile: string;
+  fromLayer: Layer;
+  toLayer: Layer;
+  remediation: string; // machine-readable fix instruction for the agent
+}
+
+function extractImports(filePath: string): string[] {
+  const content = fs.readFileSync(filePath, 'utf-8');
+  const importRegex = /from\s+['"]([^'"]+)['"]/g;
+  const imports: string[] = [];
+  let match: RegExpExecArray | null;
+  while ((match = importRegex.exec(content)) !== null) imports.push(match[1]);
+  return imports;
+}
+
+export function checkLayering(srcDir: string): ArchViolation[] {
+  const violations: ArchViolation[] = [];
+
+  function walk(dir: string): void {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) { walk(fullPath); continue; }
+      if (!entry.name.endsWith('.ts') && !entry.name.endsWith('.tsx')) continue;
+
+      const relPath = path.relative(srcDir, fullPath);
+      const fromLayer = inferLayer(relPath);
+      if (!fromLayer) continue;
+
+      for (const imported of extractImports(fullPath)) {
+        if (!imported.startsWith('.') && !imported.startsWith('@/')) continue;
+        const toLayer = inferLayer(imported);
+        if (!toLayer || isAllowedImport(fromLayer, toLayer)) continue;
+
+        const allowedTargets = LAYER_ORDER.slice(0, LAYER_ORDER.indexOf(fromLayer));
+        violations.push({
+          file: relPath,
+          importedFile: imported,
+          fromLayer,
+          toLayer,
+          remediation:
+            `Layer '${fromLayer}' must not import from '${toLayer}'. ` +
+            `Move shared logic to one of: [${allowedTargets.join(', ')}], ` +
+            `or extract it into 'providers/' if it is a cross-cutting concern ` +
+            `(auth, telemetry, feature flags, connectors).`
+        });
+      }
+    }
+  }
+
+  walk(srcDir);
+  return violations;
+}
+
+// CI entry point — exit code 1 so the agent can read errors and self-correct
+async function main(): Promise<void> {
+  const srcDir = process.argv[2] ?? './src';
+  const violations = checkLayering(srcDir);
+
+  if (violations.length === 0) {
+    console.log('✅ Architecture layer check passed');
+    process.exit(0);
+  }
+
+  for (const v of violations) {
+    // Structured output: agent reads this and knows exactly what to do
+    console.error(`ARCH_VIOLATION ${v.file}: imports ${v.importedFile}`);
+    console.error(`  [${v.fromLayer}] → [${v.toLayer}] is not allowed`);
+    console.error(`  FIX: ${v.remediation}`);
+    console.error('');
+  }
+  process.exit(1);
+}
+
+main().catch(console.error);
+```
+
+### TypeScript — Quality scorer: generate QUALITY_SCORE.md automatically
+
+```typescript
+import * as fs from 'fs';
+import * as path from 'path';
+
+// Background agent: runs on a schedule; writes QUALITY_SCORE.md so
+// humans and future agents see codebase health at a glance.
+
+interface DomainQuality {
+  domain: string;
+  lintErrors: number;
+  testCoverage: number;      // 0–100
+  docFreshnessDays: number;  // days since docs were updated relative to code changes
+  archViolations: number;
+  grade: 'A' | 'B' | 'C' | 'D' | 'F';
+}
+
+function computeGrade(q: Omit<DomainQuality, 'grade'>): DomainQuality['grade'] {
+  let score = 100;
+  score -= q.lintErrors * 2;
+  score -= Math.max(0, 80 - q.testCoverage) * 0.5;
+  score -= q.docFreshnessDays > 30 ? 10 : 0;
+  score -= q.archViolations * 5;
+  if (score >= 90) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 60) return 'C';
+  if (score >= 40) return 'D';
+  return 'F';
+}
+
+function generateReport(domains: DomainQuality[]): string {
+  const lines = [
+    '# QUALITY_SCORE.md',
+    '',
+    `> Auto-generated ${new Date().toISOString().slice(0, 10)} by quality-scorer agent`,
+    '',
+    '| Domain | Grade | Lint Errors | Coverage | Doc Freshness | Arch Violations |',
+    '|--------|-------|-------------|----------|---------------|-----------------|',
+  ];
+  for (const d of domains) {
+    const freshness = d.docFreshnessDays <= 7  ? '✅ current'
+                    : d.docFreshnessDays <= 30 ? '⚠️ aging'
+                    : '🔴 stale';
+    lines.push(`| ${d.domain} | **${d.grade}** | ${d.lintErrors} | ${d.testCoverage}% | ${freshness} | ${d.archViolations} |`);
+  }
+  const passing = domains.filter(d => d.grade === 'A' || d.grade === 'B').length;
+  lines.push('', `Domains at A/B: ${passing}/${domains.length}`);
+  return lines.join('\n');
+}
+
+export async function runQualityScorer(srcDirs: string[]): Promise<void> {
+  // In production: run `eslint --format json`, parse `vitest coverage-summary.json`,
+  // compare `git log` dates for docs/ vs src/, run checkLayering()
+  const results: DomainQuality[] = srcDirs.map(domainPath => {
+    const q: Omit<DomainQuality, 'grade'> = {
+      domain: path.basename(domainPath),
+      lintErrors: 0,
+      testCoverage: 85,
+      docFreshnessDays: 5,
+      archViolations: 0,
+    };
+    return { ...q, grade: computeGrade(q) };
+  });
+  fs.writeFileSync('QUALITY_SCORE.md', generateReport(results));
+  console.log('QUALITY_SCORE.md updated');
+}
+```
+
+## Key Patterns
+
+### Harness Engineering Principles
 
 | Principle | One-liner |
 |-----------|-----------|
-| **Map, not manual** | AGENTS.md is the table of contents, not the encyclopedia |
-| **Repo is the system of record** | If it's not in the repo, it doesn't exist for the agent |
-| **Enforce invariants, not implementations** | Linters multiply taste; don't micromanage code style |
-| **Legibility over aesthetics** | Optimise for the agent's ability to reason, not human preferences |
-| **Feedback loops over retries** | When the agent fails, fix the harness, don't re-prompt |
-| **Small, frequent, reversible changes** | High throughput + cheap correction = no need for blocking gates |
-| **Continuous entropy management** | Garbage-collect debt continuously via background agents |
+| **Map, not manual** | `AGENTS.md` is the table of contents, not the encyclopedia |
+| **Repo is the system of record** | If it's not in the repo, it does not exist for the agent |
+| **Enforce invariants, not implementations** | Linters multiply taste; don't micromanage style |
+| **Legibility over aesthetics** | Optimise for the agent's ability to reason, not human aesthetics |
+| **Feedback loops over retries** | When the agent fails, fix the harness — don't re-prompt |
+| **Small, frequent, reversible changes** | High throughput + cheap correction = no blocking gates |
+| **Continuous entropy management** | Garbage-collect debt via background agents, not Friday sprints |
 | **Boring technology wins** | Stable, well-documented, composable = agent-legible |
 
----
+### Harness Maturity Stages
 
-## Study Checklist
+| Stage | What is in place | Agent capability |
+|-------|-----------------|-----------------|
+| **0 — Ad hoc** | No harness; freeform prompts | One-off generation; high inconsistency |
+| **1 — Documented** | `AGENTS.md` + `ARCHITECTURE.md` | Consistent patterns; occasional drift |
+| **2 — Enforced** | Custom linters with remediation messages; CI gates | Architectural rules upheld without human review |
+| **3 — Observable** | Ephemeral local app; LogQL/PromQL accessible to agent | Agent validates correctness with real telemetry |
+| **4 — Self-reviewing** | Agent-to-agent review pipeline; humans review outcomes | Near-autonomous delivery |
+| **5 — Self-maintaining** | Background entropy agents; `QUALITY_SCORE.md` auto-updated | Codebase stays legible for agents indefinitely |
 
-- [ ] Explain what "harness engineering" means and why it emerged
-- [ ] Describe the core feedback loop in an agent-first workflow
-- [ ] Explain the "map, not manual" principle for AGENTS.md
-- [ ] List the five types of artifacts that belong in the repo's knowledge base
-- [ ] Describe the layered domain architecture pattern and why it matters for agents
-- [ ] Explain what "taste invariants" are and how they're enforced
-- [ ] Describe the entropy management problem and the garbage collection approach
-- [ ] Articulate what the human engineer's job becomes in a harness engineering model
-- [ ] Explain what makes a codebase "agent-legible"
-- [ ] Describe the self-review loop and its purpose
+### Human Responsibilities
+
+| Activity | Frequency | Nature |
+|----------|-----------|--------|
+| Translate user feedback → acceptance criteria | Daily | High-judgment |
+| Identify missing harness capabilities when agents fail | Weekly | Root cause analysis |
+| Encode taste into linters, docs, and golden principles | Weekly | One-time multiplier |
+| Validate agent outcomes; escalate edge cases | Continuous | Audit / oversight |
+| Review architectural decisions (ADRs) | Per feature | High-judgment |
+
+## Related Patterns
+
+- [04 — AI Agents & Tool Use](./04-ai-agents-tool-use.md) — Agent architectures that run inside the harness
+- [15 — AI-Assisted Code Generation](./15-ai-code-generation-pipelines.md) — Code generation pipelines the harness drives
+- [08 — AI Observability](./08-ai-observability.md) — Telemetry the harness exposes to the agent
+- [03 — Prompt Engineering](./03-prompt-engineering.md) — Prompt templates stored in the repo as harness artifacts
+- [06 — Embedding Pipelines](./06-embedding-pipelines.md) — RAG over the codebase itself (docs as embeddings)
 
 ---
 
 ## References
 
 - [Harness engineering: leveraging Codex in an agent-first world — OpenAI (Feb 2026)](https://openai.com/index/harness-engineering/)
-- [Unlocking the Codex harness: how we built the App Server — OpenAI (Feb 2026)](https://openai.com/index/unlocking-the-codex-harness/)
+- [Unlocking the Codex harness — OpenAI (Feb 2026)](https://openai.com/index/unlocking-the-codex-harness/)
 - [AGENTS.md community standard](https://agents.md/)
-- [Architecture.md pattern — matklad](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html)
+- [Architecture.md — matklad](https://matklad.github.io/2021/02/06/ARCHITECTURE.md.html)
 - [Parse, don't validate — Alexis King](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
-- [Strict boundaries and predictable structure for AI — bits.logic.inc](https://bits.logic.inc/p/ai-is-forcing-us-to-write-good-code)
 - [Codex Execution Plans cookbook](https://cookbook.openai.com/articles/codex_exec_plans)

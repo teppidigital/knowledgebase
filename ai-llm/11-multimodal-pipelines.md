@@ -12,8 +12,11 @@ Multimodal AI pipelines process and reason across multiple data modalities simul
 
 | Model | Text | Image | Audio | Video | PDF |
 |-------|------|-------|-------|-------|-----|
-| GPT-4o | ✅ | ✅ | ✅ | ❌ | Via image conversion |
-| Claude 3.5 Sonnet | ✅ | ✅ | ❌ | ❌ | Via image conversion |
+| GPT-4o | ✅ | ✅ | ✅ | ✅ (via Files API) | ✅ native (Files API) |
+| GPT-4o-mini | ✅ | ✅ | ❌ | ❌ | Via image conversion |
+| Claude 3.7 Sonnet | ✅ | ✅ | ❌ | ❌ | Via image conversion |
+| Claude 3.5 Haiku | ✅ | ✅ | ❌ | ❌ | Via image conversion |
+| Gemini 2.0 Flash | ✅ | ✅ | ✅ | ✅ | ✅ native |
 | Gemini 1.5 Pro | ✅ | ✅ | ✅ | ✅ | ✅ native |
 | LLaVA (local) | ✅ | ✅ | ❌ | ❌ | Via image conversion |
 | Whisper | ❌ | ❌ | ✅ | ❌ | ❌ |

@@ -62,56 +62,50 @@ graph LR
 
 ### Ambassador Service (Node.js / Express)
 
-```javascript
-// ambassador/src/index.js
-const express = require('express');
-const axios = require('axios').default;
-const axiosRetry = require('axios-retry').default;
-const CircuitBreaker = require('opossum');
+```typescript
+// ambassador/src/index.ts
+import express from 'express';
+import axios from 'axios';
+import axiosRetry from 'axios-retry';
+import CircuitBreaker from 'opossum';
+
 const app = express();
 app.use(express.json());
 
 // Configure axios with retry
-const client = axios.create({ timeout: 5000 });
+const client = axios.create({ timeout: 5_000 });
 axiosRetry(client, { retries: 3, retryDelay: axiosRetry.exponentialDelay });
 
 // Circuit breaker around the external service
 const breaker = new CircuitBreaker(
-  (config) => client.request(config),
-  { timeout: 5000, errorThresholdPercentage: 50, resetTimeout: 30000 }
+  (config: Parameters<typeof client.request>[0]) => client.request(config),
+  { timeout: 5_000, errorThresholdPercentage: 50, resetTimeout: 30_000 },
 );
 
 breaker.fallback(() => ({ data: { error: 'Service temporarily unavailable' }, status: 503 }));
 
-const EXTERNAL_SERVICE_URL = process.env.EXTERNAL_SERVICE_URL;
-const API_KEY = process.env.EXTERNAL_SERVICE_API_KEY;
+const EXTERNAL_SERVICE_URL = process.env.EXTERNAL_SERVICE_URL!;
+const API_KEY              = process.env.EXTERNAL_SERVICE_API_KEY!;
 
 // Proxy all requests to the external service
 app.use('/', async (req, res) => {
   try {
     const response = await breaker.fire({
       method: req.method,
-      url: `${EXTERNAL_SERVICE_URL}${req.path}`,
-      data: req.body,
+      url:    `${EXTERNAL_SERVICE_URL}${req.path}`,
+      data:   req.body,
       params: req.query,
       headers: {
-        'Authorization': `Bearer ${API_KEY}`,  // Inject auth
-        'Content-Type': 'application/json',
-        'X-Request-ID': req.headers['x-request-id'] ?? crypto.randomUUID(),
+        'Authorization':  `Bearer ${API_KEY}`,
+        'Content-Type':   'application/json',
+        'X-Request-ID':   (req.headers['x-request-id'] as string) ?? crypto.randomUUID(),
       },
-    });
+    }) as { status: number; data: unknown; };
 
-    // Log for observability
-    console.log(JSON.stringify({
-      method: req.method,
-      path: req.path,
-      status: response.status,
-      circuitState: breaker.status.stats,
-    }));
-
+    console.log(JSON.stringify({ method: req.method, path: req.path, status: response.status }));
     res.status(response.status).json(response.data);
   } catch (err) {
-    res.status(502).json({ error: 'Ambassador proxy error', detail: err.message });
+    res.status(502).json({ error: 'Ambassador proxy error', detail: (err as Error).message });
   }
 });
 
@@ -152,29 +146,36 @@ spec:
 
 ### Protocol Translation Ambassador (REST → gRPC)
 
-```javascript
-// ambassador/grpc-to-rest-bridge.js
-// App speaks REST; legacy service speaks gRPC
-// Ambassador translates transparently
-const express = require('express');
-const grpc = require('@grpc/grpc-js');
-const protoLoader = require('@grpc/proto-loader');
+```typescript
+// ambassador/grpc-to-rest-bridge.ts
+// App speaks REST; legacy service speaks gRPC — Ambassador translates transparently
+import express from 'express';
+import * as grpc from '@grpc/grpc-js';
+import * as protoLoader from '@grpc/proto-loader';
 
 const packageDef = protoLoader.loadSync('payment.proto');
-const proto = grpc.loadPackageDefinition(packageDef);
-const grpcClient = new proto.PaymentService('legacy-service:50051',
-  grpc.credentials.createInsecure());
+const proto      = grpc.loadPackageDefinition(packageDef) as Record<string, grpc.GrpcObject>;
+const grpcClient = new (proto.PaymentService as grpc.ServiceClientConstructor)(
+  'legacy-service:50051',
+  grpc.credentials.createInsecure(),
+);
 
 const app = express();
 app.use(express.json());
 
 // REST endpoint → gRPC call
 app.post('/pay', (req, res) => {
-  grpcClient.ProcessPayment(req.body, (err, response) => {
-    if (err) return res.status(500).json({ error: err.message });
+  grpcClient.ProcessPayment(req.body, (err: Error | null, response: unknown) => {
+    if (err) { res.status(500).json({ error: err.message }); return; }
     res.json(response);
   });
 });
 
 app.listen(8080, () => console.log('gRPC→REST Ambassador on :8080'));
 ```
+
+## Related Patterns
+
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Ambassador is the natural host for egress circuit-breaker logic
+- [21 — Sidecar Pattern](./21-sidecar-pattern.md) — Ambassador uses the same sidecar deployment model
+- [26 — Service Mesh](./26-service-mesh.md) — Mesh provides ambassador-like capabilities at the infrastructure level

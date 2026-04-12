@@ -153,25 +153,32 @@ export async function processPayment(orderId: string, amount: number) {
 
 ### Using the `opossum` library (production-grade)
 
-```javascript
-// circuit-breaker/opossum-example.js
-const CircuitBreaker = require('opossum');
-const axios = require('axios');
+```typescript
+// circuit-breaker/opossum-example.ts
+import CircuitBreaker from 'opossum';
+import axios from 'axios';
 
-async function callPaymentService(orderId, amount) {
+async function callPaymentService(orderId: number, amount: number) {
   return axios.post('http://payment-service/pay', { orderId, amount });
 }
 
 const breaker = new CircuitBreaker(callPaymentService, {
-  timeout: 3000,           // 3 second timeout
-  errorThresholdPercentage: 50,  // Open if 50% of requests fail
-  resetTimeout: 30000,     // Try again after 30 seconds
+  timeout: 3_000,                // 3 second timeout
+  errorThresholdPercentage: 50,  // Open if 50 % of requests fail
+  resetTimeout: 30_000,          // Try again after 30 seconds
 });
 
 breaker.fallback(() => ({ status: 'DEFERRED' }));
-breaker.on('open', () => console.warn('Circuit OPENED'));
-breaker.on('close', () => console.info('Circuit CLOSED'));
+breaker.on('open',     () => console.warn('Circuit OPENED'));
+breaker.on('close',    () => console.info('Circuit CLOSED'));
 breaker.on('halfOpen', () => console.info('Circuit HALF-OPEN'));
 
-module.exports = { breaker };
+export { breaker };
 ```
+
+## Related Patterns
+
+- [24 — Retry Pattern](./24-retry-pattern.md) — Pair retries with a circuit breaker: stop retrying when the circuit opens
+- [15 — Bulkhead Pattern](./15-bulkhead-pattern.md) — Combine for full isolation: bulkhead limits concurrency; CB limits duration
+- [29 — Ambassador Pattern](./29-ambassador-pattern.md) — Client-side proxy that can host the circuit breaker logic
+- [34 — Health Check](./34-health-check.md) — Circuit breaker can consult health check state to determine transitions

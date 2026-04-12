@@ -60,23 +60,24 @@ graph TD
 
 ### Routing Façade (Node.js / Express)
 
-```javascript
-// facade/src/index.js
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+```typescript
+// facade/src/index.ts
+import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+
 const app = express();
 
-const LEGACY_URL = 'http://legacy-monolith:8080';
-const NEW_USER_SVC = 'http://user-service:3001';
+const LEGACY_URL    = 'http://legacy-monolith:8080';
+const NEW_USER_SVC  = 'http://user-service:3001';
 const NEW_ORDER_SVC = 'http://order-service:3002';
 
 // Migrated: route to new microservices
-app.use('/api/users', createProxyMiddleware({ target: NEW_USER_SVC, changeOrigin: true }));
+app.use('/api/users',  createProxyMiddleware({ target: NEW_USER_SVC,  changeOrigin: true }));
 app.use('/api/orders', createProxyMiddleware({ target: NEW_ORDER_SVC, changeOrigin: true }));
 
 // Not yet migrated: route to legacy system
 app.use('/api/payments', createProxyMiddleware({ target: LEGACY_URL, changeOrigin: true }));
-app.use('/api/reports', createProxyMiddleware({ target: LEGACY_URL, changeOrigin: true }));
+app.use('/api/reports',  createProxyMiddleware({ target: LEGACY_URL, changeOrigin: true }));
 
 // Catch-all: legacy handles everything else
 app.use('/', createProxyMiddleware({ target: LEGACY_URL, changeOrigin: true }));
@@ -110,18 +111,31 @@ export function buildRouter(app: Express) {
 
 ### Data Synchronization (during transition)
 
-```javascript
+```typescript
 // During transition: dual-write to both legacy DB and new service DB
-async function createUser(userData) {
+interface UserData { name: string; email: string; }
+interface NewUser  { id: number; name: string; email: string; }
+
+declare const newUserService: { create(data: UserData): Promise<NewUser> };
+declare const legacyDB:       { query(sql: string, params: unknown[]): Promise<void> };
+
+async function createUser(userData: UserData): Promise<NewUser> {
   // Write to new service first (source of truth going forward)
   const newUser = await newUserService.create(userData);
 
   // Sync to legacy DB for backward compatibility
   await legacyDB.query(
     'INSERT INTO users (id, name, email) VALUES (?, ?, ?)',
-    [newUser.id, newUser.name, newUser.email]
+    [newUser.id, newUser.name, newUser.email],
   );
 
   return newUser;
 }
 ```
+
+## Related Patterns
+
+- [32 — Anti-Corruption Layer](./32-anti-corruption-layer.md) — Translate between legacy and new domain models during migration
+- [07 — API Gateway](./07-api-gateway.md) — Route traffic to old vs new system during migration
+- [02 — Monolithic Architecture](./02-monolithic.md) — The starting point of a strangler fig migration
+- [01 — Microservices](./01-microservices.md) — The target architecture after strangler fig migration

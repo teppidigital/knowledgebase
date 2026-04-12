@@ -65,14 +65,22 @@ flowchart TD
 
 ### Simple Feature Flag Service (Node.js / Redis)
 
-```javascript
-// feature-flags/flag-service.js
-const { createClient } = require('redis');
+```typescript
+// feature-flags/flag-service.ts
+import { createClient } from 'redis';
 
 const redis = createClient({ url: process.env.REDIS_URL });
 redis.connect();
 
-async function isEnabled(flagName, userId = null) {
+function hashCode(str: string): number {
+  let hash = 0;
+  for (const ch of str) {
+    hash = ((hash << 5) - hash + ch.charCodeAt(0)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+export async function isEnabled(flagName: string, userId?: string): Promise<boolean> {
   const flagKey = `feature:${flagName}`;
   const config = await redis.hGetAll(flagKey);
 
@@ -87,32 +95,22 @@ async function isEnabled(flagName, userId = null) {
 
   // Allowlist
   if (config.userIds && userId) {
-    const allowed = config.userIds.split(',');
-    if (allowed.includes(userId)) return true;
+    if (config.userIds.split(',').includes(userId)) return true;
   }
 
   return false;
 }
-
-function hashCode(str) {
-  let hash = 0;
-  for (const ch of str) {
-    hash = ((hash << 5) - hash + ch.charCodeAt(0)) | 0;
-  }
-  return Math.abs(hash);
-}
-
-module.exports = { isEnabled };
 ```
 
 ### Usage in a Route
 
-```javascript
-// routes/checkout.js
-const { isEnabled } = require('../feature-flags/flag-service');
+```typescript
+// routes/checkout.ts
+import { Request, Response } from 'express';
+import { isEnabled } from '../feature-flags/flag-service';
 
-app.get('/checkout', async (req, res) => {
-  const userId = req.user.id;
+app.get('/checkout', async (req: Request, res: Response) => {
+  const userId = (req as Request & { user: { id: string } }).user.id;
   const useNewUI = await isEnabled('new-checkout-ui', userId);
 
   if (useNewUI) {
@@ -125,17 +123,20 @@ app.get('/checkout', async (req, res) => {
 
 ### Flag Configuration Admin API
 
-```javascript
-// admin/flags.router.js
-const express = require('express');
-const { createClient } = require('redis');
-const router = express.Router();
-const redis = createClient({ url: process.env.REDIS_URL });
+```typescript
+// admin/flags.router.ts
+import { Router } from 'express';
+import { createClient } from 'redis';
+
+const router = Router();
+const redis  = createClient({ url: process.env.REDIS_URL });
+
+interface FlagBody { enabled: boolean; userPercentage?: number; userIds?: string[]; }
 
 // Enable flag for percentage of users
 router.put('/flags/:name', async (req, res) => {
   const { name } = req.params;
-  const { enabled, userPercentage, userIds } = req.body;
+  const { enabled, userPercentage, userIds } = req.body as FlagBody;
 
   await redis.hSet(`feature:${name}`, {
     enabled: String(enabled),
@@ -147,31 +148,37 @@ router.put('/flags/:name', async (req, res) => {
 });
 
 // Get all flags
-router.get('/flags', async (req, res) => {
-  const keys = await redis.keys('feature:*');
+router.get('/flags', async (_req, res) => {
+  const keys  = await redis.keys('feature:*');
   const flags = await Promise.all(
-    keys.map(async (key) => ({ name: key.replace('feature:', ''), ...await redis.hGetAll(key) }))
+    keys.map(async (key) => ({ name: key.replace('feature:', ''), ...await redis.hGetAll(key) })),
   );
   res.json(flags);
 });
 
-module.exports = router;
+export default router;
 ```
 
 ### Using LaunchDarkly SDK
 
-```javascript
-// feature-flags/launchdarkly.js
-const LaunchDarkly = require('@launchdarkly/node-server-sdk');
+```typescript
+// feature-flags/launchdarkly.ts
+import LaunchDarkly, { LDClient, LDUser } from '@launchdarkly/node-server-sdk';
 
-const client = LaunchDarkly.init(process.env.LD_SDK_KEY);
+const client: LDClient = LaunchDarkly.init(process.env.LD_SDK_KEY!);
 
-async function isFeatureEnabled(flagKey, user) {
+export async function isFeatureEnabled(flagKey: string, user: LDUser): Promise<boolean> {
   await client.waitForInitialization();
-  return client.variation(flagKey, user, false); // false = default off
+  return client.variation(flagKey, user, false) as boolean;
 }
 
 // Usage
-const user = { key: 'user-123', email: 'alice@example.com', custom: { plan: 'premium' } };
+const user: LDUser = { key: 'user-123', email: 'alice@example.com', custom: { plan: 'premium' } };
 const enabled = await isFeatureEnabled('new-checkout-ui', user);
 ```
+
+## Related Patterns
+
+- [19 — Blue-Green Deployment](./19-blue-green-deployment.md) — Infrastructure-level switch; flags provide code-level control independent of deploy
+- [20 — Canary Deployment](./20-canary-deployment.md) — Flags can implement canary logic without infrastructure changes
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — Emit flag change events to propagate across distributed services in real time

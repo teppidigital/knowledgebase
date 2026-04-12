@@ -66,29 +66,29 @@ graph TD
 
 ### Custom API Gateway (Node.js / http-proxy-middleware)
 
-```javascript
-// gateway/src/index.js
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const rateLimit = require('express-rate-limit');
-const jwt = require('jsonwebtoken');
+```typescript
+// gateway/src/index.ts
+import express, { Request, Response, NextFunction } from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import rateLimit from 'express-rate-limit';
+import jwt from 'jsonwebtoken';
 
 const app = express();
 
 // --- Rate Limiting ---
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
+  windowMs: 60 * 1_000, // 1 minute
   max: 100,
   message: { error: 'Too many requests' },
 });
 app.use(limiter);
 
 // --- JWT Authentication Middleware ---
-function authenticate(req, res, next) {
+function authenticate(req: Request, res: Response, next: NextFunction): void {
   const token = req.headers['authorization']?.split(' ')[1];
-  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  if (!token) { res.status(401).json({ error: 'Unauthorized' }); return; }
   try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
+    (req as Request & { user: unknown }).user = jwt.verify(token, process.env.JWT_SECRET!);
     next();
   } catch {
     res.status(401).json({ error: 'Invalid token' });
@@ -96,28 +96,15 @@ function authenticate(req, res, next) {
 }
 
 // --- Request Logging ---
-app.use((req, _res, next) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
   next();
 });
 
 // --- Routing ---
-app.use(
-  '/api/users',
-  authenticate,
-  createProxyMiddleware({ target: 'http://user-service:3001', changeOrigin: true })
-);
-
-app.use(
-  '/api/orders',
-  authenticate,
-  createProxyMiddleware({ target: 'http://order-service:3002', changeOrigin: true })
-);
-
-app.use(
-  '/api/products',
-  createProxyMiddleware({ target: 'http://product-service:3003', changeOrigin: true })
-);
+app.use('/api/users',    authenticate, createProxyMiddleware({ target: 'http://user-service:3001',    changeOrigin: true }));
+app.use('/api/orders',   authenticate, createProxyMiddleware({ target: 'http://order-service:3002',   changeOrigin: true }));
+app.use('/api/products',              createProxyMiddleware({ target: 'http://product-service:3003', changeOrigin: true }));
 
 app.listen(8080, () => console.log('API Gateway running on port 8080'));
 ```
@@ -175,4 +162,12 @@ server {
         proxy_pass http://product_service/;
     }
 }
+```
+
+## Related Patterns
+
+- [14 — Rate Limiting](./14-rate-limiting.md) — Enforce request quotas at the gateway
+- [09 — Backends for Frontends](./09-backends-for-frontends.md) — Per-client tailored API layer above or replacing the gateway
+- [26 — Service Mesh](./26-service-mesh.md) — East-west (service-to-service) complement to the north-south gateway
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Protect upstream services from downstream failure at the gateway
 ```

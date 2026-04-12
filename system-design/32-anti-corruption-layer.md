@@ -203,3 +203,9 @@ export class OrderDomainService {
   }
 }
 ```
+
+## Related Patterns
+
+- [08 — Strangler Fig](./08-strangler-fig.md) — ACL is the integration seam used during a strangler fig migration
+- [01 — Microservices](./01-microservices.md) — ACL enforces bounded-context boundaries at service interfaces
+- [06 — Saga Pattern](./06-saga-pattern.md) — Use ACL to translate domain models during cross-bounded-context saga steps

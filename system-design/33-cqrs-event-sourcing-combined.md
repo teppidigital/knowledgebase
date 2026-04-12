@@ -179,3 +179,10 @@ async function rebuildOrderSummaryProjection(eventStore: EventStore, projection:
   console.log(`Rebuilt ${events.length} events`);
 }
 ```
+
+## Related Patterns
+
+- [04 — CQRS](./04-cqrs.md) — CQRS provides the write-model / read-model split used in this pattern
+- [05 — Event Sourcing](./05-event-sourcing.md) — Event sourcing provides the append-only event log as the source of truth
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Reliably publish domain events from the write side to downstream projections
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — EDA wires projections to consumers via broker integration

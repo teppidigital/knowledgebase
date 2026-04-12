@@ -63,81 +63,77 @@ graph TD
 
 ### Read/Write Splitting (Node.js / PostgreSQL)
 
-```javascript
-// db/connection.js
-const { Pool } = require('pg');
+```typescript
+// db/connection.ts
+import { Pool } from 'pg';
 
 // Primary: handles all writes
 const primaryPool = new Pool({ connectionString: process.env.PRIMARY_DB_URL });
 
 // Read replicas: round-robin read distribution
-const replicaPools = [
+const replicaPools: Pool[] = [
   new Pool({ connectionString: process.env.REPLICA_1_URL }),
   new Pool({ connectionString: process.env.REPLICA_2_URL }),
 ];
 
 let replicaIndex = 0;
 
-function getReadPool() {
+export function getReadPool(): Pool {
   const pool = replicaPools[replicaIndex % replicaPools.length];
   replicaIndex++;
   return pool;
 }
 
-function getWritePool() {
+export function getWritePool(): Pool {
   return primaryPool;
 }
-
-module.exports = { getReadPool, getWritePool };
 ```
 
 ### Repository with Read/Write Routing
 
-```javascript
-// repositories/user.repository.js
-const { getReadPool, getWritePool } = require('../db/connection');
+```typescript
+// repositories/user.repository.ts
+import { getReadPool, getWritePool } from '../db/connection';
 
-async function getUserById(id) {
-  // Route to replica
-  const db = getReadPool();
+interface User { id: number; name: string; email: string; created_at: Date; }
+
+export async function getUserById(id: number): Promise<User | undefined> {
+  const db = getReadPool(); // Route to replica
   const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [id]);
-  return rows[0];
+  return rows[0] as User | undefined;
 }
 
-async function createUser(name, email) {
-  // Route to primary
-  const db = getWritePool();
+export async function createUser(name: string, email: string): Promise<User> {
+  const db = getWritePool(); // Route to primary
   const { rows } = await db.query(
     'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
-    [name, email]
+    [name, email],
   );
-  return rows[0];
+  return rows[0] as User;
 }
 
-async function listUsers(limit = 50) {
+export async function listUsers(limit = 50): Promise<User[]> {
   const db = getReadPool();
-  const { rows } = await db.query('SELECT * FROM users ORDER BY created_at DESC LIMIT $1', [limit]);
-  return rows;
+  const { rows } = await db.query(
+    'SELECT * FROM users ORDER BY created_at DESC LIMIT $1',
+    [limit],
+  );
+  return rows as User[];
 }
-
-module.exports = { getUserById, createUser, listUsers };
 ```
 
 ### Read-Your-Writes Consistency (sticky session or synchronous read from primary)
 
-```javascript
+```typescript
 // After a write, read from primary to guarantee freshness
-async function updateUserAndReturn(userId, data) {
+export async function updateUserAndReturn(userId: number, data: { name: string }): Promise<User> {
   const writeDb = getWritePool();
 
-  await writeDb.query(
-    'UPDATE users SET name = $1 WHERE id = $2',
-    [data.name, userId]
-  );
+  await writeDb.query('UPDATE users SET name = $1 WHERE id = $2', [data.name, userId]);
 
   // Read fresh data from primary (not replica) to avoid stale read
   const { rows } = await writeDb.query('SELECT * FROM users WHERE id = $1', [userId]);
-  return rows[0];
+  return rows[0] as User;
 }
 ```
 
@@ -171,3 +167,10 @@ resource "aws_db_instance" "replica_2" {
   publicly_accessible = false
 }
 ```
+
+## Related Patterns
+
+- [11 — Database Sharding](./11-database-sharding.md) — Horizontal data partitioning to scale both reads and writes
+- [04 — CQRS](./04-cqrs.md) — Read replicas are the natural backing store for the CQRS read model
+- [12 — Caching Patterns](./12-caching-patterns.md) — Place a cache in front of replicas for sub-millisecond hot reads
+- [31 — Database per Service](./31-database-per-service.md) — Each service DB can independently have its own replica set

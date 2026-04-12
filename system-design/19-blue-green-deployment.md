@@ -201,3 +201,9 @@ else
     -p '{"spec": {"selector": {"version": "blue"}}}'
 fi
 ```
+
+## Related Patterns
+
+- [20 — Canary Deployment](./20-canary-deployment.md) — Gradual traffic shift alternative to instant blue-green cutover
+- [25 — Feature Flags](./25-feature-flags.md) — Decouple feature release from deployment at the code level
+- [10 — Load Balancing](./10-load-balancing.md) — Routes traffic between blue and green environments

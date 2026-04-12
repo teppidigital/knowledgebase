@@ -62,26 +62,28 @@ graph LR
 
 ### Producer (Node.js / RabbitMQ with amqplib)
 
-```javascript
-// producer/job.producer.js
-const amqp = require('amqplib');
+```typescript
+// producer/job.producer.ts
+import amqp from 'amqplib';
 
 const QUEUE = 'email-jobs';
 
-async function sendEmailJob(job) {
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
-  const channel = await connection.createChannel();
+interface EmailJob { to: string; template: string; orderId: string; }
+
+export async function sendEmailJob(job: EmailJob): Promise<void> {
+  const connection = await amqp.connect(process.env.RABBITMQ_URL!);
+  const channel    = await connection.createChannel();
 
   await channel.assertQueue(QUEUE, {
-    durable: true,           // Survive broker restart
-    deadLetterExchange: 'dlx', // Route failures to DLQ
+    durable:              true,
+    deadLetterExchange:   'dlx',
     deadLetterRoutingKey: 'email-jobs.dlq',
   });
 
   channel.sendToQueue(
     QUEUE,
     Buffer.from(JSON.stringify(job)),
-    { persistent: true }     // Message persists to disk
+    { persistent: true },
   );
 
   console.log(`[Producer] Queued job: ${JSON.stringify(job)}`);
@@ -94,35 +96,38 @@ sendEmailJob({ to: 'user@example.com', template: 'order-confirmation', orderId: 
 
 ### Consumer (Node.js / RabbitMQ — competing consumers)
 
-```javascript
-// consumer/job.consumer.js
-const amqp = require('amqplib');
+```typescript
+// consumer/job.consumer.ts
+import amqp, { Message } from 'amqplib';
 
-const QUEUE = 'email-jobs';
+const QUEUE       = 'email-jobs';
 const MAX_RETRIES = 3;
 
-async function startWorker() {
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
-  const channel = await connection.createChannel();
+async function processEmailJob(job: EmailJob): Promise<void> {
+  console.log(`Sending ${job.template} email to ${job.to}`);
+}
+
+export async function startWorker(): Promise<void> {
+  const connection = await amqp.connect(process.env.RABBITMQ_URL!);
+  const channel    = await connection.createChannel();
 
   await channel.assertQueue(QUEUE, { durable: true });
   channel.prefetch(5); // Process max 5 messages concurrently per worker
 
   console.log(`[Worker] Waiting for jobs on ${QUEUE}`);
 
-  channel.consume(QUEUE, async (msg) => {
+  channel.consume(QUEUE, async (msg: Message | null) => {
     if (!msg) return;
 
-    const job = JSON.parse(msg.content.toString());
-    const retries = (msg.properties.headers['x-retry-count'] ?? 0);
+    const job: EmailJob = JSON.parse(msg.content.toString());
+    const retries: number = (msg.properties.headers['x-retry-count'] ?? 0) as number;
 
     try {
       await processEmailJob(job);
-      channel.ack(msg); // Acknowledge — remove from queue
+      channel.ack(msg);
     } catch (err) {
-      console.error(`[Worker] Failed to process job: ${err.message}`);
+      console.error(`[Worker] Failed: ${(err as Error).message}`);
       if (retries < MAX_RETRIES) {
-        // Requeue with retry count
         channel.nack(msg, false, false); // Send to DLQ for retry logic
       } else {
         channel.nack(msg, false, false); // Final failure → DLQ
@@ -131,50 +136,49 @@ async function startWorker() {
   });
 }
 
-async function processEmailJob(job) {
-  console.log(`Sending ${job.template} email to ${job.to}`);
-  // Call email service
-}
-
 startWorker().catch(console.error);
 ```
 
 ### AWS SQS Queue (Node.js / AWS SDK v3)
 
-```javascript
-// sqs/sqs-producer.js
-const { SQSClient, SendMessageCommand } = require('@aws-sdk/client-sqs');
+```typescript
+// sqs/sqs-producer.ts
+import { SQSClient, SendMessageCommand } from '@aws-sdk/client-sqs';
 
-const sqs = new SQSClient({ region: 'us-east-1' });
-const QUEUE_URL = process.env.SQS_QUEUE_URL;
+const sqs       = new SQSClient({ region: 'us-east-1' });
+const QUEUE_URL = process.env.SQS_QUEUE_URL!;
 
-async function enqueueJob(job) {
+interface SqsJob { userId: string; jobId: string; [key: string]: unknown; }
+
+export async function enqueueJob(job: SqsJob): Promise<void> {
   await sqs.send(new SendMessageCommand({
-    QueueUrl: QUEUE_URL,
-    MessageBody: JSON.stringify(job),
-    MessageGroupId: job.userId,         // FIFO queue: group by user
-    MessageDeduplicationId: job.jobId,  // Prevent duplicates
+    QueueUrl:               QUEUE_URL,
+    MessageBody:            JSON.stringify(job),
+    MessageGroupId:         job.userId,   // FIFO queue: group by user
+    MessageDeduplicationId: job.jobId,   // Prevent duplicates
   }));
 }
 
-// sqs/sqs-consumer.js
-const { ReceiveMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');
+declare function processJob(job: SqsJob): Promise<void>;
 
-async function pollQueue() {
-  while (true) {
+// sqs/sqs-consumer.ts
+import { ReceiveMessageCommand, DeleteMessageCommand } from '@aws-sdk/client-sqs';
+
+async function pollQueue(): Promise<void> {
+  for (;;) {
     const { Messages } = await sqs.send(new ReceiveMessageCommand({
-      QueueUrl: QUEUE_URL,
+      QueueUrl:            QUEUE_URL,
       MaxNumberOfMessages: 10,
-      WaitTimeSeconds: 20, // Long polling
+      WaitTimeSeconds:     20, // Long polling
     }));
 
     for (const msg of Messages ?? []) {
-      const job = JSON.parse(msg.Body);
+      const job = JSON.parse(msg.Body!) as SqsJob;
       await processJob(job);
       // Delete after successful processing
       await sqs.send(new DeleteMessageCommand({
-        QueueUrl: QUEUE_URL,
-        ReceiptHandle: msg.ReceiptHandle,
+        QueueUrl:      QUEUE_URL,
+        ReceiptHandle: msg.ReceiptHandle!,
       }));
     }
   }
@@ -182,3 +186,10 @@ async function pollQueue() {
 
 pollQueue().catch(console.error);
 ```
+
+## Related Patterns
+
+- [17 — Publish-Subscribe](./17-publish-subscribe.md) — Fan-out to multiple subscribers vs queue's single-consumer model
+- [30 — Dead Letter Queue](./30-dead-letter-queue.md) — Route failed messages from the main queue
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Reliably produce messages into the queue from a transaction
+- [15 — Bulkhead Pattern](./15-bulkhead-pattern.md) — Separate queue per consumer type for isolation

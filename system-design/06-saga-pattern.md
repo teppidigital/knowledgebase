@@ -185,3 +185,9 @@ consumer.run({
   },
 });
 ```
+## Related Patterns
+
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Reliable event publication for each saga step
+- [27 — Two-Phase Commit](./27-two-phase-commit.md) — Alternative strong-consistency approach (with blocking trade-off)
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — Choreography-style sagas use EDA as the backbone
+- [32 — Anti-Corruption Layer](./32-anti-corruption-layer.md) — Translate domain models at saga boundaries

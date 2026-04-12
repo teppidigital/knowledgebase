@@ -116,12 +116,14 @@ upstream app_servers {
 
 ### Custom Software Load Balancer (Node.js)
 
-```javascript
-// load-balancer/src/index.js
-const http = require('http');
-const httpProxy = require('http-proxy');
+```typescript
+// load-balancer/src/index.ts
+import http from 'http';
+import httpProxy from 'http-proxy';
 
-const servers = [
+interface BackendServer { url: string; healthy: boolean; }
+
+const servers: BackendServer[] = [
   { url: 'http://app1:3000', healthy: true },
   { url: 'http://app2:3000', healthy: true },
   { url: 'http://app3:3000', healthy: true },
@@ -131,7 +133,7 @@ const proxy = httpProxy.createProxyServer();
 let currentIndex = 0;
 
 // Round Robin selection skipping unhealthy servers
-function getNextServer() {
+function getNextServer(): BackendServer {
   const healthyServers = servers.filter(s => s.healthy);
   if (healthyServers.length === 0) throw new Error('No healthy servers available');
   const server = healthyServers[currentIndex % healthyServers.length];
@@ -149,13 +151,13 @@ setInterval(async () => {
       server.healthy = false;
     }
   }
-}, 5000);
+}, 5_000);
 
 http.createServer((req, res) => {
   try {
     const target = getNextServer();
     proxy.web(req, res, { target: target.url });
-  } catch (err) {
+  } catch {
     res.writeHead(503);
     res.end('Service Unavailable');
   }
@@ -164,10 +166,17 @@ http.createServer((req, res) => {
 
 ### Health Check Endpoint (Express app)
 
-```javascript
+```typescript
 // Add to each app server
-app.get('/health', (req, res) => {
-  // Check DB, cache, or any critical dependency
+app.get('/health', (_req, res) => {
   res.status(200).json({ status: 'healthy', uptime: process.uptime() });
 });
+```
+
+## Related Patterns
+
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Remove failing instances from rotation automatically
+- [24 — Retry Pattern](./24-retry-pattern.md) — Per-request retry before declaring failure
+- [34 — Health Check](./34-health-check.md) — Load balancer routes based on health probe results
+- [15 — Bulkhead Pattern](./15-bulkhead-pattern.md) — Isolate resource pools per consumer type
 ```

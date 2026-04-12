@@ -79,26 +79,25 @@ graph TD
 
 ### Thread Pool Bulkhead (Node.js — using worker threads)
 
-```javascript
-// bulkhead/pool.js
-const { Worker } = require("worker_threads");
-const os = require("os");
+```typescript
+// bulkhead/pool.ts
+interface QueueEntry { resolve: () => void; reject: (err: Error) => void; }
 
-class BulkheadPool {
-  constructor(maxConcurrent, queueSize) {
-    this.maxConcurrent = maxConcurrent;
-    this.queueSize = queueSize;
-    this.activeCount = 0;
-    this.queue = [];
-  }
+export class BulkheadPool {
+  private activeCount = 0;
+  private queue: QueueEntry[] = [];
 
-  async execute(fn) {
+  constructor(
+    private readonly maxConcurrent: number,
+    private readonly queueSize: number,
+  ) {}
+
+  async execute<T>(fn: () => Promise<T>): Promise<T> {
     if (this.activeCount >= this.maxConcurrent) {
       if (this.queue.length >= this.queueSize) {
-        throw new Error("Bulkhead queue full — request rejected");
+        throw new Error('Bulkhead queue full — request rejected');
       }
-      // Queue the request
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         this.queue.push({ resolve, reject });
       });
     }
@@ -108,45 +107,35 @@ class BulkheadPool {
       return await fn();
     } finally {
       this.activeCount--;
-      if (this.queue.length > 0) {
-        const next = this.queue.shift();
-        next.resolve(); // Unblock next queued call
-      }
+      const next = this.queue.shift();
+      next?.resolve();
     }
   }
 }
 
 // Separate pools per downstream service
-const paymentPool = new BulkheadPool(10, 20); // Max 10 concurrent, queue 20
-const inventoryPool = new BulkheadPool(10, 20);
-const notificationPool = new BulkheadPool(5, 10);
-
-module.exports = { paymentPool, inventoryPool, notificationPool };
+export const paymentPool      = new BulkheadPool(10, 20);
+export const inventoryPool    = new BulkheadPool(10, 20);
+export const notificationPool = new BulkheadPool(5,  10);
 ```
 
 ### Usage with HTTP calls
 
-```javascript
-// services/payment.service.js
-const { paymentPool } = require("../bulkhead/pool");
-const axios = require("axios");
+```typescript
+// services/payment.service.ts
+import { paymentPool, inventoryPool } from '../bulkhead/pool';
+import axios from 'axios';
 
-async function processPayment(orderId, amount) {
+export async function processPayment(orderId: string, amount: number) {
   return paymentPool.execute(async () => {
-    const response = await axios.post("http://payment-service/pay", {
-      orderId,
-      amount,
-    });
+    const response = await axios.post('http://payment-service/pay', { orderId, amount });
     return response.data;
   });
 }
 
-async function callInventory(orderId, items) {
+export async function callInventory(orderId: string, items: unknown[]) {
   return inventoryPool.execute(async () => {
-    const response = await axios.post("http://inventory-service/reserve", {
-      orderId,
-      items,
-    });
+    const response = await axios.post('http://inventory-service/reserve', { orderId, items });
     return response.data;
   });
 }
@@ -154,25 +143,23 @@ async function callInventory(orderId, items) {
 
 ### Connection Pool Bulkhead (PostgreSQL per service)
 
-```javascript
-// db/pools.js
-const { Pool } = require("pg");
+```typescript
+// db/pools.ts
+import { Pool } from 'pg';
 
 // Dedicated connection pools per domain — not one shared pool
-const orderPool = new Pool({
+export const orderPool = new Pool({
   connectionString: process.env.ORDER_DB_URL,
-  max: 20, // Dedicated 20 connections for order operations
-  idleTimeoutMillis: 30000,
+  max: 20,               // Dedicated 20 connections for order operations
+  idleTimeoutMillis: 30_000,
 });
 
-const reportPool = new Pool({
+export const reportPool = new Pool({
   connectionString: process.env.REPORT_DB_URL,
-  max: 5, // Reports get fewer connections — lower priority
-  idleTimeoutMillis: 60000,
-  connectionTimeoutMillis: 3000,
+  max: 5,                // Reports get fewer connections — lower priority
+  idleTimeoutMillis: 60_000,
+  connectionTimeoutMillis: 3_000,
 });
-
-module.exports = { orderPool, reportPool };
 ```
 
 ### Combining Bulkhead + Circuit Breaker
@@ -196,3 +183,9 @@ export async function resilientCall<T>(
   return pool.execute(() => breaker.execute(fn, fallback));
 }
 ```
+
+## Related Patterns
+
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Fail-fast complement to bulkhead's concurrency isolation
+- [24 — Retry Pattern](./24-retry-pattern.md) — Combine all three (retry + CB + bulkhead) for defence-in-depth resilience
+- [10 — Load Balancing](./10-load-balancing.md) — Load balancer distributes across instances; bulkhead isolates within an instance

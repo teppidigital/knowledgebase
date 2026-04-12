@@ -84,43 +84,41 @@ CREATE INDEX idx_outbox_status ON outbox (status, created_at);
 
 ### Application — Atomic write (Node.js / PostgreSQL)
 
-```javascript
-// services/order.service.js
-const { Pool } = require("pg");
+```typescript
+// services/order.service.ts
+import { Pool } from 'pg';
+
 const db = new Pool({ connectionString: process.env.DATABASE_URL });
 
-async function placeOrder(userId, items) {
+interface OrderItem { productId: string; qty: number; }
+
+export async function placeOrder(userId: string, items: OrderItem[]): Promise<number> {
   const client = await db.connect();
   try {
-    await client.query("BEGIN");
+    await client.query('BEGIN');
 
     // 1. Insert business data
     const { rows } = await client.query(
-      "INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING id",
-      [userId, "PENDING"],
+      'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING id',
+      [userId, 'PENDING'],
     );
-    const orderId = rows[0].id;
+    const orderId: number = rows[0].id;
 
     // 2. Insert event into outbox — same transaction!
     await client.query(
       `INSERT INTO outbox (event_type, aggregate_id, payload)
        VALUES ($1, $2, $3)`,
       [
-        "OrderPlaced",
+        'OrderPlaced',
         orderId,
-        JSON.stringify({
-          orderId,
-          userId,
-          items,
-          timestamp: new Date().toISOString(),
-        }),
+        JSON.stringify({ orderId, userId, items, timestamp: new Date().toISOString() }),
       ],
     );
 
-    await client.query("COMMIT");
+    await client.query('COMMIT');
     return orderId;
   } catch (err) {
-    await client.query("ROLLBACK");
+    await client.query('ROLLBACK');
     throw err;
   } finally {
     client.release();
@@ -130,27 +128,26 @@ async function placeOrder(userId, items) {
 
 ### Message Relay (polling-based)
 
-```javascript
-// relay/message-relay.js
-const { Kafka } = require("kafkajs");
-const { Pool } = require("pg");
+```typescript
+// relay/message-relay.ts
+import { Kafka } from 'kafkajs';
+import { Pool } from 'pg';
 
-const db = new Pool({ connectionString: process.env.DATABASE_URL });
-const kafka = new Kafka({ brokers: ["kafka:9092"] });
+const db       = new Pool({ connectionString: process.env.DATABASE_URL });
+const kafka    = new Kafka({ brokers: ['kafka:9092'] });
 const producer = kafka.producer();
 
 const POLL_INTERVAL_MS = 500;
-const BATCH_SIZE = 100;
+const BATCH_SIZE       = 100;
 
-async function relay() {
+async function relay(): Promise<void> {
   await producer.connect();
 
   setInterval(async () => {
     const client = await db.connect();
     try {
-      await client.query("BEGIN");
+      await client.query('BEGIN');
 
-      // Fetch and lock pending events
       const { rows } = await client.query(
         `SELECT * FROM outbox WHERE status = 'PENDING'
          ORDER BY created_at ASC LIMIT $1
@@ -158,30 +155,35 @@ async function relay() {
         [BATCH_SIZE],
       );
 
-      if (rows.length === 0) {
-        await client.query("ROLLBACK");
-        return;
-      }
+      if (rows.length === 0) { await client.query('ROLLBACK'); return; }
 
-      // Publish to Kafka
       await producer.send({
-        topic: "domain-events",
-        messages: rows.map((row) => ({
-          key: row.aggregate_id,
-          value: JSON.stringify({
-            eventType: row.event_type,
-            payload: row.payload,
-          }),
-          headers: { eventId: row.id },
+        topic: 'domain-events',
+        messages: rows.map(row => ({
+          key:   row.aggregate_id as string,
+          value: JSON.stringify({ eventType: row.event_type, payload: row.payload }),
+          headers: { eventId: String(row.id) },
         })),
       });
 
-      // Mark as sent
-      const ids = rows.map((r) => r.id);
+      const ids = rows.map(r => r.id as number);
       await client.query(
         `UPDATE outbox SET status = 'SENT', sent_at = NOW() WHERE id = ANY($1)`,
         [ids],
       );
+
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      console.error('Relay error:', err);
+    } finally {
+      client.release();
+    }
+  }, POLL_INTERVAL_MS);
+}
+
+relay().catch(console.error);
+```
 
       await client.query("COMMIT");
     } catch (err) {
@@ -204,3 +206,10 @@ DELETE FROM outbox
 WHERE status = 'SENT'
   AND sent_at < NOW() - INTERVAL '7 days';
 ```
+
+## Related Patterns
+
+- [28 — Change Data Capture](./28-change-data-capture.md) — CDC (Debezium) is an alternative relay mechanism that reads the DB WAL
+- [17 — Publish-Subscribe](./17-publish-subscribe.md) — The message broker the outbox publishes to
+- [06 — Saga Pattern](./06-saga-pattern.md) — Each saga step can use the outbox for reliable event emission
+- [27 — Two-Phase Commit](./27-two-phase-commit.md) — 2PC is the alternative; outbox avoids its blocking trade-offs

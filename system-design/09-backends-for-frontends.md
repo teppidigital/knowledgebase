@@ -72,15 +72,16 @@ graph TD
 
 ### Web BFF — Dashboard aggregation (Node.js / Express)
 
-```javascript
-// web-bff/src/routes/dashboard.js
-const express = require('express');
-const axios = require('axios');
-const router = express.Router();
+```typescript
+// web-bff/src/routes/dashboard.ts
+import { Router } from 'express';
+import axios from 'axios';
+
+const router = Router();
 
 // Web needs full dashboard data in one request
 router.get('/dashboard', async (req, res) => {
-  const userId = req.user.id;
+  const userId = (req as typeof req & { user: { id: string } }).user.id;
 
   const [user, recentOrders, recommendations, notifications] = await Promise.all([
     axios.get(`http://user-service/users/${userId}`),
@@ -91,27 +92,30 @@ router.get('/dashboard', async (req, res) => {
 
   // Compose full web dashboard payload
   res.json({
-    user: user.data,
-    recentOrders: recentOrders.data,
-    recommendations: recommendations.data,
-    unreadNotifications: notifications.data,
+    user:                 user.data,
+    recentOrders:         recentOrders.data,
+    recommendations:      recommendations.data,
+    unreadNotifications:  notifications.data,
   });
 });
 
-module.exports = router;
+export default router;
 ```
 
 ### Mobile BFF — Lightweight response (Node.js / Express)
 
-```javascript
-// mobile-bff/src/routes/home.js
-const express = require('express');
-const axios = require('axios');
-const router = express.Router();
+```typescript
+// mobile-bff/src/routes/home.ts
+import { Router } from 'express';
+import axios from 'axios';
+
+const router = Router();
+
+interface OrderSummaryRaw { id: number; status: string; itemCount: number; }
 
 // Mobile needs a minimal payload to save bandwidth and battery
 router.get('/home', async (req, res) => {
-  const userId = req.user.id;
+  const userId = (req as typeof req & { user: { id: string } }).user.id;
 
   const [user, orders] = await Promise.all([
     axios.get(`http://user-service/users/${userId}`),
@@ -120,17 +124,17 @@ router.get('/home', async (req, res) => {
 
   // Light response: only fields the mobile app needs
   res.json({
-    name: user.data.firstName,
-    avatarUrl: user.data.avatarUrl,
-    activeOrders: orders.data.map(o => ({
-      id: o.id,
-      status: o.status,
-      summary: o.itemCount + ' item(s)',
+    name:         user.data.firstName,
+    avatarUrl:    user.data.avatarUrl,
+    activeOrders: (orders.data as OrderSummaryRaw[]).map(o => ({
+      id:      o.id,
+      status:  o.status,
+      summary: `${o.itemCount} item(s)`,
     })),
   });
 });
 
-module.exports = router;
+export default router;
 ```
 
 ### TypeScript BFF with type-safe contracts
@@ -164,3 +168,9 @@ export async function buildDashboard(userId: string): Promise<DashboardResponse>
   };
 }
 ```
+
+## Related Patterns
+
+- [07 — API Gateway](./07-api-gateway.md) — Generic single entry point; BFF is a per-client specialisation of this
+- [01 — Microservices](./01-microservices.md) — BFF aggregates multiple microservices into a client-optimised interface
+- [26 — Service Mesh](./26-service-mesh.md) — Handles service-to-service communication behind the BFF

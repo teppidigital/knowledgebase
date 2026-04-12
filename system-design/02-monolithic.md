@@ -59,14 +59,18 @@ graph TD
 
 ### Monolithic Express Application (Node.js)
 
-```javascript
-// app.js — single entry point for the entire application
-const express = require('express');
-const { Pool } = require('pg');
+```typescript
+// app.ts — single entry point for the entire application
+import express from 'express';
+import { Pool } from 'pg';
+
 const app = express();
 app.use(express.json());
 
 const db = new Pool({ connectionString: process.env.DATABASE_URL });
+
+interface OrderBody { userId: number; items: Array<{ productId: number; qty: number }>; }
+interface PaymentBody { orderId: number; amount: number; }
 
 // --- User Module ---
 app.get('/users/:id', async (req, res) => {
@@ -76,26 +80,26 @@ app.get('/users/:id', async (req, res) => {
 
 // --- Order Module ---
 app.post('/orders', async (req, res) => {
-  const { userId, items } = req.body;
+  const { userId, items } = req.body as OrderBody;
   const client = await db.connect();
   try {
     await client.query('BEGIN');
     const { rows } = await client.query(
       'INSERT INTO orders (user_id, status) VALUES ($1, $2) RETURNING id',
-      [userId, 'PENDING']
+      [userId, 'PENDING'],
     );
-    const orderId = rows[0].id;
+    const orderId: number = rows[0].id;
     for (const item of items) {
       await client.query(
         'INSERT INTO order_items (order_id, product_id, qty) VALUES ($1, $2, $3)',
-        [orderId, item.productId, item.qty]
+        [orderId, item.productId, item.qty],
       );
     }
     await client.query('COMMIT');
     res.status(201).json({ orderId });
   } catch (err) {
     await client.query('ROLLBACK');
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: (err as Error).message });
   } finally {
     client.release();
   }
@@ -103,10 +107,10 @@ app.post('/orders', async (req, res) => {
 
 // --- Payment Module ---
 app.post('/payments', async (req, res) => {
-  const { orderId, amount } = req.body;
+  const { orderId, amount } = req.body as PaymentBody;
   await db.query(
     'INSERT INTO payments (order_id, amount, status) VALUES ($1, $2, $3)',
-    [orderId, amount, 'COMPLETED']
+    [orderId, amount, 'COMPLETED'],
   );
   res.status(201).json({ message: 'Payment recorded' });
 });
@@ -125,3 +129,8 @@ COPY . .
 EXPOSE 3000
 CMD ["node", "app.js"]
 ```
+
+## Related Patterns
+
+- [01 — Microservices](./01-microservices.md) — Decompose when the monolith becomes too complex to scale or change
+- [08 — Strangler Fig](./08-strangler-fig.md) — Incremental migration path from monolith to microservices

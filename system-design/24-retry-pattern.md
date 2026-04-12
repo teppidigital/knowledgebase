@@ -155,50 +155,52 @@ export async function processPayment(orderId: string, amount: number) {
 
 ### Using `axios-retry` library
 
-```javascript
-// http/axios-client.js
-const axios = require("axios");
-const axiosRetry = require("axios-retry").default;
+```typescript
+// http/axios-client.ts
+import axios from 'axios';
+import axiosRetry from 'axios-retry';
 
-const client = axios.create({ timeout: 5000 });
+const client = axios.create({ timeout: 5_000 });
 
 axiosRetry(client, {
-  retries: 3,
-  retryDelay: axiosRetry.exponentialDelay,
-  retryCondition: (error) => {
-    return (
-      axiosRetry.isNetworkError(error) ||
-      axiosRetry.isRetryableError(error) ||
-      error.response?.status === 429
-    );
-  },
+  retries:        3,
+  retryDelay:     axiosRetry.exponentialDelay,
+  retryCondition: (error) =>
+    axiosRetry.isNetworkError(error) ||
+    axiosRetry.isRetryableError(error) ||
+    error.response?.status === 429,
   onRetry: (retryCount, error) => {
     console.warn(`Retry attempt #${retryCount}: ${error.message}`);
   },
 });
 
-module.exports = client;
+export default client;
 ```
 
 ### Idempotency Key (safe retries for non-idempotent operations)
 
-```javascript
+```typescript
 // Attach an idempotency key to prevent duplicate side effects on retry
-const { v4: uuidv4 } = require("uuid");
+import axios from 'axios';
 
-async function createPaymentSafely(orderId, amount) {
+declare function withRetry<T>(fn: () => Promise<T>, opts: unknown): Promise<T>;
+
+export async function createPaymentSafely(orderId: string, amount: number) {
   const idempotencyKey = `payment-${orderId}`; // Stable key per business operation
 
   return withRetry(
-    () =>
-      axios.post(
-        "http://payment-service/pay",
-        { orderId, amount },
-        {
-          headers: { "Idempotency-Key": idempotencyKey },
-        },
-      ),
-    { maxAttempts: 3, baseDelayMs: 500, maxDelayMs: 5000 },
+    () => axios.post(
+      'http://payment-service/pay',
+      { orderId, amount },
+      { headers: { 'Idempotency-Key': idempotencyKey } },
+    ),
+    { maxAttempts: 3, baseDelayMs: 500, maxDelayMs: 5_000 },
   );
 }
 ```
+
+## Related Patterns
+
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Wrap retries with a circuit breaker: stop retrying when the circuit opens
+- [30 — Dead Letter Queue](./30-dead-letter-queue.md) — Route messages that exceed max retry attempts to a DLQ
+- [15 — Bulkhead Pattern](./15-bulkhead-pattern.md) — Combine for full defence-in-depth: bulkhead + CB + retry

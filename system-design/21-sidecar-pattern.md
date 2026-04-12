@@ -152,32 +152,37 @@ spec:
 
 ### Sidecar Proxy Pattern (Node.js example)
 
-```javascript
-// sidecar-proxy.js — A lightweight proxy that adds auth header and logging
-const http = require('http');
-const httpProxy = require('http-proxy');
+```typescript
+// sidecar-proxy.ts — A lightweight proxy that adds auth header and logging
+import http from 'http';
+import httpProxy from 'http-proxy';
 
 const proxy = httpProxy.createProxyServer({ target: 'http://localhost:3000' });
 
 http.createServer((req, res) => {
-  // Add observability
   const start = Date.now();
 
   // Add auth header from secret store
   req.headers['x-internal-token'] = process.env.INTERNAL_TOKEN;
 
-  proxy.web(req, res, {}, (err) => {
+  proxy.web(req, res, {}, () => {
     res.writeHead(502);
     res.end('Bad Gateway');
   });
 
   res.on('finish', () => {
     console.log(JSON.stringify({
-      method: req.method,
-      path: req.url,
-      status: res.statusCode,
+      method:   req.method,
+      path:     req.url,
+      status:   res.statusCode,
       duration: Date.now() - start,
     }));
   });
 }).listen(8080, () => console.log('Sidecar proxy on port 8080'));
 ```
+
+## Related Patterns
+
+- [26 — Service Mesh](./26-service-mesh.md) — Service mesh is a network of sidecars managed by a control plane
+- [29 — Ambassador Pattern](./29-ambassador-pattern.md) — Outbound-focused sidecar variant for egress proxy logic
+- [07 — API Gateway](./07-api-gateway.md) — North-south (external) inbound equivalent of the sidecar's east-west role

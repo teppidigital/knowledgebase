@@ -193,3 +193,9 @@ if (success) {
   console.log('Distributed transaction aborted — all participants rolled back');
 }
 ```
+
+## Related Patterns
+
+- [06 — Saga Pattern](./06-saga-pattern.md) — Preferred alternative; choreography or orchestration without blocking locks
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Local transaction + outbox avoids 2PC entirely
+- [28 — Change Data Capture](./28-change-data-capture.md) — CDC can synchronise state across services after a 2PC commit

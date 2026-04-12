@@ -191,3 +191,9 @@ async function analyzeCanary() {
 
 setInterval(analyzeCanary, 60_000); // Check every minute
 ```
+
+## Related Patterns
+
+- [19 — Blue-Green Deployment](./19-blue-green-deployment.md) — Instant full-traffic switch alternative to canary's gradual rollout
+- [25 — Feature Flags](./25-feature-flags.md) — Control feature exposure at the user level without traffic splitting
+- [10 — Load Balancing](./10-load-balancing.md) — Weighted routing between stable and canary instances

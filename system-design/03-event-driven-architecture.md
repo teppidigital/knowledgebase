@@ -60,14 +60,16 @@ sequenceDiagram
 
 ### Producer — Order Service (Node.js / KafkaJS)
 
-```javascript
-// order-service/producer.js
-const { Kafka } = require('kafkajs');
+```typescript
+// order-service/producer.ts
+import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({ clientId: 'order-service', brokers: ['kafka:9092'] });
 const producer = kafka.producer();
 
-async function publishOrderPlaced(order) {
+interface Order { id: number; [key: string]: unknown; }
+
+export async function publishOrderPlaced(order: Order): Promise<void> {
   await producer.connect();
   await producer.send({
     topic: 'order.placed',
@@ -83,29 +85,30 @@ async function publishOrderPlaced(order) {
     ],
   });
 }
-
-module.exports = { publishOrderPlaced };
 ```
 
 ### Consumer — Payment Service (Node.js / KafkaJS)
 
-```javascript
-// payment-service/consumer.js
-const { Kafka } = require('kafkajs');
+```typescript
+// payment-service/consumer.ts
+import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({ clientId: 'payment-service', brokers: ['kafka:9092'] });
 const consumer = kafka.consumer({ groupId: 'payment-service-group' });
 
-async function startConsumer() {
+interface OrderEvent { eventType: string; payload: { id: number } }
+
+declare function publishPaymentProcessed(orderId: number): Promise<void>;
+
+async function startConsumer(): Promise<void> {
   await consumer.connect();
   await consumer.subscribe({ topic: 'order.placed', fromBeginning: false });
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      const event = JSON.parse(message.value.toString());
+    eachMessage: async ({ message }) => {
+      const event = JSON.parse(message.value!.toString()) as OrderEvent;
       if (event.eventType === 'OrderPlaced') {
         console.log(`Processing payment for order: ${event.payload.id}`);
-        // Process payment logic here
         await publishPaymentProcessed(event.payload.id);
       }
     },
@@ -117,10 +120,11 @@ startConsumer().catch(console.error);
 
 ### Idempotent Consumer (preventing duplicate processing)
 
-```javascript
-const processedEvents = new Set(); // Use Redis in production
+```typescript
+// Idempotency guard — use Redis in production
+const processedEvents = new Set<string>();
 
-async function eachMessage({ message }) {
+async function eachMessage({ message }: { message: { key: Buffer; value: Buffer | null } }): Promise<void> {
   const eventId = message.key.toString();
   if (processedEvents.has(eventId)) {
     console.log(`Skipping duplicate event: ${eventId}`);
@@ -130,3 +134,11 @@ async function eachMessage({ message }) {
   // Process the event
 }
 ```
+
+## Related Patterns
+
+- [05 — Event Sourcing](./05-event-sourcing.md) — Use the event log itself as the write model
+- [04 — CQRS](./04-cqrs.md) — Events drive separate read model projections
+- [17 — Publish-Subscribe](./17-publish-subscribe.md) — Fan-out transport mechanism for events
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Guarantee reliable event publication
+- [30 — Dead Letter Queue](./30-dead-letter-queue.md) — Handle event processing failures safely

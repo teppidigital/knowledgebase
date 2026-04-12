@@ -138,12 +138,29 @@ flowchart TD
     Start --> Deploy{Deployment risk?}
     Start --> Architecture{Architecture design?}
 
-    Scale --> LB["Load Balancing<br/>Database Sharding<br/>Read Replicas<br/>Caching<br/>CDN"]
-    Reliability --> CB["Circuit Breaker<br/>Retry Pattern<br/>Bulkhead<br/>DLQ<br/>Health Check"]
-    Data --> DM["Event Sourcing<br/>CQRS<br/>Outbox<br/>Database per Service<br/>CDC"]
-    Deploy --> DP["Blue-Green<br/>Canary<br/>Feature Flags"]
-    Architecture --> AR["Microservices<br/>Event-Driven<br/>Saga<br/>API Gateway<br/>BFF<br/>Service Mesh"]
+    Scale     --> LB["10 Load Balancing\n11 Database Sharding\n12 Caching Patterns\n22 Read Replicas\n23 CDN"]
+    Reliability --> CB["13 Circuit Breaker\n15 Bulkhead\n24 Retry\n30 DLQ\n34 Health Check"]
+    Data      --> DM["04 CQRS\n05 Event Sourcing\n16 Outbox\n28 CDC\n31 DB per Service"]
+    Deploy    --> DP["19 Blue-Green\n20 Canary\n25 Feature Flags"]
+    Architecture --> AR["01 Microservices\n03 Event-Driven\n06 Saga\n07 API Gateway\n09 BFF\n26 Service Mesh"]
 ```
+
+### Quick-pick reference
+
+| Challenge | Start here | Then consider |
+|-----------|-----------|---------------|
+| "Break up a monolith" | [08 — Strangler Fig](./08-strangler-fig.md) | [32 — Anti-Corruption Layer](./32-anti-corruption-layer.md) → [01 — Microservices](./01-microservices.md) |
+| "Distributed transaction across services" | [06 — Saga](./06-saga-pattern.md) + [16 — Outbox](./16-outbox-pattern.md) | Avoid [27 — Two-Phase Commit](./27-two-phase-commit.md) in most cases |
+| "Read performance is the bottleneck" | [12 — Caching](./12-caching-patterns.md) → [22 — Read Replicas](./22-read-replicas.md) | [04 — CQRS](./04-cqrs.md) for full read/write split |
+| "A downstream service causes failures" | [13 — Circuit Breaker](./13-circuit-breaker.md) | [15 — Bulkhead](./15-bulkhead-pattern.md), [24 — Retry](./24-retry-pattern.md) |
+| "Need full audit trail / time travel" | [05 — Event Sourcing](./05-event-sourcing.md) | [33 — CQRS + Event Sourcing](./33-cqrs-event-sourcing-combined.md) |
+| "Zero-downtime deployment" | [19 — Blue-Green](./19-blue-green-deployment.md) or [20 — Canary](./20-canary-deployment.md) | [25 — Feature Flags](./25-feature-flags.md) to decouple release |
+| "Guaranteed event delivery" | [16 — Outbox](./16-outbox-pattern.md) (producer) | [30 — DLQ](./30-dead-letter-queue.md) (consumer) |
+| "Service-to-service mTLS / observability" | [26 — Service Mesh](./26-service-mesh.md) | [21 — Sidecar](./21-sidecar-pattern.md) for lightweight alternative |
+| "Scale reads only (no schema change)" | [22 — Read Replicas](./22-read-replicas.md) | [12 — Caching](./12-caching-patterns.md) in front of replicas |
+| "Scale both reads and writes" | [11 — Sharding](./11-database-sharding.md) | [31 — DB per Service](./31-database-per-service.md) at service boundaries |
+| "Decouple frontend from services" | [07 — API Gateway](./07-api-gateway.md) | [09 — BFF](./09-backends-for-frontends.md) per client type |
+| "Real-time data sync without shared DB" | [28 — CDC](./28-change-data-capture.md) | [17 — Pub-Sub](./17-publish-subscribe.md) for fan-out to consumers |
 
 ---
 

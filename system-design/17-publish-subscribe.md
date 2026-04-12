@@ -59,24 +59,26 @@ graph TD
 
 ### Publisher (Node.js / Kafka)
 
-```javascript
-// publisher/order.publisher.js
-const { Kafka } = require('kafkajs');
+```typescript
+// publisher/order.publisher.ts
+import { Kafka } from 'kafkajs';
 
-const kafka = new Kafka({ clientId: 'order-service', brokers: ['kafka:9092'] });
+const kafka    = new Kafka({ clientId: 'order-service', brokers: ['kafka:9092'] });
 const producer = kafka.producer();
 
-async function publishOrderPlaced(order) {
+interface Order { id: string; userId: string; total: number; }
+
+export async function publishOrderPlaced(order: Order): Promise<void> {
   await producer.send({
     topic: 'order.placed',
     messages: [
       {
         key: order.id,
         value: JSON.stringify({
-          eventId: crypto.randomUUID(),
+          eventId:   crypto.randomUUID(),
           eventType: 'OrderPlaced',
           timestamp: new Date().toISOString(),
-          data: order,
+          data:      order,
         }),
       },
     ],
@@ -85,27 +87,30 @@ async function publishOrderPlaced(order) {
 
 (async () => {
   await producer.connect();
-  // Simulate publishing
   await publishOrderPlaced({ id: 'order-1', userId: 'user-42', total: 99.99 });
 })();
 ```
 
 ### Subscriber — Payment Service (Node.js / Kafka)
 
-```javascript
-// subscribers/payment.subscriber.js
-const { Kafka } = require('kafkajs');
+```typescript
+// subscribers/payment.subscriber.ts
+import { Kafka } from 'kafkajs';
 
-const kafka = new Kafka({ clientId: 'payment-service', brokers: ['kafka:9092'] });
+const kafka    = new Kafka({ clientId: 'payment-service', brokers: ['kafka:9092'] });
 const consumer = kafka.consumer({ groupId: 'payment-service-group' });
+
+interface OrderEvent { eventType: string; data: { id: string } }
+
+declare function processPayment(data: { id: string }): Promise<void>;
 
 (async () => {
   await consumer.connect();
   await consumer.subscribe({ topic: 'order.placed', fromBeginning: false });
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      const event = JSON.parse(message.value.toString());
+    eachMessage: async ({ message }) => {
+      const event = JSON.parse(message.value!.toString()) as OrderEvent;
       console.log(`[Payment] Processing: ${event.eventType} for order ${event.data.id}`);
       await processPayment(event.data);
     },
@@ -115,9 +120,14 @@ const consumer = kafka.consumer({ groupId: 'payment-service-group' });
 
 ### Subscriber — Notification Service (separate consumer group)
 
-```javascript
-// subscribers/notification.subscriber.js
+```typescript
+// subscribers/notification.subscriber.ts
+import { Kafka } from 'kafkajs';
+
+const kafka    = new Kafka({ clientId: 'notification-service', brokers: ['kafka:9092'] });
 const consumer = kafka.consumer({ groupId: 'notification-service-group' });
+
+declare function sendOrderConfirmationEmail(data: { id: string }): Promise<void>;
 
 (async () => {
   await consumer.connect();
@@ -125,7 +135,7 @@ const consumer = kafka.consumer({ groupId: 'notification-service-group' });
 
   await consumer.run({
     eachMessage: async ({ message }) => {
-      const event = JSON.parse(message.value.toString());
+      const event = JSON.parse(message.value!.toString()) as OrderEvent;
       console.log(`[Notification] Sending email for order: ${event.data.id}`);
       await sendOrderConfirmationEmail(event.data);
     },
@@ -163,3 +173,10 @@ export class PubSubStack extends cdk.Stack {
   }
 }
 ```
+
+## Related Patterns
+
+- [18 — Message Queue](./18-message-queue.md) — Point-to-point queue for work distribution vs pub-sub's fan-out
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Reliable publication into the pub-sub broker
+- [30 — Dead Letter Queue](./30-dead-letter-queue.md) — Handle failed subscriber deliveries
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — Pub-sub is the primary transport in EDA

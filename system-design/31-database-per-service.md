@@ -167,3 +167,10 @@ services:
   product-db:
     image: mongo:7
 ```
+
+## Related Patterns
+
+- [01 — Microservices](./01-microservices.md) — Database-per-service is a core tenet of the microservices pattern
+- [06 — Saga Pattern](./06-saga-pattern.md) — Saga manages distributed transactions that span multiple service databases
+- [28 — Change Data Capture](./28-change-data-capture.md) — CDC propagates state changes across services without shared databases
+- [11 — Database Sharding](./11-database-sharding.md) — Shard within a service's own database for further horizontal scale

@@ -223,3 +223,11 @@ CREATE TABLE events (
 
 CREATE INDEX idx_events_aggregate_id ON events (aggregate_id);
 ```
+
+## Related Patterns
+
+- [04 — CQRS](./04-cqrs.md) — Event Sourcing is the write model; CQRS builds the read projections
+- [33 — CQRS + Event Sourcing Combined](./33-cqrs-event-sourcing-combined.md) — The canonical combined pattern
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Outbox + CDC is an alternative to event sourcing for simpler systems
+- [28 — Change Data Capture](./28-change-data-capture.md) — CDC can drive projections from relational stores
+```

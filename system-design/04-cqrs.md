@@ -170,3 +170,10 @@ router.get('/:id/summary', async (req, res) => {
 
 export default router;
 ```
+
+## Related Patterns
+
+- [05 — Event Sourcing](./05-event-sourcing.md) — Event log as the write model; events drive projections
+- [33 — CQRS + Event Sourcing Combined](./33-cqrs-event-sourcing-combined.md) — Full pattern combining both
+- [22 — Read Replicas](./22-read-replicas.md) — Simpler alternative for read scaling without separate model
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — Events propagate from write side to read side

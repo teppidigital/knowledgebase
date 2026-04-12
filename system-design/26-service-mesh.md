@@ -188,3 +188,10 @@ kubectl get deploy order-service -o yaml | \
 # View real-time metrics
 linkerd viz dashboard
 ```
+
+## Related Patterns
+
+- [21 — Sidecar Pattern](./21-sidecar-pattern.md) — Service mesh is implemented via a fleet of coordinated sidecar proxies
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Mesh control planes (Istio, Linkerd) provide built-in circuit breaking at the proxy level
+- [07 — API Gateway](./07-api-gateway.md) — Gateway handles north-south ingress; mesh handles east-west service-to-service traffic
+- [29 — Ambassador Pattern](./29-ambassador-pattern.md) — Ambassador is a lightweight per-service alternative to a full mesh

@@ -92,35 +92,42 @@ resource "aws_cloudwatch_metric_alarm" "dlq_alarm" {
 
 ### Consumer with proper DLQ behavior (Node.js / AWS SDK)
 
-```javascript
-// consumer/order-processor.js
-const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand, ChangeMessageVisibilityCommand } = require('@aws-sdk/client-sqs');
+```typescript
+// consumer/order-processor.ts
+import {
+  SQSClient,
+  ReceiveMessageCommand,
+  DeleteMessageCommand,
+} from '@aws-sdk/client-sqs';
 
-const sqs = new SQSClient({ region: 'us-east-1' });
-const QUEUE_URL = process.env.ORDER_QUEUE_URL;
+const sqs       = new SQSClient({ region: 'us-east-1' });
+const QUEUE_URL = process.env.ORDER_QUEUE_URL!;
 
-async function processMessages() {
-  while (true) {
+interface Order { id: string; [key: string]: unknown; }
+
+declare function processOrder(order: Order): Promise<void>;
+
+async function processMessages(): Promise<void> {
+  for (;;) {
     const { Messages = [] } = await sqs.send(new ReceiveMessageCommand({
-      QueueUrl: QUEUE_URL,
+      QueueUrl:            QUEUE_URL,
       MaxNumberOfMessages: 10,
-      WaitTimeSeconds: 20,
+      WaitTimeSeconds:     20,
     }));
 
     for (const msg of Messages) {
       try {
-        const order = JSON.parse(msg.Body);
+        const order = JSON.parse(msg.Body!) as Order;
         await processOrder(order);
 
         // Success: delete from queue
         await sqs.send(new DeleteMessageCommand({
-          QueueUrl: QUEUE_URL,
-          ReceiptHandle: msg.ReceiptHandle,
+          QueueUrl:      QUEUE_URL,
+          ReceiptHandle: msg.ReceiptHandle!,
         }));
       } catch (err) {
-        console.error(`Failed to process message ${msg.MessageId}:`, err.message);
+        console.error(`Failed to process message ${msg.MessageId}:`, (err as Error).message);
         // Do NOT delete — SQS will retry and eventually move to DLQ
-        // Optionally extend visibility timeout to avoid immediate re-delivery
       }
     }
   }
@@ -129,13 +136,13 @@ async function processMessages() {
 
 ### RabbitMQ DLQ Setup (Node.js / amqplib)
 
-```javascript
-// rabbitmq/setup.js
-const amqp = require('amqplib');
+```typescript
+// rabbitmq/setup.ts
+import amqp from 'amqplib';
 
-async function setupQueues() {
-  const connection = await amqp.connect(process.env.RABBITMQ_URL);
-  const channel = await connection.createChannel();
+export async function setupQueues(): Promise<void> {
+  const connection = await amqp.connect(process.env.RABBITMQ_URL!);
+  const channel    = await connection.createChannel();
 
   // 1. Create DLQ first
   await channel.assertQueue('order-processing-dlq', { durable: true });
@@ -148,9 +155,9 @@ async function setupQueues() {
   await channel.assertQueue('order-processing', {
     durable: true,
     arguments: {
-      'x-dead-letter-exchange': 'order-dlx',
+      'x-dead-letter-exchange':    'order-dlx',
       'x-dead-letter-routing-key': 'order-processing',
-      'x-message-ttl': 30000,          // Optional: move to DLQ after 30s if unprocessed
+      'x-message-ttl':             30_000, // Move to DLQ after 30 s if unprocessed
     },
   });
 
@@ -160,21 +167,25 @@ async function setupQueues() {
 
 ### DLQ Message Replay Script
 
-```javascript
-// scripts/replay-dlq.js
-// Move messages from DLQ back to main queue for reprocessing
-const { SQSClient, ReceiveMessageCommand, SendMessageCommand, DeleteMessageCommand } = require('@aws-sdk/client-sqs');
-const sqs = new SQSClient({ region: 'us-east-1' });
+```typescript
+// scripts/replay-dlq.ts
+import {
+  SQSClient,
+  ReceiveMessageCommand,
+  SendMessageCommand,
+  DeleteMessageCommand,
+} from '@aws-sdk/client-sqs';
 
-const DLQ_URL = process.env.DLQ_URL;
-const MAIN_QUEUE_URL = process.env.MAIN_QUEUE_URL;
+const sqs           = new SQSClient({ region: 'us-east-1' });
+const DLQ_URL       = process.env.DLQ_URL!;
+const MAIN_QUEUE_URL = process.env.MAIN_QUEUE_URL!;
 
-async function replayDLQ(limit = 100) {
+export async function replayDLQ(limit = 100): Promise<void> {
   let replayed = 0;
 
   while (replayed < limit) {
     const { Messages = [] } = await sqs.send(new ReceiveMessageCommand({
-      QueueUrl: DLQ_URL,
+      QueueUrl:            DLQ_URL,
       MaxNumberOfMessages: 10,
     }));
 
@@ -182,14 +193,14 @@ async function replayDLQ(limit = 100) {
 
     for (const msg of Messages) {
       await sqs.send(new SendMessageCommand({
-        QueueUrl: MAIN_QUEUE_URL,
-        MessageBody: msg.Body,
+        QueueUrl:          MAIN_QUEUE_URL,
+        MessageBody:       msg.Body!,
         MessageAttributes: msg.MessageAttributes ?? {},
       }));
 
       await sqs.send(new DeleteMessageCommand({
-        QueueUrl: DLQ_URL,
-        ReceiptHandle: msg.ReceiptHandle,
+        QueueUrl:      DLQ_URL,
+        ReceiptHandle: msg.ReceiptHandle!,
       }));
 
       replayed++;
@@ -202,3 +213,9 @@ async function replayDLQ(limit = 100) {
 
 replayDLQ().catch(console.error);
 ```
+
+## Related Patterns
+
+- [18 — Message Queue](./18-message-queue.md) — The primary queue that feeds the DLQ on exhausted retries
+- [17 — Publish-Subscribe](./17-publish-subscribe.md) — Subscriber failures route to a DLQ to avoid blocking the topic
+- [24 — Retry Pattern](./24-retry-pattern.md) — DLQ is the terminal destination when max retries are exceeded

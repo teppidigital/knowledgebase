@@ -64,21 +64,22 @@ graph TD
 
 ### Cache-Control Headers (Express.js)
 
-```javascript
-// middleware/cache-headers.js
-const express = require('express');
-const path = require('path');
+```typescript
+// middleware/cache-headers.ts
+import express from 'express';
+import path from 'path';
+
 const app = express();
 
 // Static assets — aggressive caching (fingerprinted filenames)
 app.use('/static', express.static(path.join(__dirname, 'public'), {
-  maxAge: '1y',             // Cache for 1 year (use filename hashing for cache busting)
-  immutable: true,          // Content will never change at this URL
-  etag: false,
+  maxAge:    '1y',   // Cache for 1 year (use filename hashing for cache busting)
+  immutable: true,   // Content will never change at this URL
+  etag:      false,
 }));
 
 // HTML pages — short TTL, allow stale while revalidate
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=60, stale-while-revalidate=300');
   res.send('<html>...</html>');
 });
@@ -90,7 +91,7 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 // CDN-cacheable API endpoint (same for all users)
-app.get('/api/products', (req, res) => {
+app.get('/api/products', (_req, res) => {
   res.setHeader('Cache-Control', 'public, max-age=300, s-maxage=600'); // s-maxage for CDN
   res.json([{ id: 1, name: 'Widget', price: 9.99 }]);
 });
@@ -188,3 +189,9 @@ aws cloudfront create-invalidation \
 
 echo "CDN cache purged for distribution: $DISTRIBUTION_ID"
 ```
+
+## Related Patterns
+
+- [12 — Caching Patterns](./12-caching-patterns.md) — Origin-level caching strategies that complement CDN edge caching
+- [10 — Load Balancing](./10-load-balancing.md) — Global Anycast / geo load-balancing to CDN PoPs
+- [07 — API Gateway](./07-api-gateway.md) — Cache API responses at the gateway when CDN is not used for dynamic content

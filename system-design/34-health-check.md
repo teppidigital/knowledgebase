@@ -58,59 +58,58 @@ graph TD
 
 ### Comprehensive Health Check Endpoint (Node.js / Express)
 
-```javascript
-// health/health.router.js
-const express = require('express');
-const { Pool } = require('pg');
-const { createClient } = require('redis');
+```typescript
+// health/health.router.ts
+import { Router } from 'express';
+import { Pool } from 'pg';
+import { createClient } from 'redis';
 
-const router = express.Router();
-const db = new Pool({ connectionString: process.env.DATABASE_URL });
-const redis = createClient({ url: process.env.REDIS_URL });
+const router = Router();
+const db     = new Pool({ connectionString: process.env.DATABASE_URL });
+const redis  = createClient({ url: process.env.REDIS_URL });
+
+interface CheckResult { name: string; status: 'ok' | 'error'; error?: string; }
 
 // Liveness — Is the process alive?
-router.get('/live', (req, res) => {
+router.get('/live', (_req, res) => {
   res.status(200).json({ status: 'alive' });
 });
 
 // Readiness — Can we serve requests?
-router.get('/ready', async (req, res) => {
-  const checks = await runChecks();
+router.get('/ready', async (_req, res) => {
+  const checks    = await runChecks();
   const allPassed = checks.every(c => c.status === 'ok');
 
   res.status(allPassed ? 200 : 503).json({
-    status: allPassed ? 'ready' : 'not-ready',
+    status:    allPassed ? 'ready' : 'not-ready',
     checks,
     timestamp: new Date().toISOString(),
   });
 });
 
-async function runChecks() {
-  return Promise.all([
-    checkDatabase(),
-    checkRedis(),
-  ]);
+async function runChecks(): Promise<CheckResult[]> {
+  return Promise.all([checkDatabase(), checkRedis()]);
 }
 
-async function checkDatabase() {
+async function checkDatabase(): Promise<CheckResult> {
   try {
     await db.query('SELECT 1');
     return { name: 'database', status: 'ok' };
   } catch (err) {
-    return { name: 'database', status: 'error', error: err.message };
+    return { name: 'database', status: 'error', error: (err as Error).message };
   }
 }
 
-async function checkRedis() {
+async function checkRedis(): Promise<CheckResult> {
   try {
     await redis.ping();
     return { name: 'redis', status: 'ok' };
   } catch (err) {
-    return { name: 'redis', status: 'error', error: err.message };
+    return { name: 'redis', status: 'error', error: (err as Error).message };
   }
 }
 
-module.exports = router;
+export default router;
 ```
 
 ### Kubernetes Probes Configuration
@@ -200,3 +199,8 @@ export class HealthService {
   }
 }
 ```
+## Related Patterns
+
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Circuit breaker transitions to half-open based on health probe results
+- [10 — Load Balancing](./10-load-balancing.md) — Load balancer uses health checks to remove unhealthy instances from rotation
+- [26 — Service Mesh](./26-service-mesh.md) — Mesh control planes aggregate health probes across the fleet

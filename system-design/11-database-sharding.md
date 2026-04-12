@@ -63,12 +63,12 @@ graph TD
 
 ### Shard Router (Node.js)
 
-```javascript
-// sharding/shard-router.js
-const { Pool } = require('pg');
+```typescript
+// sharding/shard-router.ts
+import { Pool } from 'pg';
 
 // Initialize connection pools for each shard
-const shards = [
+const shards: Pool[] = [
   new Pool({ connectionString: process.env.SHARD_0_URL }),
   new Pool({ connectionString: process.env.SHARD_1_URL }),
   new Pool({ connectionString: process.env.SHARD_2_URL }),
@@ -76,69 +76,61 @@ const shards = [
 
 const SHARD_COUNT = shards.length;
 
-/**
- * Determines which shard a userId belongs to.
- * Uses modulo hashing on the numeric userId.
- */
-function getShardIndex(userId) {
+function getShardIndex(userId: string): number {
   return parseInt(userId, 10) % SHARD_COUNT;
 }
 
-function getShardForUser(userId) {
+function getShardForUser(userId: string): Pool {
   return shards[getShardIndex(userId)];
 }
 
-// Usage
-async function getUserById(userId) {
+export async function getUserById(userId: string) {
   const shard = getShardForUser(userId);
   const { rows } = await shard.query('SELECT * FROM users WHERE id = $1', [userId]);
-  return rows[0];
+  return rows[0] as { id: string; name: string; email: string } | undefined;
 }
 
-async function createUser(userId, name, email) {
+export async function createUser(userId: string, name: string, email: string): Promise<void> {
   const shard = getShardForUser(userId);
   await shard.query(
     'INSERT INTO users (id, name, email) VALUES ($1, $2, $3)',
-    [userId, name, email]
+    [userId, name, email],
   );
 }
-
-module.exports = { getUserById, createUser };
 ```
 
 ### Hash-based Shard Key (consistent hashing for rebalancing)
 
-```javascript
-// sharding/consistent-hash.js
-const crypto = require('crypto');
+```typescript
+// sharding/consistent-hash.ts
+import crypto from 'crypto';
 
 class ConsistentHashRing {
-  constructor(nodes, virtualNodes = 150) {
-    this.ring = new Map();
-    this.sortedKeys = [];
-    for (const node of nodes) {
-      this.addNode(node, virtualNodes);
-    }
+  private ring    = new Map<number, string>();
+  private sortedKeys: number[] = [];
+
+  constructor(nodes: string[], virtualNodes = 150) {
+    for (const node of nodes) this.addNode(node, virtualNodes);
   }
 
-  addNode(node, virtualNodes) {
+  addNode(node: string, virtualNodes: number): void {
     for (let i = 0; i < virtualNodes; i++) {
-      const hash = this._hash(`${node}:${i}`);
+      const hash = this.hash(`${node}:${i}`);
       this.ring.set(hash, node);
       this.sortedKeys.push(hash);
     }
     this.sortedKeys.sort((a, b) => a - b);
   }
 
-  getNode(key) {
-    const hash = this._hash(key);
+  getNode(key: string): string {
+    const hash = this.hash(key);
     for (const k of this.sortedKeys) {
-      if (hash <= k) return this.ring.get(k);
+      if (hash <= k) return this.ring.get(k)!;
     }
-    return this.ring.get(this.sortedKeys[0]); // Wrap around
+    return this.ring.get(this.sortedKeys[0])!; // Wrap around
   }
 
-  _hash(key) {
+  private hash(key: string): number {
     return parseInt(crypto.createHash('md5').update(key).digest('hex').slice(0, 8), 16);
   }
 }
@@ -149,15 +141,21 @@ console.log(ring.getNode('user-12345')); // → deterministic shard
 
 ### Cross-Shard Aggregation (fan-out query)
 
-```javascript
+```typescript
 // Fan out a query to all shards and merge results
-async function getTotalUserCount() {
+async function getTotalUserCount(): Promise<number> {
   const counts = await Promise.all(
     shards.map(async (shard) => {
       const { rows } = await shard.query('SELECT COUNT(*) AS cnt FROM users');
-      return parseInt(rows[0].cnt, 10);
-    })
+      return parseInt(rows[0].cnt as string, 10);
+    }),
   );
   return counts.reduce((sum, c) => sum + c, 0);
 }
 ```
+
+## Related Patterns
+
+- [22 — Read Replicas](./22-read-replicas.md) — Scale reads before reaching for sharding
+- [31 — Database per Service](./31-database-per-service.md) — Service-level data ownership; sharding is within a service
+- [12 — Caching Patterns](./12-caching-patterns.md) — Reduce hot shard load with a caching layer

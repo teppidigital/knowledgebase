@@ -67,28 +67,28 @@ flowchart TD
 
 ### Cache-Aside Pattern (Node.js / Redis)
 
-```javascript
-// cache/cache-aside.js
-const { createClient } = require('redis');
-const { Pool } = require('pg');
+```typescript
+// cache/cache-aside.ts
+import { createClient } from 'redis';
+import { Pool } from 'pg';
 
 const redis = createClient({ url: process.env.REDIS_URL });
-const db = new Pool({ connectionString: process.env.DATABASE_URL });
+const db    = new Pool({ connectionString: process.env.DATABASE_URL });
 
 const CACHE_TTL = 300; // 5 minutes
 
-async function getUserById(userId) {
+interface User { id: string; name: string; email: string; }
+
+export async function getUserById(userId: string): Promise<User | undefined> {
   const cacheKey = `user:${userId}`;
 
   // 1. Try cache first
   const cached = await redis.get(cacheKey);
-  if (cached) {
-    return JSON.parse(cached); // Cache HIT
-  }
+  if (cached) return JSON.parse(cached) as User; // Cache HIT
 
   // 2. Cache MISS — fetch from database
   const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
-  const user = rows[0];
+  const user = rows[0] as User | undefined;
 
   if (user) {
     // 3. Populate cache with TTL
@@ -98,24 +98,23 @@ async function getUserById(userId) {
   return user;
 }
 
-async function updateUser(userId, data) {
+export async function updateUser(userId: string, data: Pick<User, 'name' | 'email'>): Promise<void> {
   await db.query('UPDATE users SET name=$1, email=$2 WHERE id=$3', [data.name, data.email, userId]);
-  // Invalidate cache on write
   await redis.del(`user:${userId}`);
 }
 ```
 
 ### Write-Through Pattern
 
-```javascript
-// cache/write-through.js
-async function saveUser(user) {
+```typescript
+// cache/write-through.ts
+export async function saveUser(user: User): Promise<void> {
   const cacheKey = `user:${user.id}`;
 
   // Write to DB
   await db.query(
     'INSERT INTO users (id, name, email) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name=$2, email=$3',
-    [user.id, user.name, user.email]
+    [user.id, user.name, user.email],
   );
 
   // Simultaneously write to cache
@@ -125,11 +124,11 @@ async function saveUser(user) {
 
 ### Write-Behind (Write-Back) Pattern
 
-```javascript
-// cache/write-behind.js
-const writeQueue = [];
+```typescript
+// cache/write-behind.ts
+const writeQueue: User[] = [];
 
-async function saveUserAsync(user) {
+export async function saveUserAsync(user: User): Promise<void> {
   const cacheKey = `user:${user.id}`;
   // Write to cache immediately (fast)
   await redis.setEx(cacheKey, CACHE_TTL, JSON.stringify(user));
@@ -144,22 +143,22 @@ setInterval(async () => {
   for (const user of batch) {
     await db.query(
       'INSERT INTO users (id, name, email) VALUES ($1, $2, $3) ON CONFLICT (id) DO UPDATE SET name=$2, email=$3',
-      [user.id, user.name, user.email]
+      [user.id, user.name, user.email],
     );
   }
-}, 1000);
+}, 1_000);
 ```
 
 ### Thundering Herd Protection (cache lock)
 
-```javascript
-// cache/cache-lock.js
-async function getUserWithLock(userId) {
+```typescript
+// cache/cache-lock.ts
+async function getUserWithLock(userId: string): Promise<User | undefined> {
   const cacheKey = `user:${userId}`;
-  const lockKey = `lock:user:${userId}`;
+  const lockKey  = `lock:user:${userId}`;
 
   const cached = await redis.get(cacheKey);
-  if (cached) return JSON.parse(cached);
+  if (cached) return JSON.parse(cached) as User;
 
   // Acquire lock to prevent multiple simultaneous DB queries
   const locked = await redis.set(lockKey, '1', { NX: true, EX: 5 });
@@ -171,7 +170,7 @@ async function getUserWithLock(userId) {
 
   try {
     const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [userId]);
-    const user = rows[0];
+    const user = rows[0] as User | undefined;
     if (user) await redis.setEx(cacheKey, CACHE_TTL, JSON.stringify(user));
     return user;
   } finally {
@@ -179,3 +178,10 @@ async function getUserWithLock(userId) {
   }
 }
 ```
+
+## Related Patterns
+
+- [22 — Read Replicas](./22-read-replicas.md) — Complementary read scale strategy for data that must be fresh
+- [23 — CDN](./23-cdn.md) — Edge caching for static assets and public API responses
+- [11 — Database Sharding](./11-database-sharding.md) — Combine with sharding to reduce hot-shard query load
+- [07 — API Gateway](./07-api-gateway.md) — Response caching at the gateway edge

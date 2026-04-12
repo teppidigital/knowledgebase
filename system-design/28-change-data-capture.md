@@ -102,37 +102,44 @@ CREATE PUBLICATION debezium_pub FOR TABLE orders, users;
 
 ### CDC Consumer — Syncing to Elasticsearch (Node.js / KafkaJS)
 
-```javascript
-// cdc-consumers/orders-to-elasticsearch.js
-const { Kafka } = require('kafkajs');
-const { Client } = require('@elastic/elasticsearch');
+```typescript
+// cdc-consumers/orders-to-elasticsearch.ts
+import { Kafka } from 'kafkajs';
+import { Client } from '@elastic/elasticsearch';
 
-const kafka = new Kafka({ brokers: ['kafka:9092'] });
+const kafka    = new Kafka({ brokers: ['kafka:9092'] });
 const consumer = kafka.consumer({ groupId: 'es-sync-group' });
 const esClient = new Client({ node: 'http://elasticsearch:9200' });
 
-async function start() {
+interface DebeziumEvent {
+  __op: 'c' | 'u' | 'd' | 'r';
+  id: string;
+  user_id: string;
+  status: string;
+  total: number;
+  created_at: string;
+}
+
+async function start(): Promise<void> {
   await consumer.connect();
   await consumer.subscribe({ topic: 'dbserver1.public.orders', fromBeginning: false });
 
   consumer.run({
     eachMessage: async ({ message }) => {
-      const event = JSON.parse(message.value.toString());
-      const operation = event.__op; // 'c' = create, 'u' = update, 'd' = delete, 'r' = read (snapshot)
+      const event  = JSON.parse(message.value!.toString()) as DebeziumEvent;
+      const opCode = event.__op;
 
-      if (operation === 'd') {
-        // DELETE
-        await esClient.delete({ index: 'orders', id: message.key.toString() });
+      if (opCode === 'd') {
+        await esClient.delete({ index: 'orders', id: message.key!.toString() });
       } else {
-        // CREATE or UPDATE — upsert into Elasticsearch
         await esClient.index({
           index: 'orders',
-          id: event.id,
+          id:    event.id,
           body: {
-            id: event.id,
-            userId: event.user_id,
-            status: event.status,
-            total: event.total,
+            id:        event.id,
+            userId:    event.user_id,
+            status:    event.status,
+            total:     event.total,
             createdAt: event.created_at,
             updatedAt: new Date().toISOString(),
           },
@@ -147,20 +154,26 @@ start().catch(console.error);
 
 ### CDC Consumer — Redis Cache Invalidation
 
-```javascript
-// cdc-consumers/orders-cache-invalidation.js
-const consumer = kafka.consumer({ groupId: 'cache-invalidation-group' });
+```typescript
+// cdc-consumers/orders-cache-invalidation.ts
+// consumer already declared above
+declare const redis: { del(key: string): Promise<void> };
 
 consumer.run({
   eachMessage: async ({ message }) => {
-    const event = JSON.parse(message.value.toString());
+    const event   = JSON.parse(message.value!.toString()) as DebeziumEvent;
     const orderId = event.id;
 
     if (['u', 'd'].includes(event.__op)) {
-      // Invalidate cache when data changes
       await redis.del(`order:${orderId}`);
       console.log(`Cache invalidated for order: ${orderId}`);
     }
   },
 });
 ```
+## Related Patterns
+
+- [16 — Outbox Pattern](./16-outbox-pattern.md) — Outbox writes application-level events; CDC reads lower-level DB change log
+- [05 — Event Sourcing](./05-event-sourcing.md) — CDC can populate event-sourcing projections from existing databases
+- [17 — Publish-Subscribe](./17-publish-subscribe.md) — CDC events are typically published onto a pub-sub broker
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — CDC is a key integration bus technique in EDA

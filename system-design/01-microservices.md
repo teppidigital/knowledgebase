@@ -67,21 +67,24 @@ graph TD
 
 ### Service A — Order Service (Node.js / Express)
 
-```javascript
-// order-service/src/index.js
-const express = require("express");
-const { Kafka } = require("kafkajs");
+```typescript
+// order-service/src/index.ts
+import express from 'express';
+import { Kafka } from 'kafkajs';
+
 const app = express();
 app.use(express.json());
 
-const kafka = new Kafka({ brokers: ["kafka:9092"] });
+const kafka = new Kafka({ brokers: ['kafka:9092'] });
 const producer = kafka.producer();
 
-app.post("/orders", async (req, res) => {
-  const order = { id: Date.now(), ...req.body, status: "PENDING" };
+interface OrderBody { items: unknown[]; customerId: string; }
+
+app.post('/orders', async (req, res) => {
+  const order = { id: Date.now(), ...(req.body as OrderBody), status: 'PENDING' };
   // Persist to Order DB (omitted for brevity)
   await producer.send({
-    topic: "order.created",
+    topic: 'order.created',
     messages: [{ value: JSON.stringify(order) }],
   });
   res.status(201).json(order);
@@ -89,25 +92,25 @@ app.post("/orders", async (req, res) => {
 
 (async () => {
   await producer.connect();
-  app.listen(3001, () => console.log("Order Service running on port 3001"));
+  app.listen(3001, () => console.log('Order Service running on port 3001'));
 })();
 ```
 
 ### Service B — Notification Service (Node.js)
 
-```javascript
-// notification-service/src/index.js
-const { Kafka } = require("kafkajs");
+```typescript
+// notification-service/src/index.ts
+import { Kafka } from 'kafkajs';
 
-const kafka = new Kafka({ brokers: ["kafka:9092"] });
-const consumer = kafka.consumer({ groupId: "notification-group" });
+const kafka = new Kafka({ brokers: ['kafka:9092'] });
+const consumer = kafka.consumer({ groupId: 'notification-group' });
 
 (async () => {
   await consumer.connect();
-  await consumer.subscribe({ topic: "order.created", fromBeginning: false });
+  await consumer.subscribe({ topic: 'order.created', fromBeginning: false });
   await consumer.run({
     eachMessage: async ({ message }) => {
-      const order = JSON.parse(message.value.toString());
+      const order = JSON.parse(message.value!.toString()) as { id: number };
       console.log(`Sending notification for order: ${order.id}`);
       // Send email / push notification
     },
@@ -135,3 +138,13 @@ services:
     image: confluentinc/cp-kafka:7.5.0
     ports: ["9092:9092"]
 ```
+
+## Related Patterns
+
+- [02 — Monolithic Architecture](./02-monolithic.md) — Consider monolith-first; only migrate when team and scale justify it
+- [07 — API Gateway](./07-api-gateway.md) — Single entry point for all clients in a microservices system
+- [26 — Service Mesh](./26-service-mesh.md) — Handles mTLS, retries, and observability between services
+- [31 — Database per Service](./31-database-per-service.md) — Each service must own its own data store
+- [03 — Event-Driven Architecture](./03-event-driven-architecture.md) — Preferred communication style for loose coupling
+- [09 — Backends for Frontends](./09-backends-for-frontends.md) — Dedicated API layer per client type
+- [06 — Saga Pattern](./06-saga-pattern.md) — Manage distributed transactions across services

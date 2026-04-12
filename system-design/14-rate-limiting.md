@@ -61,38 +61,34 @@ flowchart TD
 
 ### Fixed Window Counter (Node.js / Redis)
 
-```javascript
-// middleware/rate-limiter.js
-const { createClient } = require('redis');
+```typescript
+// middleware/rate-limiter.ts
+import { createClient } from 'redis';
+import { Request, Response, NextFunction } from 'express';
+
 const redis = createClient({ url: process.env.REDIS_URL });
 
 const WINDOW_SIZE_SECONDS = 60;
-const MAX_REQUESTS = 100;
+const MAX_REQUESTS        = 100;
 
-async function rateLimitMiddleware(req, res, next) {
-  const clientKey = req.ip; // Or use API key: req.headers['x-api-key']
-  const windowKey = `ratelimit:${clientKey}:${Math.floor(Date.now() / (WINDOW_SIZE_SECONDS * 1000))}`;
+export async function rateLimitMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const clientKey = req.ip;
+  const windowKey = `ratelimit:${clientKey}:${Math.floor(Date.now() / (WINDOW_SIZE_SECONDS * 1_000))}`;
 
   const count = await redis.incr(windowKey);
 
-  if (count === 1) {
-    await redis.expire(windowKey, WINDOW_SIZE_SECONDS);
-  }
+  if (count === 1) await redis.expire(windowKey, WINDOW_SIZE_SECONDS);
 
-  res.setHeader('X-RateLimit-Limit', MAX_REQUESTS);
+  res.setHeader('X-RateLimit-Limit',     MAX_REQUESTS);
   res.setHeader('X-RateLimit-Remaining', Math.max(0, MAX_REQUESTS - count));
 
   if (count > MAX_REQUESTS) {
-    return res.status(429).json({
-      error: 'Too Many Requests',
-      retryAfter: WINDOW_SIZE_SECONDS,
-    });
+    res.status(429).json({ error: 'Too Many Requests', retryAfter: WINDOW_SIZE_SECONDS });
+    return;
   }
 
   next();
 }
-
-module.exports = rateLimitMiddleware;
 ```
 
 ### Token Bucket Algorithm (TypeScript / Redis)
@@ -145,29 +141,35 @@ export async function rateLimitMiddleware(req: Request, res: Response, next: Nex
 
 ### Using `express-rate-limit` library
 
-```javascript
-// app.js
-const rateLimit = require('express-rate-limit');
-const RedisStore = require('rate-limit-redis').default;
-const { createClient } = require('redis');
+```typescript
+// app.ts
+import rateLimit from 'express-rate-limit';
+import { RedisStore } from 'rate-limit-redis';
+import { createClient } from 'redis';
 
 const redis = createClient({ url: process.env.REDIS_URL });
 
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
+  windowMs: 60 * 1_000, // 1 minute
   max: 100,
-  standardHeaders: true,  // Return RateLimit headers
+  standardHeaders: true,
   legacyHeaders: false,
   store: new RedisStore({
-    sendCommand: (...args) => redis.sendCommand(args),
+    sendCommand: (...args: string[]) => redis.sendCommand(args),
   }),
   handler: (req, res) => {
     res.status(429).json({
       error: 'Too many requests',
-      retryAfter: Math.ceil(req.rateLimit.resetTime / 1000),
+      retryAfter: Math.ceil((req as typeof req & { rateLimit: { resetTime: number } }).rateLimit.resetTime / 1_000),
     });
   },
 });
 
 app.use('/api/', limiter);
 ```
+
+## Related Patterns
+
+- [07 — API Gateway](./07-api-gateway.md) — Enforce rate limits centrally at the gateway before they reach services
+- [13 — Circuit Breaker](./13-circuit-breaker.md) — Protect downstream services from overload caused by traffic spikes
+- [15 — Bulkhead Pattern](./15-bulkhead-pattern.md) — Per-tenant resource quotas complement global rate limits

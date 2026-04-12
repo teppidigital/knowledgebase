@@ -23,6 +23,9 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 | 13 | [13-front-door-cdn.md](13-front-door-cdn.md) | Azure Front Door & CDN | Front Door Premium, WAF, Private Link Origins |
 | 14 | [14-disaster-recovery.md](14-disaster-recovery.md) | Disaster Recovery & Business Continuity | ASR, SQL Failover Groups, Cosmos DB Multi-Region, Traffic Manager |
 | 15 | [15-cost-management.md](15-cost-management.md) | Cost Management & Optimisation | Cost Management, Budgets, Reservations, Savings Plans, Spot VMs |
+| 16 | [16-key-vault.md](16-key-vault.md) | Azure Key Vault | Key Vault, Secrets, Keys, Certificates, CMK, Rotation |
+| 17 | [17-cache-for-redis.md](17-cache-for-redis.md) | Azure Cache for Redis | Redis, Cache-Aside, Rate Limiting, Sessions, Distributed Lock |
+| 18 | [18-durable-functions.md](18-durable-functions.md) | Azure Durable Functions | Durable Functions, Orchestrator, Entity, Fan-out, Human Interaction |
 
 ---
 
@@ -48,21 +51,18 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 | Pattern | Recommended when |
 |---------|-----------------|
 | [Entra ID & RBAC](05-entra-id-rbac.md) | All workloads — Managed Identity, Workload Identity Federation, PIM |
-| [API Management](06-api-management.md) | Publishing APIs to external consumers; centralised auth/rate-limit/CORS |
-
+| [API Management](06-api-management.md) | Publishing APIs to external consumers; centralised auth/rate-limit/CORS || [Key Vault](16-key-vault.md) | All workloads — secrets, keys, certificates; CMK encryption; rotation automation |
 ### Data & Storage
 
 | Pattern | Recommended when |
 |---------|-----------------|
 | [Azure SQL & Cosmos DB](07-azure-sql-cosmos.md) | Relational (SQL DB) or globally distributed low-latency NoSQL (Cosmos DB) |
-| [Blob Storage & ADLS Gen2](09-blob-storage.md) | Object storage, data lake, analytics landing zone, WORM compliance |
-
+| [Blob Storage & ADLS Gen2](09-blob-storage.md) | Object storage, data lake, analytics landing zone, WORM compliance || [Azure Cache for Redis](17-cache-for-redis.md) | Read-heavy workloads; session storage; rate limiting; leaderboards; distributed locks |
 ### Messaging & Eventing
 
 | Pattern | Recommended when |
 |---------|-----------------|
-| [Service Bus, Event Grid & Event Hubs](08-service-bus-event-grid.md) | Decoupled microservices (SB), reactive resource events (EG), streaming ingestion (EH) |
-
+| [Service Bus, Event Grid & Event Hubs](08-service-bus-event-grid.md) | Decoupled microservices (SB), reactive resource events (EG), streaming ingestion (EH) || [Durable Functions](18-durable-functions.md) | Long-running workflows; fan-out/fan-in; human approval; stateful actor patterns |
 ### Observability & Operations
 
 | Pattern | Recommended when |
@@ -101,6 +101,8 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 | Identity / IAM | Entra ID + Azure RBAC | IAM + STS |
 | Workload identity (K8s) | Workload Identity Federation | EKS IRSA |
 | Secrets management | Key Vault | Secrets Manager / SSM Parameter Store |
+| In-memory cache | Azure Cache for Redis | ElastiCache (Redis / Memcached) |
+| Workflow orchestration | Durable Functions / Logic Apps | Step Functions |
 | Managed DNS (private) | Private DNS Zones | Route 53 Private Hosted Zones |
 | Network firewall | Azure Firewall | AWS Network Firewall |
 | Hub-spoke networking | Hub VNet + Peering | AWS Transit Gateway |

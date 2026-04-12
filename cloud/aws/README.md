@@ -23,6 +23,10 @@ A comprehensive catalog of **AWS Cloud Native patterns** covering compute, stora
 | [13](13-cloudfront-cdn.md) | CloudFront & CDN | Networking | CloudFront, WAF, CF Functions, Lambda@Edge |
 | [14](14-disaster-recovery.md) | Disaster Recovery | Resilience | Aurora Global, DynamoDB Global, Route53, Backup |
 | [15](15-cost-optimisation.md) | Cost Optimisation | FinOps | Savings Plans, Spot, Karpenter, Budgets |
+| [20](20-step-functions.md) | Step Functions | Orchestration | Step Functions, State Machines, Distributed Map |
+| [21](21-elasticache.md) | ElastiCache — Redis & Memcached | Caching | ElastiCache, Redis, Valkey, Session Store |
+| [22](22-secrets-manager.md) | Secrets Manager | Security | Secrets Manager, Rotation, Cross-region |
+| [23](23-waf-shield.md) | WAF & Shield | Security | WAF v2, Shield Standard/Advanced, Managed Rules |
 
 ---
 
@@ -55,8 +59,8 @@ Need high-performance batch workloads?             → ECS + Spot or EKS + Karpe
 
 | Pattern | Key decisions |
 |---------|--------------|
-| [IAM — Least Privilege](05-iam-least-privilege.md) | ABAC, Permission Boundaries, SCPs, IRSA, no IAM users |
-
+| [IAM — Least Privilege](05-iam-least-privilege.md) | ABAC, Permission Boundaries, SCPs, IRSA, no IAM users || [Secrets Manager](22-secrets-manager.md) | Automatic rotation, cross-region replication, cross-account resource policy |
+| [WAF & Shield](23-waf-shield.md) | Managed rule groups, rate limiting, Count-mode safe rollout, DDoS protection |
 ### API
 
 | Pattern | Key decisions |
@@ -69,13 +73,13 @@ Need high-performance batch workloads?             → ECS + Spot or EKS + Karpe
 |---------|--------------|
 | [RDS & Aurora](07-rds-aurora.md) | Aurora Serverless v2, RDS Proxy (Lambda), IAM auth, Multi-AZ |
 | [DynamoDB](08-dynamodb.md) | Single-Table Design, GSI access patterns, Streams, TTL, PITR |
-| [S3 Storage](10-s3-storage.md) | Pre-signed URLs, lifecycle tiering, event notifications, OAC |
-
-### Messaging
+| [S3 Storage](10-s3-storage.md) | Pre-signed URLs, lifecycle tiering, event notifications, OAC || [ElastiCache](21-elasticache.md) | Cache-aside, write-through, Redis sorted sets, TTL jitter, Graviton r7g nodes |
+### Messaging & Orchestration
 
 | Pattern | Key decisions |
-|---------|--------------|
+|---------|---------------|
 | [SQS, SNS & EventBridge](09-sqs-sns-eventbridge.md) | SQS for queues, SNS for fanout, EventBridge for routing |
+| [Step Functions](20-step-functions.md) | Standard vs Express, Saga pattern, task token (human approval), Distributed Map |
 
 ### Operations
 
@@ -102,6 +106,10 @@ Need high-performance batch workloads?             → ECS + Spot or EKS + Karpe
 | **SQS** | Work queues | DLQ, partial batch failure, idempotency |
 | **SNS** | Pub/sub fanout | Filter policies, SQS subscribers |
 | **EventBridge** | Event routing | Content-based routing, Scheduler, Pipes |
+| **Step Functions** | Workflow orchestration | Standard/Express, Saga, Distributed Map, task token |
+| **ElastiCache** | In-memory caching | Redis, Memcached, cache-aside, rate limiting, sessions |
+| **Secrets Manager** | Secret storage + rotation | Automatic rotation, cross-region, cross-account |
+| **WAF v2** | Web application firewall | Managed rules, rate limiting, IP sets, Shield |
 | **CloudFront** | CDN + edge compute | Cache policies, OAC, Functions, Lambda@Edge |
 | **VPC** | Network isolation | 3-tier subnets, VPC Endpoints, Security Groups |
 | **IAM** | Identity & access | Least privilege, ABAC, SCPs, IRSA |

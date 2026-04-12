@@ -81,7 +81,7 @@ Hadoop MapReduce materialises intermediate results to HDFS after every step. Spa
 
 ```mermaid
 flowchart LR
-    subgraph MapReduce Pipeline
+    subgraph "MapReduce Pipeline"
         Input[(HDFS Input<br/>Partition 1..N)]
         M1[Mapper 1<br/>url_count]
         M2[Mapper 2<br/>url_count]
@@ -100,7 +100,7 @@ flowchart LR
         R1 & R2 --> Output
     end
 
-    subgraph Spark DAG — No intermediate materialisation
+    subgraph "Spark DAG — No intermediate materialisation"
         S_Input[(Input)]
         Filter[filter: status=200]
         Map2[map: extract URL]

@@ -84,14 +84,14 @@ A well-chosen sort key can reduce data scanned by 10-1000x.
 
 ```mermaid
 flowchart TD
-    subgraph Row Store — PostgreSQL
+    subgraph "Row Store — PostgreSQL"
         R1[Row1: ord-1 | EU | 150 | COMPLETED | 2024-01-01]
         R2[Row2: ord-2 | US | 200 | PENDING | 2024-01-02]
         R3[Row3: ord-3 | EU | 300 | COMPLETED | 2024-01-02]
         QUERY1["SELECT region, SUM(amount) WHERE status='COMPLETED'<br/>Must read ALL columns of ALL rows"]
     end
 
-    subgraph Column Store — ClickHouse / BigQuery
+    subgraph "Column Store — ClickHouse / BigQuery"
         Col1["region: [EU, US, EU, ...]"]
         Col2["amount: [150, 200, 300, ...]"]
         Col3["status: [COMP, PEND, COMP, ...]<br/>→ bitmap: [1, 0, 1, ...]"]

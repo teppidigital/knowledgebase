@@ -78,7 +78,7 @@ There are two fundamentally different approaches to stream transport:
 
 ```mermaid
 flowchart LR
-    subgraph Kafka Streams — Stateful Pipeline
+    subgraph "Kafka Streams — Stateful Pipeline"
         Source[(Kafka Topic<br/>order-events)]
         Filter[filter: status=COMPLETED]
         Enrich[stream-table join<br/>customer profile]
@@ -89,7 +89,7 @@ flowchart LR
         Source --> Filter --> Enrich --> Window --> Agg --> Sink
     end
 
-    subgraph State Stores
+    subgraph "State Stores"
         KTable[(Customer KTable<br/>compacted topic)]
         LocalState[(RocksDB<br/>window state)]
     end
@@ -97,7 +97,7 @@ flowchart LR
     Enrich -.->|lookup| KTable
     Window -.->|store| LocalState
 
-    subgraph Fault Tolerance
+    subgraph "Fault Tolerance"
         Checkpoint[(Checkpoint<br/>every 30s)]
         LocalState -.->|snapshot| Checkpoint
     end

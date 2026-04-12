@@ -48,13 +48,13 @@ Secondary indexes don't map naturally to partitioning. Two approaches:
 
 ```mermaid
 flowchart TD
-    subgraph Key-Range Partitioning
+    subgraph "Key-Range Partitioning"
         A_F[Partition 1<br/>Keys A-F]
         G_M[Partition 2<br/>Keys G-M]
         N_Z[Partition 3<br/>Keys N-Z]
     end
 
-    subgraph Hash Partitioning with Consistent Hashing
+    subgraph "Hash Partitioning with Consistent Hashing"
         RING((Hash Ring<br/>0 to 2^32))
         P1[Node 1<br/>Hash 0-25%]
         P2[Node 2<br/>Hash 25-50%]
@@ -63,7 +63,7 @@ flowchart TD
         RING --> P1 & P2 & P3 & P4
     end
 
-    subgraph Rebalancing — Add Node
+    subgraph "Rebalancing — Add Node"
         N_NEW[New Node 5] -- takes half of --> P2
         N_NEW -- streaming rebalance --> MOVE[Move 12.5% of data<br/>from Node 2 to Node 5]
     end

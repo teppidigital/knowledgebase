@@ -37,7 +37,7 @@ The hard problem in replication is handling **changes**: how does a write on one
 
 ```mermaid
 flowchart LR
-    subgraph Single-Leader Replication
+    subgraph "Single-Leader Replication"
         CLIENT1[Client] -- Write --> LEADER[Leader<br/>All writes here]
         LEADER -- Replication log --> F1[Follower 1]
         LEADER -- Replication log --> F2[Follower 2]
@@ -45,7 +45,7 @@ flowchart LR
         CLIENT1 -- Read --> F2
     end
 
-    subgraph Leaderless — Quorum Write
+    subgraph "Leaderless — Quorum Write"
         CLIENT2[Client] -- Write w=2 of 3 --> N1[Node 1 ✅]
         CLIENT2 -- Write --> N2[Node 2 ✅]
         CLIENT2 -- Write --> N3[Node 3 ❌ down]

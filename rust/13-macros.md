@@ -54,10 +54,10 @@ Procedural macros live in a **separate crate** with `proc-macro = true`. They op
 
 ```mermaid
 flowchart LR
-    INPUT["Rust Source\n#[derive(Builder)]\nstruct Order {...}"]
-    EXPAND["Proc Macro Crate\nsyn::parse → AST\nquote! { ... }"]
-    OUTPUT["Generated TokenStream\nimpl OrderBuilder {...}"]
-    COMPILER["rustc\n(compiles expanded code)"]
+    INPUT["Rust Source<br/>#[derive(Builder)]<br/>struct Order {...}"]
+    EXPAND["Proc Macro Crate<br/>syn::parse → AST<br/>quote! { ... }"]
+    OUTPUT["Generated TokenStream<br/>impl OrderBuilder {...}"]
+    COMPILER["rustc<br/>(compiles expanded code)"]
 
     INPUT -->|TokenStream| EXPAND -->|TokenStream| OUTPUT --> COMPILER
 ```

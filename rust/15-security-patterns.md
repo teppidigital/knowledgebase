@@ -48,12 +48,12 @@ Rust eliminates entire classes of CVEs (buffer overflows, use-after-free, null d
 ```mermaid
 flowchart LR
     REQ["Incoming Request"]
-    RATE["tower_governor\nrate limit"]
-    AUTH["JWT verify\njsonwebtoken\nalgorithm allow-list"]
-    VALID["validator\ninput validation"]
+    RATE["tower_governor<br/>rate limit"]
+    AUTH["JWT verify<br/>jsonwebtoken<br/>algorithm allow-list"]
+    VALID["validator<br/>input validation"]
     HANDLER["Handler logic"]
-    SECRET["secrecy::Secret\nzeroize on drop"]
-    TLS["rustls\nTLS termination"]
+    SECRET["secrecy::Secret<br/>zeroize on drop"]
+    TLS["rustls<br/>TLS termination"]
 
     TLS --> REQ --> RATE --> AUTH --> VALID --> HANDLER --> SECRET
 ```

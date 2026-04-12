@@ -53,10 +53,10 @@ Rust's `unsafe` keyword unlocks capabilities the borrow checker cannot verify: r
 
 ```mermaid
 flowchart LR
-    SAFE["Safe Rust API\n(pub fn wrapper)"]
-    UNSAFE["unsafe block\n(thin wrapper over FFI)"]
-    BIND["bindgen-generated\nextern C bindings"]
-    CLIB["C Library\n(.so / .a)"]
+    SAFE["Safe Rust API<br/>(pub fn wrapper)"]
+    UNSAFE["unsafe block<br/>(thin wrapper over FFI)"]
+    BIND["bindgen-generated<br/>extern C bindings"]
+    CLIB["C Library<br/>(.so / .a)"]
 
     SAFE --> UNSAFE --> BIND --> CLIB
 ```

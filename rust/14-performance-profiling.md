@@ -51,11 +51,11 @@ Rust's zero-cost abstractions mean iterators, closures, and generics compile to 
 
 ```mermaid
 flowchart LR
-    CODE["Source Code\n(hot path identified)"]
-    PROF["Profiler\nflamegraph / instruments"]
-    BENCH["criterion\nbenchmark"]
-    OPT["Optimise\nalloc / SIMD / algorithm"]
-    VERIFY["Re-benchmark\nconfirm regression"]
+    CODE["Source Code<br/>(hot path identified)"]
+    PROF["Profiler<br/>flamegraph / instruments"]
+    BENCH["criterion<br/>benchmark"]
+    OPT["Optimise<br/>alloc / SIMD / algorithm"]
+    VERIFY["Re-benchmark<br/>confirm regression"]
 
     CODE --> PROF --> OPT --> BENCH --> VERIFY --> CODE
 ```

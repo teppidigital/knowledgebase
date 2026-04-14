@@ -131,6 +131,18 @@ Frontend architecture patterns for building production-grade React applications 
 
 ---
 
+### [Real-World Scaling War Stories](scaling/README.md)
+
+> 12 case studies · Production-proven solutions to real scaling problems
+
+A collection of documented scaling challenges and solutions from the world's largest production systems. Each case study covers the initial architecture, the specific failure mode or bottleneck encountered under growth, the solution applied step by step, and transferable engineering lessons.
+
+**Companies covered:** OpenAI, Discord, Twitter, Stripe, Uber, Netflix, Shopify, WhatsApp, Pinterest, GitHub, Cloudflare, Slack.
+
+**Key topics:** PostgreSQL at 800M users (connection pooling, MVCC, cache stampede, WAL fan-out), ScyllaDB migration (Cassandra hot partitions, JVM GC pauses), Twitter timeline fan-out (celebrity problem, Redis sorted sets), Stripe idempotency and rate limiting (token bucket, distributed Redis), Uber Schemaless (MySQL sharding, append-only cells, outbox), Netflix thundering herd (EVCache, probabilistic early expiry, stale-while-revalidate), Shopify Vitess sharding (VSchema, tenant isolation, online DDL), WhatsApp C2M connections (Erlang lightweight processes, kqueue, actor model), Pinterest sharding ID scheme (encoded shard, no cross-shard joins), GitHub MySQL HA (Orchestrator failover, gh-ost, ProxySQL), Cloudflare distributed rate limiting (approximate sliding window, CRDT PNCounter), Slack job queue evolution (priority tiers, transactional outbox, DLQ, Kafka).
+
+---
+
 ## At a Glance
 
 | Section                                                             | Patterns | Primary Languages           |
@@ -150,7 +162,8 @@ Frontend architecture patterns for building production-grade React applications 
 | [FinOps — Cloud Cost Discipline](finops/README.md)                  | 15       | Python, HCL, YAML, SQL             |
 | [Observability](observability/README.md)                            | 15       | TypeScript, Python, YAML, HCL      |
 | [Production Hardening](production-hardening/README.md)              | 15       | TypeScript, Python, YAML, HCL      |
-| **Total**                                                           | **248**  |                                    |
+| [Real-World Scaling War Stories](scaling/README.md)                 | 12       | TypeScript, Go, Rust, Erlang, SQL  |
+| **Total**                                                           | **260**  |                                    |
 
 ---
 

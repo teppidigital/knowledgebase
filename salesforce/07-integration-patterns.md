@@ -55,7 +55,7 @@ Named Credentials store endpoint URL, authentication, and optionally per-user au
 
 ```mermaid
 sequenceDiagram
-    participant EXT as External System\n(Banking API / ERP)
+    participant EXT as External System<br/>(Banking API / ERP)
     participant MW as MuleSoft / API GW
     participant SF as Salesforce REST API
     participant APEX as Apex Controller
@@ -64,7 +64,7 @@ sequenceDiagram
     Note over EXT,SF: Inbound: External → Salesforce
     EXT->>MW: POST /loans (business payload)
     MW->>MW: Transform + enrich
-    MW->>SF: POST /services/data/v61.0/sobjects/Loan__c\nAuthorization: Bearer {token}
+    MW->>SF: POST /services/data/v61.0/sobjects/Loan__c<br/>Authorization: Bearer {token}
     SF->>APEX: Trigger fires (after insert)
     APEX->>DB: DML writes
 

@@ -65,12 +65,12 @@ Phase 3: Remove deprecated field (breaking — coordinate with all clients)
 ```mermaid
 flowchart LR
     subgraph Schema Change Process
-        DEV[Developer\nproposes schema change] --> CI{CI: Rover\nschema check}
-        CI -->|Breaking change\ndetected| REJECT[Block merge\nNotify team]
+        DEV[Developer<br/>proposes schema change] --> CI{CI: Rover<br/>schema check}
+        CI -->|Breaking change<br/>detected| REJECT[Block merge<br/>Notify team]
         CI -->|Safe / non-breaking| APPROVE[Merge and deploy]
-        APPROVE --> REG[Schema Registry\nGraphOS / Hive]
-        REG --> MON[Usage Monitoring\nWhich clients query\ndeprecated fields?]
-        MON -->|All clients migrated| REMOVE[Remove deprecated field\nin next cycle]
+        APPROVE --> REG[Schema Registry<br/>GraphOS / Hive]
+        REG --> MON[Usage Monitoring<br/>Which clients query<br/>deprecated fields?]
+        MON -->|All clients migrated| REMOVE[Remove deprecated field<br/>in next cycle]
     end
 ```
 

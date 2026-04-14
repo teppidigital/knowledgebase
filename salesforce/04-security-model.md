@@ -74,11 +74,11 @@ FLS is configured per profile and per permission set per field. A user can have 
 
 ```mermaid
 flowchart TD
-    USER[User Request\nread Loan__c record] --> OBJ{Object CRUD\non Profile/PS?}
+    USER[User Request<br/>read Loan__c record] --> OBJ{Object CRUD<br/>on Profile/PS?}
     OBJ -->|No| DENY1[Access Denied]
-    OBJ -->|Yes| REC{Record Sharing\nOwner / Hierarchy\n/ Sharing Rule?}
+    OBJ -->|Yes| REC{Record Sharing<br/>Owner / Hierarchy<br/>/ Sharing Rule?}
     REC -->|No| DENY2[Record Not Visible]
-    REC -->|Yes| FLS{Field-Level Security\nfield readable in\nProfile/PS?}
+    REC -->|Yes| FLS{Field-Level Security<br/>field readable in<br/>Profile/PS?}
     FLS -->|No| BLANK[Field Blank / Hidden]
     FLS -->|Yes| ALLOW[Record + Field Visible]
 

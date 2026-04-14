@@ -58,21 +58,21 @@ base64("Loan:2024-01-15T10:30:00Z:loan-uuid-123") → "TG9hbjoyMDI0LTAxLTE1..."
 ```mermaid
 flowchart LR
     subgraph Page 1
-        E1[Loan A\ncursor: abc]
-        E2[Loan B\ncursor: def]
-        E3[Loan C\ncursor: ghi]
+        E1[Loan A<br/>cursor: abc]
+        E2[Loan B<br/>cursor: def]
+        E3[Loan C<br/>cursor: ghi]
     end
 
     subgraph Page 2
-        E4[Loan D\ncursor: jkl]
-        E5[Loan E\ncursor: mno]
-        E6[Loan F\ncursor: pqr]
+        E4[Loan D<br/>cursor: jkl]
+        E5[Loan E<br/>cursor: mno]
+        E6[Loan F<br/>cursor: pqr]
     end
 
     Client -->|loans first:3| Page 1
-    Page1PI[pageInfo\nendCursor: ghi\nhasNextPage: true]
+    Page1PI[pageInfo<br/>endCursor: ghi<br/>hasNextPage: true]
     Client -->|loans first:3 after:ghi| Page 2
-    Page2PI[pageInfo\nendCursor: pqr\nhasNextPage: false]
+    Page2PI[pageInfo<br/>endCursor: pqr<br/>hasNextPage: false]
 
     Page 1 --> Page1PI
     Page 2 --> Page2PI

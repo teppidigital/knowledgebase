@@ -56,17 +56,17 @@ query {
 
 ```mermaid
 flowchart TD
-    C[Client\nHTTP POST /graphql] --> CSRF{CSRF Check\nContent-Type?\nOrigin?}
+    C[Client<br/>HTTP POST /graphql] --> CSRF{CSRF Check<br/>Content-Type?<br/>Origin?}
     CSRF -->|Blocked| R1[403 Forbidden]
-    CSRF -->|OK| APQ{Trusted Doc /\nAPQ Check}
-    APQ -->|Unknown query\nin strict mode| R2[Reject: not in allowlist]
-    APQ -->|Allowed| RATE{Rate Limit\nrpm per IP + user}
+    CSRF -->|OK| APQ{Trusted Doc /<br/>APQ Check}
+    APQ -->|Unknown query<br/>in strict mode| R2[Reject: not in allowlist]
+    APQ -->|Allowed| RATE{Rate Limit<br/>rpm per IP + user}
     RATE -->|Exceeded| R3[429 Too Many Requests]
-    RATE -->|OK| DEPTH{Depth Check\nmax 10}
+    RATE -->|OK| DEPTH{Depth Check<br/>max 10}
     DEPTH -->|Exceeded| R4[400 Query too deep]
-    DEPTH -->|OK| COMPLEX{Complexity Check\nmax 500}
+    DEPTH -->|OK| COMPLEX{Complexity Check<br/>max 500}
     COMPLEX -->|Exceeded| R5[400 Query too complex]
-    COMPLEX -->|OK| ALIASES{Alias Count\nmax 15}
+    COMPLEX -->|OK| ALIASES{Alias Count<br/>max 15}
     ALIASES -->|Exceeded| R6[400 Too many aliases]
     ALIASES -->|OK| EXEC[Execute]
 ```

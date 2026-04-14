@@ -23,6 +23,7 @@ A comprehensive catalogue of 15 production-ready patterns for designing, buildin
 | 13 | [Security](13-security.md) | Query depth, complexity, introspection, CSRF, persisted queries |
 | 14 | [File Uploads](14-file-uploads.md) | Multipart request spec, streaming uploads, S3 pre-signed URLs |
 | 15 | [Observability](15-observability.md) | Field-level tracing, Apollo Studio, OpenTelemetry, slow query alerts |
+| 16 | [Design Patterns & Anti-Patterns](16-design-patterns-antipatterns.md) | 10 patterns, 10 anti-patterns, quick reference card |
 
 ---
 

@@ -129,7 +129,7 @@ async function bulkUpsertLoans(csvFilePath: string): Promise<void> {
     const { data: failures } = await api.get(`/${job.id}/failedResults`, {
       headers: { Accept: 'text/csv' },
     });
-    console.error('Failed records:\n', failures.slice(0, 2000)); // first 2KB
+    console.error('Failed records:<br/>', failures.slice(0, 2000)); // first 2KB
   }
 }
 
@@ -200,7 +200,7 @@ global class LoanInterestAccrualBatch
         email.setToAddresses(new List<String>{ 'ops-team@example.com' });
         email.setSubject('LoanInterestAccrualBatch finished');
         email.setPlainTextBody(
-            'Processed: ' + recordsProcessed + '\nFailed: ' + recordsFailed
+            'Processed: ' + recordsProcessed + '<br/>Failed: ' + recordsFailed
         );
         Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ email });
     }

@@ -54,7 +54,7 @@ GraphQL **subscriptions** are long-lived operations that push server-side events
 ```mermaid
 sequenceDiagram
     participant C as Browser Client
-    participant WS as WebSocket Server\n(graphql-ws)
+    participant WS as WebSocket Server<br/>(graphql-ws)
     participant SUB as Subscription Resolver
     participant REDIS as Redis PubSub
     participant MUT as Mutation Resolver

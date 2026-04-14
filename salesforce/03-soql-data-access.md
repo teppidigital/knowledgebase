@@ -59,10 +59,10 @@ Salesforce — Development
 ```mermaid
 flowchart LR
     subgraph Bulkified Pattern
-        TRIGGER[Trigger receives\n200 Account records] --> COLLECT[Collect IDs into Set]
-        COLLECT --> SOQL1[Single SOQL:\nSELECT Id, Name, Balance__c\nFROM Account WHERE Id IN :ids]
+        TRIGGER[Trigger receives<br/>200 Account records] --> COLLECT[Collect IDs into Set]
+        COLLECT --> SOQL1[Single SOQL:<br/>SELECT Id, Name, Balance__c<br/>FROM Account WHERE Id IN :ids]
         SOQL1 --> MAP[Build Map Id → Account]
-        MAP --> LOOP[Process loop\nusing Map.get - no queries inside]
+        MAP --> LOOP[Process loop<br/>using Map.get - no queries inside]
         LOOP --> DML[Single DML update list]
     end
 

@@ -60,27 +60,27 @@ Large enterprises often operate multiple Salesforce orgs for compliance, geograp
 ```mermaid
 flowchart TD
     subgraph HubAndSpoke Architecture
-        MDM[MuleSoft / MDM\nCanonical Data Model\nAccount, Contact, Product]
+        MDM[MuleSoft / MDM<br/>Canonical Data Model<br/>Account, Contact, Product]
 
         subgraph Sales Org
-            SO[Sales Cloud\nOpportunity, Lead, Campaign]
+            SO[Sales Cloud<br/>Opportunity, Lead, Campaign]
         end
 
         subgraph Service Org
-            SRVO[Service Cloud\nCase, Entitlement, Knowledge]
+            SRVO[Service Cloud<br/>Case, Entitlement, Knowledge]
         end
 
         subgraph FSC Org
-            FSC[Financial Services Cloud\nFinancialAccount, Loan, Household]
+            FSC[Financial Services Cloud<br/>FinancialAccount, Loan, Household]
         end
 
         subgraph Analytics Org
-            AO[CRM Analytics\nCross-Org Reporting\nData Warehouse]
+            AO[CRM Analytics<br/>Cross-Org Reporting<br/>Data Warehouse]
         end
 
-        MDM <-->|Real-time events\nBulk Sync| SO
-        MDM <-->|Real-time events\nBulk Sync| SRVO
-        MDM <-->|Real-time events\nBulk Sync| FSC
+        MDM <-->|Real-time events<br/>Bulk Sync| SO
+        MDM <-->|Real-time events<br/>Bulk Sync| SRVO
+        MDM <-->|Real-time events<br/>Bulk Sync| FSC
         SO -->|Nightly ETL| AO
         SRVO -->|Nightly ETL| AO
         FSC -->|Nightly ETL| AO

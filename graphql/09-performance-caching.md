@@ -58,13 +58,13 @@ APQ replaces the full query string with its SHA-256 hash in the request:
 
 ```mermaid
 flowchart LR
-    C[Client] -->|GET /graphql?extensions={sha256}&variables={}| CDN[CDN\nCloudFront / Fastly]
+    C[Client] -->|GET /graphql?extensions={sha256}&variables={}| CDN[CDN<br/>CloudFront / Fastly]
     CDN -->|Cache HIT| C
-    CDN -->|Cache MISS| R[Apollo Router\nor GraphQL Server]
-    R -->|APQ hash lookup| AC[APQ Cache\nRedis / in-memory]
+    CDN -->|Cache MISS| R[Apollo Router<br/>or GraphQL Server]
+    R -->|APQ hash lookup| AC[APQ Cache<br/>Redis / in-memory]
     AC -->|Hash known: execute| EXEC[Execute query]
     AC -->|Hash unknown| C2[Return PersistedQueryNotFound]
-    EXEC --> RC[Response Cache\ncheck by hash + vars]
+    EXEC --> RC[Response Cache<br/>check by hash + vars]
     RC -->|Cache HIT| C
     RC -->|MISS: execute resolvers| DB[(Database)]
     DB --> RC --> C

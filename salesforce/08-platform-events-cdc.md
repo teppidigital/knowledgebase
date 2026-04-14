@@ -57,17 +57,17 @@ CDC events include a `ChangeEventHeader` with:
 ```mermaid
 flowchart LR
     subgraph Salesforce Org
-        DML[Loan__c record updated\nby Apex or User] -->|auto-publish| CDC[(LoanChangeEvent\nCDC Topic)]
-        APEX_PUB[Apex: EventBus.publish] --> PE[(LoanStatusChanged__e\nPlatform Event)]
-        EXT_PUB[External System\nREST API publish] --> PE
+        DML[Loan__c record updated<br/>by Apex or User] -->|auto-publish| CDC[(LoanChangeEvent<br/>CDC Topic)]
+        APEX_PUB[Apex: EventBus.publish] --> PE[(LoanStatusChanged__e<br/>Platform Event)]
+        EXT_PUB[External System<br/>REST API publish] --> PE
     end
 
     subgraph Consumers
-        PE -->|CometD - LWC| LWC[LWC component\nreal-time UI update]
-        PE -->|Apex trigger| APX_TRIG[Apex Trigger\non LoanStatusChanged__e]
-        CDC -->|Pub/Sub API gRPC| DW[Data Warehouse\nKafka → Snowflake]
-        CDC -->|Pub/Sub API gRPC| MQ[MuleSoft\nintegration bus]
-        PE -->|Pub/Sub API gRPC| NOTIF[Notification Service\nexternal]
+        PE -->|CometD - LWC| LWC[LWC component<br/>real-time UI update]
+        PE -->|Apex trigger| APX_TRIG[Apex Trigger<br/>on LoanStatusChanged__e]
+        CDC -->|Pub/Sub API gRPC| DW[Data Warehouse<br/>Kafka → Snowflake]
+        CDC -->|Pub/Sub API gRPC| MQ[MuleSoft<br/>integration bus]
+        PE -->|Pub/Sub API gRPC| NOTIF[Notification Service<br/>external]
     end
 ```
 

@@ -67,16 +67,16 @@ The GraphQL schema is the **contract** between server and client. Every type, fi
 ```mermaid
 flowchart TD
     subgraph Schema Type Hierarchy
-        Q[Query\nloan id\nloans filter first after\naccount id]
-        M[Mutation\ncreateLoan input\nupdateLoanStatus id status]
-        S[Subscription\nloanStatusChanged id]
+        Q[Query<br/>loan id<br/>loans filter first after<br/>account id]
+        M[Mutation<br/>createLoan input<br/>updateLoanStatus id status]
+        S[Subscription<br/>loanStatusChanged id]
 
-        Loan[type Loan\nid ID!\nreference String!\namount Float!\nstatus LoanStatus!\nborrower Account!\ncreatedAt DateTime!]
-        Account[type Account\nid ID!\nname String!\nemail String\nloans LoanConnection!]
-        LC[type LoanConnection\nedges LoanEdge!\npageInfo PageInfo!]
-        LoanStatus[enum LoanStatus\nDRAFT ACTIVE OVERDUE CLOSED]
-        Payload[type CreateLoanPayload\nloan Loan\nerrors UserError ]
-        Input[input CreateLoanInput\nborrowerAccountId ID!\nAmountRequested Float!\ntermMonths Int!]
+        Loan[type Loan<br/>id ID!<br/>reference String!<br/>amount Float!<br/>status LoanStatus!<br/>borrower Account!<br/>createdAt DateTime!]
+        Account[type Account<br/>id ID!<br/>name String!<br/>email String<br/>loans LoanConnection!]
+        LC[type LoanConnection<br/>edges LoanEdge!<br/>pageInfo PageInfo!]
+        LoanStatus[enum LoanStatus<br/>DRAFT ACTIVE OVERDUE CLOSED]
+        Payload[type CreateLoanPayload<br/>loan Loan<br/>errors UserError ]
+        Input[input CreateLoanInput<br/>borrowerAccountId ID!<br/>AmountRequested Float!<br/>termMonths Int!]
     end
 
     Q --> Loan

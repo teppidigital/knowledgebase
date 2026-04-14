@@ -65,11 +65,11 @@ Salesforce — Automation
 ```mermaid
 flowchart TD
     subgraph Record-Triggered Flow — Loan Approval
-        START([Loan__c Updated\nStatus changed to Active]) --> BSF[Before-Save Flow\nSet ApprovedDate__c = Today]
+        START([Loan__c Updated<br/>Status changed to Active]) --> BSF[Before-Save Flow<br/>Set ApprovedDate__c = Today]
         BSF --> ASF[After-Save Flow]
         ASF --> D1{LoanAmount > 100K?}
-        D1 -->|Yes| TASK[Create Task:\nSenior Review Required]
-        D1 -->|No| EMAIL[Send Email Alert\nto Loan Officer]
+        D1 -->|Yes| TASK[Create Task:<br/>Senior Review Required]
+        D1 -->|No| EMAIL[Send Email Alert<br/>to Loan Officer]
         TASK --> NOTIFY[Notify via Platform Event]
         EMAIL --> NOTIFY
     end
@@ -77,7 +77,7 @@ flowchart TD
     subgraph Screen Flow — Loan Application Wizard
         S1[Screen 1: Applicant Details] --> S2[Screen 2: Loan Parameters]
         S2 --> S3[Decision: Credit Score?]
-        S3 -->|>= 700| CREATE[Create Loan__c record\nStatus = Draft]
+        S3 -->|>= 700| CREATE[Create Loan__c record<br/>Status = Draft]
         S3 -->|< 700| DECLINE[Screen: Application Declined]
         CREATE --> SUB[Subflow: CreditCheckSubflow]
         SUB --> S4[Screen 3: Review & Submit]

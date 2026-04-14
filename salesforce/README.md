@@ -23,6 +23,7 @@ A comprehensive reference of 15 production-ready patterns for architecting, deve
 | 13 | [Einstein AI & CRM Analytics](13-einstein-crm-analytics.md) | Einstein Copilot, CRM Analytics, predictions, Agentforce, prompt templates |
 | 14 | [Multi-Org Strategy & Architecture](14-multi-org-strategy.md) | Single-org vs multi-org, hub-and-spoke, Salesforce-to-Salesforce, org migration |
 | 15 | [Industry Clouds & Financial Services](15-industry-clouds.md) | Financial Services Cloud, Health Cloud, data model extensions, action plans |
+| 16 | [Design Patterns & Anti-Patterns](16-design-patterns-antipatterns.md) | 10 Apex/platform patterns, 10 anti-patterns, quick reference card |
 
 ---
 

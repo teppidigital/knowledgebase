@@ -52,17 +52,17 @@ POST /graphql (HTTP span)
 
 ```mermaid
 flowchart LR
-    C[Client] --> GQL[GraphQL Server\nOtel instrumented]
+    C[Client] --> GQL[GraphQL Server<br/>Otel instrumented]
 
     subgraph Telemetry Pipeline
         GQL -->|OTLP spans + metrics| OC[OpenTelemetry Collector]
-        OC --> TEMPO[Grafana Tempo\nDistributed Traces]
-        OC --> PROM[Prometheus\nMetrics]
-        PROM --> GRAF[Grafana Dashboards\nP50/P95/P99 per operation\nError rate\nCache hit rate]
+        OC --> TEMPO[Grafana Tempo<br/>Distributed Traces]
+        OC --> PROM[Prometheus<br/>Metrics]
+        PROM --> GRAF[Grafana Dashboards<br/>P50/P95/P99 per operation<br/>Error rate<br/>Cache hit rate]
         TEMPO --> GRAF
     end
 
-    GQL -->|Usage reporting| AS[Apollo Studio\nField usage\nOperation timing\nSchema checks]
+    GQL -->|Usage reporting| AS[Apollo Studio<br/>Field usage<br/>Operation timing<br/>Schema checks]
 ```
 
 ## Code Sample

@@ -45,25 +45,25 @@ This does not require a GraphQL server — it is just a function call.
 ```mermaid
 flowchart TD
     subgraph Unit Tests
-        UR[Resolver fn\ncalled directly]
-        MC[Mock context\ndb returns fixture data]
+        UR[Resolver fn<br/>called directly]
+        MC[Mock context<br/>db returns fixture data]
         UR --> MC
     end
 
     subgraph Integration Tests
-        GE[graphql execute\nfull schema]
-        TDB[(Test Database\nor Prisma mock)]
+        GE[graphql execute<br/>full schema]
+        TDB[(Test Database<br/>or Prisma mock)]
         GE --> TDB
     end
 
     subgraph Contract Tests
-        SI[Schema Inspector\ngraphql-inspector]
-        CLI[Client operations\n.graphql files]
+        SI[Schema Inspector<br/>graphql-inspector]
+        CLI[Client operations<br/>.graphql files]
         SI --> CLI
     end
 
     subgraph E2E Tests
-        HTTP[HTTP POST\n/graphql]
+        HTTP[HTTP POST<br/>/graphql]
         SRV[Running server]
         HTTP --> SRV
     end

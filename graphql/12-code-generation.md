@@ -42,14 +42,14 @@ The `codegen.ts` file defines which schemas and documents are processed, which p
 
 ```mermaid
 flowchart LR
-    SDL[schema.graphql\nSDL definition] --> CG
-    OPS[*.graphql\nclient operations] --> CG
-    CG[graphql-codegen\ncodegen.ts config] -->|server types| RT[types/generated.ts\nschema types + resolver sigs]
-    CG -->|client hooks| CH[hooks/generated.ts\nuseGetLoanQuery\nuseCreateLoanMutation]
-    CG -->|operation types| OT[operations/generated.ts\nGetLoanQuery\nGetLoanQueryVariables]
+    SDL[schema.graphql<br/>SDL definition] --> CG
+    OPS[*.graphql<br/>client operations] --> CG
+    CG[graphql-codegen<br/>codegen.ts config] -->|server types| RT[types/generated.ts<br/>schema types + resolver sigs]
+    CG -->|client hooks| CH[hooks/generated.ts<br/>useGetLoanQuery<br/>useCreateLoanMutation]
+    CG -->|operation types| OT[operations/generated.ts<br/>GetLoanQuery<br/>GetLoanQueryVariables]
 
-    RT --> Server[Server Resolvers\ntype-safe]
-    CH --> Client[React Components\ntype-safe]
+    RT --> Server[Server Resolvers<br/>type-safe]
+    CH --> Client[React Components<br/>type-safe]
 ```
 
 ## Code Sample

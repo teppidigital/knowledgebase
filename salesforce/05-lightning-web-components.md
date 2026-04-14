@@ -70,16 +70,16 @@ myComponent/
 ```mermaid
 flowchart LR
     subgraph Browser — Shadow DOM
-        P[loanDashboard\nparent component]
-        C1[loanList\nchild — @api loans]
-        C2[loanDetail\nchild — @api loanId]
-        LMS[Lightning Message Service\nMessageChannel]
+        P[loanDashboard<br/>parent component]
+        C1[loanList<br/>child — @api loans]
+        C2[loanDetail<br/>child — @api loanId]
+        LMS[Lightning Message Service<br/>MessageChannel]
     end
 
     subgraph Salesforce Server
-        APEX[LoanController.cls\n@AuraEnabled methods]
-        LDS[Lightning Data Service\nUI API]
-        SR[Schema / Picklists\nUI API]
+        APEX[LoanController.cls<br/>@AuraEnabled methods]
+        LDS[Lightning Data Service<br/>UI API]
+        SR[Schema / Picklists<br/>UI API]
     end
 
     P -->|@api loanId| C2

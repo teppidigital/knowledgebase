@@ -65,17 +65,17 @@ Salesforce — Commerce & Monetisation
 
 ```mermaid
 flowchart TD
-    O[Opportunity] -->|"Convert to Quote"| Q[Quote\nSBQQ__Quote__c]
-    Q -->|Add Products| QL[Quote Lines\nSBQQ__QuoteLine__c]
-    QL -->|Apply| WF[Pricing Waterfall:\n1 List → 2 Contracted\n3 Block → 4 Discount\n5 Price Rules → 6 Manual]
+    O[Opportunity] -->|"Convert to Quote"| Q[Quote<br/>SBQQ__Quote__c]
+    Q -->|Add Products| QL[Quote Lines<br/>SBQQ__QuoteLine__c]
+    QL -->|Apply| WF[Pricing Waterfall:<br/>1 List → 2 Contracted<br/>3 Block → 4 Discount<br/>5 Price Rules → 6 Manual]
     WF -->|Discount > threshold| AP[Approval Process]
-    AP -->|Approved| DOC[Quote Document\nSBQQ__QuoteDocument__c]
+    AP -->|Approved| DOC[Quote Document<br/>SBQQ__QuoteDocument__c]
     DOC -->|E-Signed| ORD[Order / Order Products]
 
     subgraph Revenue Cloud
-        ORD -->|Invoice Schedule| INV[Invoice\nblng__Invoice__c]
-        INV -->|Payment| PAY[Payment\nblng__Payment__c]
-        INV -->|Revenue Schedule| REV[Revenue Schedule\nblng__RevenueSchedule__c]
+        ORD -->|Invoice Schedule| INV[Invoice<br/>blng__Invoice__c]
+        INV -->|Payment| PAY[Payment<br/>blng__Payment__c]
+        INV -->|Revenue Schedule| REV[Revenue Schedule<br/>blng__RevenueSchedule__c]
     end
 ```
 

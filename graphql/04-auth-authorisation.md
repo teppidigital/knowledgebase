@@ -64,12 +64,12 @@ type Mutation {
 
 ```mermaid
 flowchart TD
-    HTTP[HTTP Request\nAuthorization: Bearer JWT]
-    MW[Express Middleware\nverifyJwt → ctx.user]
-    GQL[GraphQL Engine\nParse + Validate]
-    DIR[@auth Directive Transformer\nwraps field resolvers]
+    HTTP[HTTP Request<br/>Authorization: Bearer JWT]
+    MW[Express Middleware<br/>verifyJwt → ctx.user]
+    GQL[GraphQL Engine<br/>Parse + Validate]
+    DIR[@auth Directive Transformer<br/>wraps field resolvers]
     R[Resolver Execution]
-    SVC[Service Layer\nOwnership check\nloan.borrowerId === ctx.user.id]
+    SVC[Service Layer<br/>Ownership check<br/>loan.borrowerId === ctx.user.id]
     DB[(Database)]
 
     HTTP --> MW -->|ctx.user attached| GQL --> DIR --> R --> SVC --> DB

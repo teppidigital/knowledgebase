@@ -50,7 +50,7 @@ Salesforce enforces a **minimum 75% Apex code coverage** threshold for productio
 ```mermaid
 flowchart TD
     subgraph Apex Test Class
-        SETUP[TestSetup\ninsert Account + Loans]
+        SETUP[TestSetup<br/>insert Account + Loans]
         T1[Test: bulkInsert 200 loans]
         T2[Test: statusChange fires event]
         T3[Test: callout returns credit score]
@@ -60,12 +60,12 @@ flowchart TD
     end
 
     subgraph Mocks
-        CM[HttpCalloutMock\nCreditBureauMockResponse]
-        SM[StubProvider\nMockLoanRepository]
+        CM[HttpCalloutMock<br/>CreditBureauMockResponse]
+        SM[StubProvider<br/>MockLoanRepository]
     end
 
     subgraph Assertions
-        A1[Assert: 200 Tasks created\nno DML exception]
+        A1[Assert: 200 Tasks created<br/>no DML exception]
         A2[Assert: Platform Event published]
         A3[Assert: CreditScore__c = 720]
         A4[Assert: throws LoanException]

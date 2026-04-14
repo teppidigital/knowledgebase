@@ -54,7 +54,7 @@ When the Router needs to resolve `Loan.borrower` (owned by the `accounts` subgra
 
 ```mermaid
 flowchart TD
-    C[Client\nquery loans amount borrower.name] -->|HTTP POST /graphql| R[Apollo Router\nSupergraph]
+    C[Client<br/>query loans amount borrower.name] -->|HTTP POST /graphql| R[Apollo Router<br/>Supergraph]
 
     subgraph Query Plan
         R -->|"query loans { id amount borrowerAccountId }"| LS[Loans Subgraph]

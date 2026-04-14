@@ -63,14 +63,14 @@ Salesforce **Industry Clouds** are purpose-built extensions of the core platform
 ```mermaid
 flowchart TD
     subgraph FSC Banking Data Model
-        Personal[PersonAccount\nIndividual Customer\nKYC Status | Risk Rating]
-        Household[Household\nFamily Group\nCombined Net Worth\nGoal Progress]
-        FA1[FinancialAccount\nType=Loan\nBalance | DueDate]
-        FA2[FinancialAccount\nType=Deposit\nBalance | Interest Rate]
-        FA3[FinancialAccount\nType=Investment\nPortfolio Value]
-        Goal[FinancialGoal\nRetirement\nTarget: £500k]
-        Alert[RecordAlert\nKYC Due in 30 days]
-        AP[ActionPlan\nOnboarding Checklist\n6 Tasks]
+        Personal[PersonAccount<br/>Individual Customer<br/>KYC Status | Risk Rating]
+        Household[Household<br/>Family Group<br/>Combined Net Worth<br/>Goal Progress]
+        FA1[FinancialAccount<br/>Type=Loan<br/>Balance | DueDate]
+        FA2[FinancialAccount<br/>Type=Deposit<br/>Balance | Interest Rate]
+        FA3[FinancialAccount<br/>Type=Investment<br/>Portfolio Value]
+        Goal[FinancialGoal<br/>Retirement<br/>Target: £500k]
+        Alert[RecordAlert<br/>KYC Due in 30 days]
+        AP[ActionPlan<br/>Onboarding Checklist<br/>6 Tasks]
     end
 
     Household --> Personal
@@ -80,9 +80,9 @@ flowchart TD
     Personal --> AP
 
     subgraph OmniStudio Loan Origination
-        OS[OmniScript\nLoan Application Wizard\nStep 1: Personal Details\nStep 2: Documents\nStep 3: Offer Selection]
-        DR[DataRaptor Extract\nPre-fill: PersonAccount data]
-        IP[Integration Procedure\nCredit Check + Offer Engine\n+ Loan__c Insert]
+        OS[OmniScript<br/>Loan Application Wizard<br/>Step 1: Personal Details<br/>Step 2: Documents<br/>Step 3: Offer Selection]
+        DR[DataRaptor Extract<br/>Pre-fill: PersonAccount data]
+        IP[Integration Procedure<br/>Credit Check + Offer Engine<br/>+ Loan__c Insert]
         OS --> DR
         OS --> IP
     end

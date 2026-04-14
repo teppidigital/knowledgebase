@@ -70,29 +70,29 @@ Salesforce DevOps has matured significantly with **Salesforce DX (SFDX)**, **scr
 ```mermaid
 flowchart LR
     subgraph Developer
-        DEV[Developer\nfeature/loan-approval] --> SCR[Scratch Org\nlocal dev + test]
+        DEV[Developer<br/>feature/loan-approval] --> SCR[Scratch Org<br/>local dev + test]
         SCR --> COMMIT[git commit + push]
     end
 
     subgraph CI Pipeline — GitHub Actions
         COMMIT --> PR[Pull Request]
-        PR --> VAL[sf project deploy start\n--dry-run validate]
+        PR --> VAL[sf project deploy start<br/>--dry-run validate]
         VAL --> JEST[LWC Jest Tests]
-        JEST --> APEX[Apex Tests\nsf apex run test]
+        JEST --> APEX[Apex Tests<br/>sf apex run test]
         APEX --> PMD[PMD Static Analysis]
         PMD --> REVIEW[Code Review]
         REVIEW --> MERGE[Merge to main]
     end
 
     subgraph Deploy Pipeline
-        MERGE --> INT[Deploy to Integration\nSandbox]
-        INT --> UAT[Deploy to UAT\nFull Sandbox]
-        UAT --> PROD[Deploy to Production\n≥75% coverage gate]
+        MERGE --> INT[Deploy to Integration<br/>Sandbox]
+        INT --> UAT[Deploy to UAT<br/>Full Sandbox]
+        UAT --> PROD[Deploy to Production<br/>≥75% coverage gate]
     end
 
     subgraph Package Pipeline
-        PROD --> PKG[sf package version create\n--package LoanManagement --install-key]
-        PKG --> INST[Install package version\nin subscriber orgs]
+        PROD --> PKG[sf package version create<br/>--package LoanManagement --install-key]
+        PKG --> INST[Install package version<br/>in subscriber orgs]
     end
 ```
 

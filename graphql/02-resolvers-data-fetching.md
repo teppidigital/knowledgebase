@@ -62,8 +62,8 @@ If no resolver is defined for a field, GraphQL uses the **default resolver**: `(
 sequenceDiagram
     participant C as Client
     participant GQL as GraphQL Engine
-    participant RR as Root Resolver\nQuery.loan
-    participant AR as Account Resolver\nLoan.borrower
+    participant RR as Root Resolver<br/>Query.loan
+    participant AR as Account Resolver<br/>Loan.borrower
     participant DB as Database
 
     C->>GQL: query { loan(id:"1") { reference borrower { name } } }

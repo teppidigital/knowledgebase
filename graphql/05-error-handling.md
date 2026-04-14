@@ -72,16 +72,16 @@ GraphQL has a unique error model: a response can simultaneously contain **partia
 ```mermaid
 flowchart TD
     R[Resolver called]
-    R --> V{Validation\nError?}
-    V -->|Yes| EU[Return Error Union\nCreateLoanPayload.errors]
-    V -->|No| A{Auth\nError?}
-    A -->|Unauthn| UA[throw UNAUTHENTICATED\nGraphQLError]
-    A -->|Authz| FB[throw FORBIDDEN\nGraphQLError]
+    R --> V{Validation<br/>Error?}
+    V -->|Yes| EU[Return Error Union<br/>CreateLoanPayload.errors]
+    V -->|No| A{Auth<br/>Error?}
+    A -->|Unauthn| UA[throw UNAUTHENTICATED<br/>GraphQLError]
+    A -->|Authz| FB[throw FORBIDDEN<br/>GraphQLError]
     A -->|OK| DB[(Database)]
     DB --> NF{Not Found?}
-    NF -->|Yes| RN[Return null\nfor nullable field]
-    NF -->|No| SYS{System\nError?}
-    SYS -->|Yes| SE[throw INTERNAL_SERVER_ERROR\nlog full error server-side\nmask message for client]
+    NF -->|Yes| RN[Return null<br/>for nullable field]
+    NF -->|No| SYS{System<br/>Error?}
+    SYS -->|Yes| SE[throw INTERNAL_SERVER_ERROR<br/>log full error server-side<br/>mask message for client]
     SYS -->|No| OK[Return data]
 ```
 

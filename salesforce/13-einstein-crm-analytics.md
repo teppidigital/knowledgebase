@@ -60,19 +60,19 @@ Salesforce AI has three distinct layers: **Einstein Copilot / Agentforce** (conv
 ```mermaid
 flowchart TD
     subgraph Agentforce Execution
-        U[User Query:\n"What loans are overdue for ACME Corp?"]
-        COP[Einstein Copilot\nAgent Runtime]
-        TOPIC[Topic Classifier\nLLM identifies: Loan Enquiry Topic]
-        ACTION[Action: GetOverdueLoans\nApex @InvocableMethod]
-        APEX[Apex: SELECT * FROM Loan__c\nWHERE DueDate < TODAY]
-        RESPONSE[LLM formats response\nwith retrieved data]
+        U[User Query:<br/>"What loans are overdue for ACME Corp?"]
+        COP[Einstein Copilot<br/>Agent Runtime]
+        TOPIC[Topic Classifier<br/>LLM identifies: Loan Enquiry Topic]
+        ACTION[Action: GetOverdueLoans<br/>Apex @InvocableMethod]
+        APEX[Apex: SELECT * FROM Loan__c<br/>WHERE DueDate < TODAY]
+        RESPONSE[LLM formats response<br/>with retrieved data]
     end
 
     subgraph CRM Analytics Pipeline
-        DF[Dataflow / Recipe\nExtract: Loan__c + Account]
-        XFORM[Transform:\nJoin + Compute DaysPastDue\nFilter Status IN Active Overdue]
-        DS[Dataset: Loan Performance\nColumnar store]
-        DB[Dashboard: Loan Risk Review\nbar chart + KPIs + date filter]
+        DF[Dataflow / Recipe<br/>Extract: Loan__c + Account]
+        XFORM[Transform:<br/>Join + Compute DaysPastDue<br/>Filter Status IN Active Overdue]
+        DS[Dataset: Loan Performance<br/>Columnar store]
+        DB[Dashboard: Loan Risk Review<br/>bar chart + KPIs + date filter]
     end
 
     U --> COP --> TOPIC --> ACTION --> APEX --> RESPONSE

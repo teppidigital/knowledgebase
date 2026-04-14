@@ -60,21 +60,21 @@ Trigger → TriggerHandler dispatches to → Service classes
 ```mermaid
 flowchart TD
     subgraph Trigger Entry Point
-        T[AccountTrigger.trigger\nbefore insert / after update]
+        T[AccountTrigger.trigger<br/>before insert / after update]
     end
 
     subgraph Handler Layer
-        TH[AccountTriggerHandler\ndispatch by context]
+        TH[AccountTriggerHandler<br/>dispatch by context]
     end
 
     subgraph Service Layer
-        S1[AccountService\nbusiness logic]
-        S2[CreditCheckService\nexternal callout - future/Queueable]
+        S1[AccountService<br/>business logic]
+        S2[CreditCheckService<br/>external callout - future/Queueable]
     end
 
     subgraph Repository Layer
-        R1[AccountRepository\nSOQL queries]
-        R2[ContactRepository\nbulk DML]
+        R1[AccountRepository<br/>SOQL queries]
+        R2[ContactRepository<br/>bulk DML]
     end
 
     T --> TH
@@ -82,7 +82,7 @@ flowchart TD
     TH -->|afterInsert| S2
     S1 --> R1
     S1 --> R2
-    S2 -->|@future / Queueable| EXT[External Credit API\nHTTP Callout]
+    S2 -->|@future / Queueable| EXT[External Credit API<br/>HTTP Callout]
 ```
 
 ## Code Sample

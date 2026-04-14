@@ -23,6 +23,7 @@ A catalogue of 15 patterns and practices for keeping software architecture align
 | 13 | [Evolutionary Architecture Patterns](./13-evolutionary-patterns.md) | Design | Strangler fig, anticorruption layer, expand-contract |
 | 14 | [Architecture Documentation](./14-architecture-documentation.md) | Documentation | C4 model, arc42, lightweight diagrams |
 | 15 | [Architecture Health Metrics](./15-architecture-metrics.md) | Measurement | DORA, coupling metrics, debt ratio, fitness results |
+| 16 | [Methods & Tools Playbook](./16-methods-tools-playbook.md) | Methods & Tools | QAW, utility tree, ATAM, risk storming, MADR, debt register, fitness functions, C4, radar, cognitive load |
 
 ---
 
@@ -60,6 +61,9 @@ A catalogue of 15 patterns and practices for keeping software architecture align
 
 ### Measurement
 - **Architecture Health Metrics** — Quantifying architecture quality over time
+
+### Methods & Tools
+- **Methods & Tools Playbook** — Step-by-step facilitation guides and copy-paste templates for 13 core continuous architecture methods: QAW, utility tree, QA scenarios, lightweight ATAM, risk storming, MADR, technical debt register, fitness function definitions, runway planning, technology radar, C4 + Structurizr, team cognitive load assessment, and architecture health dashboard
 
 ---
 

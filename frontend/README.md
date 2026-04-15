@@ -23,6 +23,7 @@ A comprehensive reference of 15 frontend architecture patterns covering componen
 | 13 | [Bundling & Build Tools](13-bundling-build-tools.md) | Vite + SWC, Rollup manualChunks, source maps, Sentry plugin, bundle size CI |
 | 14 | [CDN & Edge Delivery](14-cdn-edge-delivery.md) | Cloudflare Workers, A/B at edge, Next.js Middleware, CloudFront Terraform, SRI |
 | 15 | [Frontend Security](15-frontend-security.md) | CSP nonce, Trusted Types, SameSite cookies, open redirect prevention, SBOM + Grype |
+| 16 | [React.js — Foundation, Patterns & Anti-Patterns](16-reactjs.md) | Component model, hooks, custom hooks, compound components, HOC, error boundary, state machines |
 
 ---
 

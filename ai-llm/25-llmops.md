@@ -76,24 +76,24 @@ Draft → Peer review → Eval gate (pass > 90%) → Staging → Canary (5%) →
 ```mermaid
 flowchart TB
     subgraph CI["CI Pipeline (GitHub Actions)"]
-        PR[Pull Request\nPrompt / Config Change] --> EV[Eval Runner\nPromptFoo / RAGAS]
+        PR[Pull Request<br/>Prompt / Config Change] --> EV[Eval Runner<br/>PromptFoo / RAGAS]
         EV -->|pass ≥ 90%| MR[Merge to main]
         EV -->|fail| BK[Block + Comment]
     end
 
     subgraph Deploy["Deployment"]
-        MR --> PR_REG[Prompt Registry\nGit-backed]
-        PR_REG -->|canary 5%| PROD[Production\nLLM Gateway]
+        MR --> PR_REG[Prompt Registry<br/>Git-backed]
+        PR_REG -->|canary 5%| PROD[Production<br/>LLM Gateway]
         PR_REG -->|shadow| SHADOW[Shadow Instance]
         SHADOW -->|compare responses| AB[A/B Analyser]
         AB -->|promote| PROD
     end
 
     subgraph Monitor["Monitor & Govern"]
-        PROD -->|traces| OBS[Langfuse / Phoenix\nTrace Store]
+        PROD -->|traces| OBS[Langfuse / Phoenix<br/>Trace Store]
         OBS -->|metrics| PROM[Prometheus]
         PROM -->|alert| PD[PagerDuty]
-        OBS -->|sample| EVAL_LOOP[Online Eval Loop\nLLM-as-judge]
+        OBS -->|sample| EVAL_LOOP[Online Eval Loop<br/>LLM-as-judge]
         EVAL_LOOP -->|quality report| DASH[Grafana Dashboard]
     end
 ```

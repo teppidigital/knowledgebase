@@ -49,12 +49,12 @@ RAG extends an LLM's knowledge by retrieving relevant documents from an external
 ```mermaid
 flowchart LR
     User([User Query]) --> QR[Query Rewriter]
-    QR --> EE[Embedding\nEncoder]
-    EE --> VS[(Vector Store\npgvector / Pinecone)]
-    VS -- top-k chunks --> RR[Re-ranker\nCross-Encoder]
-    RR --> PC[Prompt Composer\nSystem + Context + Query]
-    PC --> LLM[LLM\nGPT-4o / Claude 3.5]
-    LLM --> GR[Generated Response\n+ Citations]
+    QR --> EE[Embedding<br/>Encoder]
+    EE --> VS[(Vector Store<br/>pgvector / Pinecone)]
+    VS -- top-k chunks --> RR[Re-ranker<br/>Cross-Encoder]
+    RR --> PC[Prompt Composer<br/>System + Context + Query]
+    PC --> LLM[LLM<br/>GPT-4o / Claude 3.5]
+    LLM --> GR[Generated Response<br/>+ Citations]
     GR --> User
 
     subgraph Indexing Pipeline

@@ -26,6 +26,7 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 | 16 | [16-key-vault.md](16-key-vault.md) | Azure Key Vault | Key Vault, Secrets, Keys, Certificates, CMK, Rotation |
 | 17 | [17-cache-for-redis.md](17-cache-for-redis.md) | Azure Cache for Redis | Redis, Cache-Aside, Rate Limiting, Sessions, Distributed Lock |
 | 18 | [18-durable-functions.md](18-durable-functions.md) | Azure Durable Functions | Durable Functions, Orchestrator, Entity, Fan-out, Human Interaction |
+| 19 | [19-security-best-practices.md](19-security-best-practices.md) | Security Best Practices | Managed Identity, Conditional Access, PIM, Key Vault, Private Endpoints, Defender for Cloud, Sentinel, WAF |
 
 ---
 

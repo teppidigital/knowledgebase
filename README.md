@@ -141,6 +141,16 @@ End-to-end integration patterns for enterprise and cloud-native environments —
 
 ---
 
+### [Java](java/README.md)
+
+> 1 document · Java language evolution from Java 8 to Java 24
+
+Comprehensive reference for Java features introduced across each version — from the foundational Java 8 additions through to modern Java 24 capabilities. Every feature includes focused, production-relevant code samples.
+
+**Key topics:** Lambda expressions, Streams API, Optional, `java.time`, CompletableFuture (Java 8), JPMS modules (Java 9), `var` type inference (Java 10), HTTP Client (Java 11), Text blocks (Java 15), Records (Java 16), Sealed classes (Java 17), Virtual threads (Java 21), Sequenced collections (Java 21), Pattern matching switch (Java 21), Stream Gatherers (Java 24), Scoped Values (Java 24), Structured Concurrency (Java 24), Quantum-resistant cryptography ML-KEM & ML-DSA (Java 24).
+
+---
+
 ### [Real-World Scaling War Stories](scaling/README.md)
 
 > 12 case studies · Production-proven solutions to real scaling problems
@@ -174,7 +184,8 @@ A collection of documented scaling challenges and solutions from the world's lar
 | [Production Hardening](production-hardening/README.md)              | 15       | TypeScript, Python, YAML, HCL      |
 | [Real-World Scaling War Stories](scaling/README.md)                 | 12       | TypeScript, Go, Rust, Erlang, SQL  |
 | [System Integration](system-integration/README.md)                  | 15       | TypeScript, Java, YAML, SQL, HCL   |
-| **Total**                                                           | **285**  |                                    |
+| [Java](java/README.md)                                              | 1        | Java                               |
+| **Total**                                                           | **286**  |                                    |
 
 ---
 

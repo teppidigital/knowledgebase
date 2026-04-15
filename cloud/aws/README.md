@@ -27,6 +27,7 @@ A comprehensive catalog of **AWS Cloud Native patterns** covering compute, stora
 | [21](21-elasticache.md) | ElastiCache — Redis & Memcached | Caching | ElastiCache, Redis, Valkey, Session Store |
 | [22](22-secrets-manager.md) | Secrets Manager | Security | Secrets Manager, Rotation, Cross-region |
 | [23](23-waf-shield.md) | WAF & Shield | Security | WAF v2, Shield Standard/Advanced, Managed Rules |
+| [24](24-security-best-practices.md) | Security Best Practices | Security | IAM, SCPs, GuardDuty, Security Hub, WAF, KMS, Inspector, CloudTrail |
 
 ---
 

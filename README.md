@@ -103,11 +103,11 @@ End-to-end data architecture patterns from raw ingestion through to real-time an
 
 ### [AI & LLM Integration](ai-llm/README.md)
 
-> 15 patterns · Production-ready patterns for building reliable, safe, and cost-efficient LLM systems
+> 25 patterns · Production-ready patterns for building reliable, safe, and cost-efficient LLM systems
 
-Patterns for integrating large language models into production applications — from retrieval-augmented generation and agent architectures through to cost control, safety guardrails, and automated quality evaluation.
+Patterns for integrating large language models into production applications — from retrieval-augmented generation and agent architectures through to cost control, safety guardrails, automated quality evaluation, and operationalising LLMs at scale.
 
-**Key topics:** Retrieval-Augmented Generation (RAG), LLM Gateway & Provider Abstraction, Prompt Engineering & Management, AI Agents & Tool Use (ReAct/LangGraph), Vector Databases (pgvector/Pinecone/Weaviate), Embedding Pipelines, Semantic Caching, AI Observability (LangSmith/Phoenix), Guardrails & Content Safety, Fine-tuning vs RAG, Multimodal Pipelines (vision/audio), AI Cost Optimisation (model routing/Batch API), LLM Evaluation & Evals (RAGAS), Function Calling & Structured Outputs, AI-Assisted Code Generation.
+**Key topics:** Retrieval-Augmented Generation (RAG), LLM Gateway & Provider Abstraction, Prompt Engineering & Management, AI Agents & Tool Use (ReAct/LangGraph), Vector Databases (pgvector/Pinecone/Weaviate), Embedding Pipelines, Semantic Caching, AI Observability (LangSmith/Phoenix), Guardrails & Content Safety, Fine-tuning vs RAG, Multimodal Pipelines (vision/audio), AI Cost Optimisation (model routing/Batch API), LLM Evaluation & Evals (RAGAS), Function Calling & Structured Outputs, AI-Assisted Code Generation, Harness Engineering, Model Context Protocol (MCP), Multi-Agent Orchestration, Reasoning Models, AI Memory Systems, GraphRAG, Local & Edge LLM, LLM Red Teaming, Synthetic Data Generation, LLMOps (eval-gated CI, canary, token governance).
 
 ---
 
@@ -128,6 +128,16 @@ Contract-first API design patterns and integration techniques for building APIs 
 Frontend architecture patterns for building production-grade React applications — covering micro-frontends, state management, accessibility, internationalisation, Progressive Web Apps, and the complete delivery pipeline from bundling to CDN edge delivery.
 
 **Key topics:** Micro-Frontends (Vite Module Federation, host/remote, event bus), State Management (TanStack Query v5, Zustand, React Hook Form + Zod), Performance Optimisation (Core Web Vitals, code splitting, virtual lists, Web Workers, bundle budgets), Design System (Radix UI, Style Dictionary, Storybook), Server-Side Rendering (Next.js App Router, RSC, ISR, streaming Suspense), Progressive Web App (Workbox caching strategies, Push API, VAPID), Frontend Testing (Vitest, Testing Library, MSW, Playwright), OIDC Authentication (PKCE, oidc-client-ts, in-memory tokens), Feature Flags (OpenFeature, LaunchDarkly), Error Handling (ErrorBoundary, Sentry PII scrubbing), i18n & Localisation (i18next ICU, RTL, Intl.*), Accessibility (WCAG 2.1 AA, ARIA, axe-core, focus management), Bundling & Build Tools (Vite + SWC, manualChunks, CI budget), CDN & Edge Delivery (Cloudflare Workers, Next.js Middleware, CloudFront Terraform), Frontend Security (CSP nonces, Trusted Types, open redirect prevention, SBOM + Grype).
+
+---
+
+### [System Integration](system-integration/README.md)
+
+> 15 patterns · Connecting heterogeneous systems reliably across organisational and technology boundaries
+
+End-to-end integration patterns for enterprise and cloud-native environments — from choosing the right integration style through messaging, event streaming, CDC, distributed transactions, B2B protocols, anti-corruption layers, iPaaS platforms, and production-grade testing, observability, and security.
+
+**Key topics:** Integration Styles (P2P, ESB, Message Bus, Event Streaming, iPaaS), Message-Based Integration (RabbitMQ/AMQP, DLQ, competing consumers, idempotency), Event-Driven Integration (Kafka, CloudEvents, Schema Registry, exactly-once), Synchronous HTTP (circuit breaker, retry, bulkhead), File & Batch (SFTP, S3, NDJSON, idempotent processing), Change Data Capture (Debezium, Outbox pattern, WAL), Anti-Corruption Layer (bounded context translation, adapter), Canonical Data Model (universal schema, transformer chain), Saga Pattern (choreography, orchestration, Temporal), Strangler Fig (façade routing, dark launch, canary), B2B Integration (ISO 20022, SWIFT, EDIFACT, AS2/AS4, PEPPOL), iPaaS & Integration Platforms (Apache Camel, MuleSoft, Temporal, Logic Apps), Integration Testing (Pact V3, WireMock, `can-i-deploy`), Integration Observability (W3C Trace Context, OTel, DLQ alerting), Integration Security (OAuth2 M2M, mTLS, HMAC webhooks, secret rotation).
 
 ---
 
@@ -155,7 +165,7 @@ A collection of documented scaling challenges and solutions from the world's lar
 | [Cloud Native — AWS](cloud/aws/README.md)                    | 15       | TypeScript, HCL, Bash              |
 | [Cloud Native — Azure](cloud/azure/README.md)                | 15       | TypeScript, Bicep, HCL             |
 | [Data Solutions](data-solutions/README.md)                          | 15       | Python, TypeScript, SQL, YAML      |
-| [AI & LLM Integration](ai-llm/README.md)                           | 15       | TypeScript, Python, YAML           |
+| [AI & LLM Integration](ai-llm/README.md)                           | 25       | TypeScript, Python, YAML           |
 | [API Design & Integration](api-design/README.md)                    | 15       | TypeScript, YAML, Protobuf         |
 | [Frontend Architecture](frontend/README.md)                         | 15       | TypeScript, YAML, HCL              |
 | [Backend Architecture](backend/README.md)                           | 15       | TypeScript, Python, YAML, HCL      |
@@ -163,7 +173,8 @@ A collection of documented scaling challenges and solutions from the world's lar
 | [Observability](observability/README.md)                            | 15       | TypeScript, Python, YAML, HCL      |
 | [Production Hardening](production-hardening/README.md)              | 15       | TypeScript, Python, YAML, HCL      |
 | [Real-World Scaling War Stories](scaling/README.md)                 | 12       | TypeScript, Go, Rust, Erlang, SQL  |
-| **Total**                                                           | **260**  |                                    |
+| [System Integration](system-integration/README.md)                  | 15       | TypeScript, Java, YAML, SQL, HCL   |
+| **Total**                                                           | **285**  |                                    |
 
 ---
 

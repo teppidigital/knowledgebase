@@ -1,6 +1,6 @@
 # AI & LLM Integration Patterns
 
-A comprehensive catalogue of 24 production-ready patterns for building reliable, cost-efficient, and safe LLM-powered systems.
+A comprehensive catalogue of 25 production-ready patterns for building reliable, cost-efficient, and safe LLM-powered systems.
 
 ## Patterns
 
@@ -30,6 +30,7 @@ A comprehensive catalogue of 24 production-ready patterns for building reliable,
 | 22 | [Local & Edge LLM Deployment](./22-local-edge-llm.md) | Infrastructure | Ollama, vLLM, llama.cpp, GGUF quantisation |
 | 23 | [LLM Red Teaming & Adversarial Testing](./23-llm-red-teaming.md) | Safety & Compliance | PyRIT, Garak, prompt injection, jailbreak |
 | 24 | [Synthetic Data Generation](./24-synthetic-data-generation.md) | Data Engineering for AI | Distilabel, Faker, knowledge distillation |
+| 25 | [LLMOps](./25-llmops.md) | MLOps & Lifecycle | PromptFoo, Langfuse, eval gate, token budgets, canary deploy |
 
 ---
 
@@ -86,6 +87,9 @@ A comprehensive catalogue of 24 production-ready patterns for building reliable,
 ### Data Engineering for AI (extended)
 - **Synthetic Data Generation** — Fine-tune dataset generation, knowledge distillation, Distilabel, Faker
 
+### MLOps & Lifecycle
+- **LLMOps** — Prompt versioning, eval-gated CI, canary model rollout, online eval sampling, token cost governance
+
 ### Advanced AI Patterns
 - **Multimodal** — Document extraction, audio analysis, image + text pipelines
 
@@ -115,7 +119,7 @@ What is your primary challenge?
 ├── "Output format is unreliable"       → 03-prompt-engineering + 14-function-calling
 ├── "Multiple LLM providers needed"     → 02-llm-gateway
 ├── "I need to process documents/images"→ 11-multimodal + 01-rag
-├── "Quality is degrading"              → 08-ai-observability + 13-llm-evaluation
+├── "Quality is degrading"              → 08-ai-observability + 13-llm-evaluation + 25-llmops
 ├── "PII / compliance concerns"         → 09-guardrails + 06-embedding-pipelines
 └── "I want to scale with AI agents"   → 16-harness-engineering + 04-ai-agents
 ```

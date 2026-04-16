@@ -23,6 +23,8 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | 13  | [Pod Reliability](./13-pod-reliability.md)                                    | Resilience, Availability              | PodDisruptionBudget, topology spread, priority classes, probes      |
 | 14  | [Supply Chain Security](./14-supply-chain-security.md)                        | Security, Compliance                  | Cosign, SBOM, Sigstore, OPA Gatekeeper, admission webhooks          |
 | 15  | [Cost Optimisation](./15-cost-optimisation.md)                                | FinOps, Cost                          | Spot nodes, right-sizing, Goldilocks, Kubecost, bin packing         |
+| 16  | [Platform Engineering & IDP](./16-platform-engineering.md)                    | Platform, Developer Experience        | Backstage, Crossplane, Kyverno, golden paths, service catalog       |
+| 17  | [Cluster Upgrades & Node Maintenance](./17-cluster-upgrades.md)               | Operations, Reliability               | Rolling upgrades, Pluto, PDB, Karpenter drift, drain runbook        |
 
 ---
 
@@ -77,7 +79,7 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | **StatefulSet + StorageClass + PVC** | Stateful database workload with persistent, dynamic storage |
 | **KEDA + Spot nodes (Karpenter)** | Cost-optimised event-driven scaling |
 | **ArgoCD + Kustomize overlays** | Environment-specific config with GitOps delivery |
-| **Istio + OPA Gatekeeper** | Traffic policy + admission policy for zero-trust |
-| **External Secrets Operator + Vault/AWS SM** | Secret lifecycle managed outside the cluster |
+| **Istio + OPA Gatekeeper** | Traffic policy + admission policy for zero-trust || Backstage + Crossplane + Kyverno | Self-service IDP with governance guardrails |
+| Pluto + PDB + kubectl drain | Safe zero-downtime cluster upgrades || **External Secrets Operator + Vault/AWS SM** | Secret lifecycle managed outside the cluster |
 | **Prometheus + Loki + Tempo + Grafana** | Full observability stack (metrics + logs + traces) |
 | **Cosign + OPA Gatekeeper** | Only signed, policy-compliant images run in production |

@@ -27,6 +27,8 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 | 17 | [17-cache-for-redis.md](17-cache-for-redis.md) | Azure Cache for Redis | Redis, Cache-Aside, Rate Limiting, Sessions, Distributed Lock |
 | 18 | [18-durable-functions.md](18-durable-functions.md) | Azure Durable Functions | Durable Functions, Orchestrator, Entity, Fan-out, Human Interaction |
 | 19 | [19-security-best-practices.md](19-security-best-practices.md) | Security Best Practices | Managed Identity, Conditional Access, PIM, Key Vault, Private Endpoints, Defender for Cloud, Sentinel, WAF |
+| 20 | [20-azure-openai-ai-foundry.md](20-azure-openai-ai-foundry.md) | Azure OpenAI & AI Foundry | Azure OpenAI, GPT-4o, AI Foundry, AI Search (RAG), Semantic Kernel, Content Safety |
+| 21 | [21-azure-arc.md](21-azure-arc.md) | Azure Arc — Hybrid & Multi-Cloud | Azure Arc, Arc-enabled K8s, Arc-enabled Servers, GitOps, Defender for Cloud, Azure Policy |
 
 ---
 
@@ -77,8 +79,13 @@ A comprehensive reference for building cloud-native workloads on Microsoft Azure
 |---------|-----------------|
 | [Landing Zone & Management Groups](12-landing-zone.md) | Multi-subscription enterprise Azure — policy, RBAC, subscription vending |
 | [Disaster Recovery](14-disaster-recovery.md) | Workloads with defined RTO/RPO SLAs; regulated industries |
-| [Cost Management](15-cost-management.md) | Controlling cloud spend; FinOps programme; multi-team chargeback |
+| [Cost Management](15-cost-management.md) | Controlling cloud spend; FinOps programme; multi-team chargeback || [Azure Arc — Hybrid & Multi-Cloud](21-azure-arc.md) | Multi-cloud K8s governance; on-prem SQL MI; unified Defender posture |
 
+### AI & Machine Learning
+
+| Pattern | Recommended when |
+|---------|------------------|
+| [Azure OpenAI & AI Foundry](20-azure-openai-ai-foundry.md) | LLM-powered features with data residency; RAG via AI Search; Semantic Kernel orchestration |
 ---
 
 ## Azure vs AWS Service Equivalence

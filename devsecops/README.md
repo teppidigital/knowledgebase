@@ -23,6 +23,10 @@ A comprehensive catalog of **DevSecOps patterns** for embedding security through
 | [13](13-compliance-as-code.md)       | Compliance as Code                          | Governance | All            |
 | [14](14-security-cicd-pipeline.md)   | Security CI/CD Pipeline                     | Automation | Build / Test   |
 | [15](15-vulnerability-management.md) | Vulnerability Management                    | Response   | All            |
+| [16](16-api-security.md)             | API Security (OWASP API Top 10)             | Prevention | Code / Test    |
+| [17](17-penetration-testing-red-teaming.md) | Penetration Testing & Red Teaming    | Validation | Test / Operate |
+| [18](18-incident-response.md)        | Incident Response                           | Response   | Operate        |
+| [19](19-data-security-privacy.md)    | Data Security & Privacy Engineering         | Prevention | All            |
 
 ---
 
@@ -40,6 +44,8 @@ A comprehensive catalog of **DevSecOps patterns** for embedding security through
 | [Container Security](07-container-security.md)   | Trivy, Kyverno, Cosign                    |
 | [Supply Chain & SBOM](08-supply-chain-sbom.md)   | Syft, Grype, SLSA, Cosign                 |
 | [Zero Trust](09-zero-trust.md)                   | SPIFFE/SPIRE, Istio, OPA                  |
+| [API Security](16-api-security.md)               | RESTler, CATS, Spectral, express-rate-limit, OWASP ZAP API mode |
+| [Data Security & Privacy](19-data-security-privacy.md) | AES-256-GCM, Faker.js, Zod, tokenisation, GDPR Art. 17/20 |
 
 ### Detection — Identify vulnerabilities and threats at runtime
 
@@ -62,6 +68,18 @@ A comprehensive catalog of **DevSecOps patterns** for embedding security through
 | Pattern                                                 | Key Tools                        |
 | ------------------------------------------------------- | -------------------------------- |
 | [Security CI/CD Pipeline](14-security-cicd-pipeline.md) | GitHub Actions, all of the above |
+
+### Validation — Confirm real-world exploitability and detection capability
+
+| Pattern                                                             | Key Tools                                      |
+| ------------------------------------------------------------------- | ---------------------------------------------- |
+| [Penetration Testing & Red Teaming](17-penetration-testing-red-teaming.md) | Burp Suite, MITRE ATT&CK, TIBER-EU, CBEST, HackerOne |
+
+### Response — Contain, eradicate, and recover from security incidents
+
+| Pattern                               | Key Tools                                      |
+| ------------------------------------- | ---------------------------------------------- |
+| [Incident Response](18-incident-response.md) | SOAR (Sentinel/EventBridge), Falco, PagerDuty, Runbooks |
 
 ---
 

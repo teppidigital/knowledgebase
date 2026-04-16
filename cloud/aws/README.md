@@ -23,11 +23,17 @@ A comprehensive catalog of **AWS Cloud Native patterns** covering compute, stora
 | [13](13-cloudfront-cdn.md) | CloudFront & CDN | Networking | CloudFront, WAF, CF Functions, Lambda@Edge |
 | [14](14-disaster-recovery.md) | Disaster Recovery | Resilience | Aurora Global, DynamoDB Global, Route53, Backup |
 | [15](15-cost-optimisation.md) | Cost Optimisation | FinOps | Savings Plans, Spot, Karpenter, Budgets |
+| [16](16-well-architected-framework.md) | AWS Well-Architected Framework | Governance | Well-Architected Tool, 6 Pillars, Trusted Advisor |
+| [17](17-hybrid-connectivity.md) | Hybrid Connectivity | Networking | Direct Connect, Site-to-Site VPN, Transit Gateway, AWS PrivateLink |
+| [18](18-identity-federation.md) | Identity Federation | Security | IAM Identity Center, SAML, OIDC, STS, Cognito |
+| [19](19-migration-tools.md) | Migration Tools & Strategies | Migration | AWS MGN, DMS, Migration Hub, Snow Family, MAP |
 | [20](20-step-functions.md) | Step Functions | Orchestration | Step Functions, State Machines, Distributed Map |
 | [21](21-elasticache.md) | ElastiCache — Redis & Memcached | Caching | ElastiCache, Redis, Valkey, Session Store |
 | [22](22-secrets-manager.md) | Secrets Manager | Security | Secrets Manager, Rotation, Cross-region |
 | [23](23-waf-shield.md) | WAF & Shield | Security | WAF v2, Shield Standard/Advanced, Managed Rules |
 | [24](24-security-best-practices.md) | Security Best Practices | Security | IAM, SCPs, GuardDuty, Security Hub, WAF, KMS, Inspector, CloudTrail |
+| [25](25-bedrock-generative-ai.md) | Amazon Bedrock & Generative AI | AI / ML | Bedrock, Claude, Nova, Agents, Knowledge Bases, Guardrails |
+| [26](26-kinesis-data-streams.md) | Kinesis Data Streams & Firehose | Streaming | Kinesis Data Streams, Firehose, Data Analytics (Managed Flink) |
 
 ---
 
@@ -75,13 +81,18 @@ Need high-performance batch workloads?             → ECS + Spot or EKS + Karpe
 | [RDS & Aurora](07-rds-aurora.md) | Aurora Serverless v2, RDS Proxy (Lambda), IAM auth, Multi-AZ |
 | [DynamoDB](08-dynamodb.md) | Single-Table Design, GSI access patterns, Streams, TTL, PITR |
 | [S3 Storage](10-s3-storage.md) | Pre-signed URLs, lifecycle tiering, event notifications, OAC || [ElastiCache](21-elasticache.md) | Cache-aside, write-through, Redis sorted sets, TTL jitter, Graviton r7g nodes |
-### Messaging & Orchestration
+### Messaging, Streaming & Orchestration
 
 | Pattern | Key decisions |
 |---------|---------------|
 | [SQS, SNS & EventBridge](09-sqs-sns-eventbridge.md) | SQS for queues, SNS for fanout, EventBridge for routing |
+| [Kinesis Data Streams & Firehose](26-kinesis-data-streams.md) | Ordered replayable streams; Firehose to S3/Redshift; Managed Flink for stateful processing |
 | [Step Functions](20-step-functions.md) | Standard vs Express, Saga pattern, task token (human approval), Distributed Map |
+### AI & Machine Learning
 
+| Pattern | Key decisions |
+|---------|---------------|
+| [Amazon Bedrock & Generative AI](25-bedrock-generative-ai.md) | Managed FM inference; Knowledge Bases (RAG); Agents (tool-use); Guardrails (content safety) |
 ### Operations
 
 | Pattern | Key decisions |

@@ -25,6 +25,9 @@ Comprehensive security architecture, protocol, and implementation patterns for m
 | [13](./13-penetration-testing.md) | Penetration Testing & Attack Surface | Assurance | PTES, OWASP Testing Guide, CVSS v3.1 |
 | [14](./14-data-loss-prevention.md) | Data Loss Prevention (DLP) | Data Protection | GDPR Art. 25, PCI-DSS Req. 3, Microsoft Purview |
 | [15](./15-secure-sdlc.md) | Secure Software Development Lifecycle | Process | OWASP SAMM, NIST SSDF, Microsoft SDL |
+| [16](./16-ai-llm-security.md) | AI & LLM Security | Application / AI | OWASP LLM Top 10 (2025), MITRE ATLAS, NIST AI RMF |
+| [17](./17-mobile-security.md) | Mobile Security | Application / Mobile | OWASP MASVS v2, OWASP MASTG, Play Integrity API, Apple App Attest |
+| [18](./18-third-party-vendor-risk.md) | Third-Party & Vendor Risk Management | Assurance / Supply Chain | GDPR Art. 28, PCI-DSS Req. 12.8, DORA Art. 28–30, NIST SP 800-161 |
 
 ---
 
@@ -50,6 +53,10 @@ Comprehensive security architecture, protocol, and implementation patterns for m
 ### Application Security
 - [02 — API Security](./02-api-security.md) — OWASP API Top 10 mitigations
 - [09 — Web Application Security](./09-web-app-security.md) — XSS, SQLi, CSRF, CSP nonces, security headers, SRI
+- [16 — AI & LLM Security](./16-ai-llm-security.md) — Prompt injection, output sanitisation, LLM trust boundaries, agent least-privilege
+
+### Mobile Security
+- [17 — Mobile Security](./17-mobile-security.md) — OWASP MASVS, Keychain/Keystore, certificate pinning, root detection, biometric auth
 
 ### Data Protection & Privacy
 - [03 — Encryption Patterns](./03-encryption-patterns.md) — Encryption at rest, in transit, key management
@@ -63,6 +70,7 @@ Comprehensive security architecture, protocol, and implementation patterns for m
 ### Assurance & Process
 - [13 — Penetration Testing & ASM](./13-penetration-testing.md) — Red/purple team, CVSS, bug bounty, automated scanning
 - [15 — Secure SDLC](./15-secure-sdlc.md) — Security requirements, threat review gates, security ACs, Semgrep rules
+- [18 — Third-Party & Vendor Risk](./18-third-party-vendor-risk.md) — Vendor tiers, DPA, SOC 2 review, SBOM, breach notification SLA
 
 ---
 
@@ -82,6 +90,9 @@ Comprehensive security architecture, protocol, and implementation patterns for m
 | Compromised service identity | [04 Network Security](./04-network-security.md) + [11 PKI](./11-pki-certificate-management.md) | [10 Secrets](./10-secrets-management.md) |
 | Insider threat / data loss | [14 DLP](./14-data-loss-prevention.md) | [07 Logging](./07-security-logging-siem.md), [06 Privacy](./06-data-privacy-pii.md) |
 | Vulnerability in production | [13 Pentest](./13-penetration-testing.md) | [15 SSDLC](./15-secure-sdlc.md), [12 IR](./12-incident-response.md) |
+| Prompt injection / LLM abuse | [16 AI/LLM Security](./16-ai-llm-security.md) | [02 API Security](./02-api-security.md), [08 Rate Limiting](./08-ddos-rate-limiting.md) |
+| Mobile credential theft | [17 Mobile Security](./17-mobile-security.md) | [01 OAuth/JWT](./01-oauth2-oidc-jwt.md), [12 IR](./12-incident-response.md) |
+| Vendor / supply chain breach | [18 Vendor Risk](./18-third-party-vendor-risk.md) | [12 IR](./12-incident-response.md), [06 Privacy](./06-data-privacy-pii.md) |
 
 ---
 

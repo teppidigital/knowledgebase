@@ -27,6 +27,7 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | 17  | [Cluster Upgrades & Node Maintenance](./17-cluster-upgrades.md)               | Operations, Reliability               | Rolling upgrades, Pluto, PDB, Karpenter drift, drain runbook        |
 | 18  | [Kubernetes Best Practices](./18-kubernetes-best-practices.md)                | Learning, Production Excellence       | Opinionated checklist for reliability, security, operations, scaling |
 | 19  | [Kubernetes Anti-Patterns](./19-kubernetes-anti-patterns.md)                  | Learning, Risk Reduction              | Common failure modes, why they fail, and safer alternatives          |
+| 20  | [Kubernetes Architecture & Key Components](./20-kubernetes-architecture-key-components.md) | Core, Architecture          | Control plane, node plane, add-ons, request flow, and responsibilities |
 
 ---
 
@@ -77,6 +78,7 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 |------|------------|
 | Build a production baseline from scratch | [Kubernetes Best Practices](./18-kubernetes-best-practices.md) |
 | Audit an existing cluster for hidden risks | [Kubernetes Anti-Patterns](./19-kubernetes-anti-patterns.md) |
+| Understand end-to-end control/data plane internals | [Kubernetes Architecture & Key Components](./20-kubernetes-architecture-key-components.md) |
 | Prepare teams for upgrade and maintenance reliability | [Cluster Upgrades & Node Maintenance](./17-cluster-upgrades.md) |
 | Improve day-2 platform consistency | [Platform Engineering & IDP](./16-platform-engineering.md) |
 

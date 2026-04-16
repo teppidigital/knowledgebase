@@ -50,6 +50,37 @@ Kubernetes networking follows four rules: every pod gets a unique cluster-wide I
 
 ---
 
+## Important Production Details
+
+### Networking decisions that matter early
+
+| Decision | Why it matters | Recommendation |
+|----------|----------------|----------------|
+| **Ingress vs Gateway API** | Defines L7 routing model for years | Start with Gateway API for new platforms; keep Ingress for legacy |
+| **kube-proxy mode** | Impacts scale and latency | Prefer IPVS (or eBPF dataplane with Cilium) for large clusters |
+| **`externalTrafficPolicy`** | Preserves client IP vs load distribution | Use `Local` when source IP is needed; ensure enough pods per node |
+| **NetworkPolicy baseline** | Prevents lateral movement | Default deny in every production namespace |
+| **DNS dependency** | DNS outages break all service-to-service calls | Run CoreDNS with multiple replicas across zones |
+| **Egress control model** | Data exfiltration and compliance | Explicit egress allowlist + egress gateway/NAT policy |
+
+### Best practices
+
+- Define a platform-wide convention for service exposure: internal (`ClusterIP`), north-south HTTP (Gateway/Ingress), and L4 public endpoints (`LoadBalancer`).
+- Apply `default-deny` ingress and egress policies first, then allow only required flows.
+- Reserve `NodePort` for troubleshooting and non-cloud edge cases only.
+- Use separate ingress classes/gateways per trust boundary (public vs private).
+- Treat DNS as critical platform infrastructure: anti-affinity, PDB, and latency SLOs.
+
+### Common anti-patterns
+
+- Exposing many services as `LoadBalancer` instead of using one ingress/gateway tier.
+- Creating policies that allow all egress (`0.0.0.0/0`) for convenience.
+- Forgetting DNS egress rules, causing hidden service resolution failures.
+- Mixing multiple ingress controllers without clear ownership and class boundaries.
+- Relying on pod IP allowlists while pods are ephemeral by design.
+
+---
+
 ## Design Diagram
 
 ```mermaid
@@ -240,6 +271,109 @@ spec:
         - protocol: TCP
           port: 53
 ```
+
+### Service source IP preservation with `externalTrafficPolicy`
+
+```yaml
+# service/public-api.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: public-api
+  namespace: production
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local   # preserve real client source IP
+  selector:
+    app: public-api
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8443
+```
+
+### NetworkPolicy — namespace-scoped and external egress allowlist
+
+```yaml
+# netpol/allow-api-egress-only-needed-destinations.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-api-egress-only-needed-destinations
+  namespace: production
+spec:
+  podSelector:
+    matchLabels:
+      app: api
+  policyTypes:
+    - Egress
+  egress:
+    # Allow egress to payments namespace over HTTPS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: payments
+      ports:
+        - protocol: TCP
+          port: 443
+
+    # Allow DNS to kube-dns
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+
+    # Allow egress to one external partner endpoint only
+    - to:
+        - ipBlock:
+            cidr: 203.0.113.42/32
+      ports:
+        - protocol: TCP
+          port: 443
+```
+
+---
+
+## Troubleshooting Playbook
+
+### Quick checks
+
+```bash
+# Service and endpoint wiring
+kubectl -n production get svc,ep,endpointslices
+
+# Ingress/Gateway resources and controller status
+kubectl -n production get ingress,gateway,httproute
+kubectl -n ingress-nginx get pods
+
+# DNS checks from inside a pod
+kubectl -n production run dns-debug --rm -it --image=busybox:1.36 -- nslookup orders-svc.production.svc.cluster.local
+
+# NetworkPolicy visibility
+kubectl -n production get networkpolicy
+
+# Describe failed routing object
+kubectl -n production describe ingress api-ingress
+kubectl -n production describe httproute api-route
+```
+
+### Symptom to likely cause
+
+| Symptom | Likely cause |
+|---------|--------------|
+| Service exists but no traffic reaches pods | Selector mismatch; no endpoints |
+| Ingress returns 404/default backend | Host/path rule mismatch or wrong ingress class |
+| Intermittent cross-namespace connectivity | Missing/overly strict NetworkPolicy rules |
+| Everything fails after enabling default deny | DNS egress was not explicitly allowed |
+| Source IP lost at app layer | `externalTrafficPolicy` left at `Cluster` |
 
 ---
 

@@ -25,6 +25,8 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | 15  | [Cost Optimisation](./15-cost-optimisation.md)                                | FinOps, Cost                          | Spot nodes, right-sizing, Goldilocks, Kubecost, bin packing         |
 | 16  | [Platform Engineering & IDP](./16-platform-engineering.md)                    | Platform, Developer Experience        | Backstage, Crossplane, Kyverno, golden paths, service catalog       |
 | 17  | [Cluster Upgrades & Node Maintenance](./17-cluster-upgrades.md)               | Operations, Reliability               | Rolling upgrades, Pluto, PDB, Karpenter drift, drain runbook        |
+| 18  | [Kubernetes Best Practices](./18-kubernetes-best-practices.md)                | Learning, Production Excellence       | Opinionated checklist for reliability, security, operations, scaling |
+| 19  | [Kubernetes Anti-Patterns](./19-kubernetes-anti-patterns.md)                  | Learning, Risk Reduction              | Common failure modes, why they fail, and safer alternatives          |
 
 ---
 
@@ -69,6 +71,15 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | Git-native, multi-tenancy, image automation, Helm + Kustomize natively | FluxCD |
 | Both are fine — follow team/org preference | Either |
 
+### Learning Path: Best Practices vs Anti-Patterns
+
+| Goal | Start here |
+|------|------------|
+| Build a production baseline from scratch | [Kubernetes Best Practices](./18-kubernetes-best-practices.md) |
+| Audit an existing cluster for hidden risks | [Kubernetes Anti-Patterns](./19-kubernetes-anti-patterns.md) |
+| Prepare teams for upgrade and maintenance reliability | [Cluster Upgrades & Node Maintenance](./17-cluster-upgrades.md) |
+| Improve day-2 platform consistency | [Platform Engineering & IDP](./16-platform-engineering.md) |
+
 ---
 
 ## Frequently Combined Patterns
@@ -79,7 +90,9 @@ A reference library covering Kubernetes patterns, primitives, and operational pr
 | **StatefulSet + StorageClass + PVC** | Stateful database workload with persistent, dynamic storage |
 | **KEDA + Spot nodes (Karpenter)** | Cost-optimised event-driven scaling |
 | **ArgoCD + Kustomize overlays** | Environment-specific config with GitOps delivery |
-| **Istio + OPA Gatekeeper** | Traffic policy + admission policy for zero-trust || Backstage + Crossplane + Kyverno | Self-service IDP with governance guardrails |
-| Pluto + PDB + kubectl drain | Safe zero-downtime cluster upgrades || **External Secrets Operator + Vault/AWS SM** | Secret lifecycle managed outside the cluster |
+| **Istio + OPA Gatekeeper** | Traffic policy + admission policy for zero-trust |
+| **Backstage + Crossplane + Kyverno** | Self-service IDP with governance guardrails |
+| **Pluto + PDB + kubectl drain** | Safe zero-downtime cluster upgrades |
+| **External Secrets Operator + Vault/AWS SM** | Secret lifecycle managed outside the cluster |
 | **Prometheus + Loki + Tempo + Grafana** | Full observability stack (metrics + logs + traces) |
 | **Cosign + OPA Gatekeeper** | Only signed, policy-compliant images run in production |

@@ -58,7 +58,7 @@ A **saga** is a sequence of local transactions, each publishing an event that tr
 
 ```mermaid
 flowchart LR
-    subgraph Order Saga — Choreography
+    subgraph "Order Saga — Choreography"
         OS[Order Service] -->|OrderCreated| K1[(orders.created)]
         K1 --> IS[Inventory Service]
         IS -->|StockReserved| K2[(inventory.reserved)]
@@ -68,7 +68,7 @@ flowchart LR
         SS -->|ShipmentCreated| K4[(shipments.created)]
 
         PS -->|PaymentFailed| K5[(payments.failed)]
-        K5 --> IS2[Inventory Service<br/>compensation]
+        K5 --> IS2["Inventory Service<br/>compensation"]
         IS2 -->|StockReleased| K6[(inventory.released)]
         K6 --> OS2[Order Service<br/>OrderCancelled]
     end

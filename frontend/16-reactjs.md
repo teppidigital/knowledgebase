@@ -116,7 +116,119 @@ useEffect(() => {
 - *(no array)* — run after every render (almost never correct)
 - Every reactive value used inside the effect (state, props, context) must be in the deps array
 
-### 5. Rendering and Reconciliation
+### 5. Component Lifecycle
+
+Every React component goes through three phases: **Mount** (first render, DOM insertion), **Update** (re-render on state/prop change), and **Unmount** (removal from the DOM). Functional components express lifecycle behaviour through hooks; class components use dedicated methods.
+
+#### Functional Components (Hooks)
+
+```tsx
+function PaymentWidget({ paymentId }: { paymentId: string }) {
+  const [data, setData] = useState<Payment | null>(null);
+
+  // ── MOUNT ──────────────────────────────────────────────────────────
+  // Runs once after the first render (empty deps [])
+  useEffect(() => {
+    console.log('PaymentWidget mounted');
+    analytics.track('widget.viewed', { paymentId });
+    // No cleanup needed here — analytics fire-and-forget
+  }, []);
+
+  // ── MOUNT + UPDATE ─────────────────────────────────────────────────
+  // Runs after first render AND every time paymentId changes
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetchPayment(paymentId, { signal: controller.signal })
+      .then(setData)
+      .catch(err => { if (err.name !== 'AbortError') console.error(err); });
+
+    // ── UNMOUNT / CLEANUP ─────────────────────────────────────────
+    // Runs before the next execution of this effect and on unmount
+    return () => {
+      controller.abort();
+      console.log('PaymentWidget effect cleanup for', paymentId);
+    };
+  }, [paymentId]);
+
+  // ── UPDATE (derived, no effect needed) ────────────────────────────
+  // Computed from state during render — no lifecycle hook required
+  const formattedAmount = data ? formatCurrency(data.amount, data.currency) : '—';
+
+  return <div>{formattedAmount}</div>;
+}
+```
+
+#### Class Components (Legacy Reference)
+
+Class components expose explicit lifecycle methods. You will encounter these in older codebases. The table below maps them to their hooks equivalents.
+
+```tsx
+class PaymentWidget extends Component<Props, State> {
+  state: State = { data: null };
+
+  // MOUNT — after first render, DOM is ready
+  componentDidMount() {
+    this.fetchData(this.props.paymentId);
+  }
+
+  // UPDATE — called after every re-render caused by prop/state change
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.paymentId !== this.props.paymentId) {
+      this.fetchData(this.props.paymentId);   // react to prop change
+    }
+  }
+
+  // UNMOUNT — last chance to clean up timers, subscriptions
+  componentWillUnmount() {
+    this.controller?.abort();
+  }
+
+  // RENDER — pure: no side effects, returns JSX
+  render() {
+    const { data } = this.state;
+    return <div>{data ? formatCurrency(data.amount, data.currency) : '—'}</div>;
+  }
+}
+```
+
+#### Lifecycle Phase Map
+
+| Phase | Class Method | Hooks Equivalent | Common Use |
+|-------|-------------|-----------------|------------|
+| Before first render | `constructor` | `useState` initialiser | Initialise state |
+| After first render (DOM ready) | `componentDidMount` | `useEffect(() => {}, [])` | Fetch data, subscriptions, DOM focus |
+| After every re-render | `componentDidUpdate` | `useEffect(() => {}, [dep])` | React to prop/state changes |
+| Before re-render (read DOM) | `getSnapshotBeforeUpdate` | `useRef` + layout effect | Preserve scroll position |
+| After every render (sync) | — | `useLayoutEffect` | Measure DOM before paint |
+| Before unmount | `componentWillUnmount` | Cleanup function in `useEffect` | Cancel requests, clear timers, unsubscribe |
+| Error during render | `componentDidCatch` + `getDerivedStateFromError` | `<ErrorBoundary>` (class component required) | Display fallback UI on crash |
+
+#### Lifecycle Execution Order on Mount
+
+```
+1. Component function runs (or constructor in class)
+2. React renders JSX → virtual DOM diffed → real DOM updated
+3. useLayoutEffect cleanup (from previous render, if any)
+4. useLayoutEffect setup (synchronous, before browser paint)
+5. Browser paints
+6. useEffect cleanup (from previous render, if any)
+7. useEffect setup (asynchronous, after browser paint)
+```
+
+#### Lifecycle Execution Order on Unmount
+
+```
+1. useLayoutEffect cleanup runs (synchronous)
+2. useEffect cleanup runs (asynchronous)
+3. DOM node is removed
+```
+
+> **Key insight:** `useEffect` is not a lifecycle hook — it is a *synchronisation* mechanism. Think of it as "keep this side effect in sync with these values", not "do something on mount". This mental model prevents most effect-related bugs.
+
+---
+
+### 6. Rendering and Reconciliation
 
 React's reconciler (`react-dom`) compares the previous and new virtual DOM trees (diffing):
 - Nodes of a different type are unmounted and rebuilt from scratch
